@@ -1,0 +1,30 @@
+.header {
+    margin-top: 38px;
+    max-width: 1920px;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    max-width: 1280px;
+    justify-content: space-between;
+}
+
+.navigation {
+    display: flex;
+}
+
+.link {
+    border-radius: 40px;
+    text-decoration: none;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+}
+
+.logolink {
+    align-items: center;
+    margin-right: 100px;
+    cursor: pointer;
+}
