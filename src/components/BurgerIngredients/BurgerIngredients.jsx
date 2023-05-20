@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Counter, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './burgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import { data } from '../../utils/data';
 
-function BurgerIngredients() {
+function BurgerIngredients({ ingredients }) {
     const [current, setCurrent] = React.useState('Булки')
 
     return(
@@ -24,55 +23,37 @@ function BurgerIngredients() {
                 <div className='mb-10'>
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <ul className={ingredientsStyles.ul}>
-                        <li className={`mr-6 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[0]}></Ingredient>
-                        </li>
-                        <li className={ingredientsStyles.li}>
-                            <Ingredient data={data[1]}></Ingredient>
-                        </li>
+                        {
+                             ingredients.map((ingredient) => ( ingredient.type === "bun" &&
+                                <li className={`mr-1 ${ingredientsStyles.li}`} key={ingredient._id}>
+                                    <Ingredient ingredient={ingredient}></Ingredient>
+                                </li>
+                             ))
+                        }
                     </ul>
                 </div>
                 <div className='mb-10'>
                     <p className="text text_type_main-medium mb-6">Соусы</p>
                     <ul className={ingredientsStyles.ul}>
-                        <li className={`mr-6 mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[3]}></Ingredient>
+                    {
+                        ingredients.map((ingredient) => ( ingredient.type === "sauce" &&
+                        <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
+                            <Ingredient ingredient={ingredient}></Ingredient>
                         </li>
-                        <li className={` mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[6]}></Ingredient>
-                        </li>
-                        <li className={`mr-6 mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[5]}></Ingredient>
-                        </li>
-                        <li className={` mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[9]}></Ingredient>
-                        </li>
+                        ))
+                    }
                     </ul>
                 </div>
                 <div className='mb-10'>
                     <p className="text text_type_main-medium mb-6">Начинки</p>
                     <ul className={ingredientsStyles.ul}>
-                        <li className={`mr-6 mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[4]}></Ingredient>
+                    {
+                        ingredients.map((ingredient) => ( ingredient.type === "main" &&
+                        <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
+                            <Ingredient ingredient={ingredient}></Ingredient>
                         </li>
-                        <li className={` mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[7]}></Ingredient>
-                        </li>
-                        <li className={`mr-6 mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[8]}></Ingredient>
-                        </li>
-                        <li className={`mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[10]}></Ingredient>
-                        </li>
-                        <li className={`mr-6 mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[11]}></Ingredient>
-                        </li>
-                        <li className={`mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[12]}></Ingredient>
-                        </li>
-                        <li className={`mr-6 mb-8 ${ingredientsStyles.li}`}>
-                            <Ingredient data={data[13]}></Ingredient>
-                        </li>
+                        ))
+                    }
                     </ul>
                 </div>
             </div>
