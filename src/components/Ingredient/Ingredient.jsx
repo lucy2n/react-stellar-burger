@@ -1,19 +1,15 @@
 import React from 'react';
-import { CurrencyIcon,  } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyle from './ingredient.module.css'
 
 function Ingredient({ ingredient }) {
 
     const [count, setCount ]= React.useState(0);
 
-    function onClick () {
-        setCount(count + 1)
-    }
-
     return(
-        <div className={ingredientStyle.main} onClick={onClick}>
+        <div className={ingredientStyle.main}>
             {count > 0 &&
-            <p className={`text text_type_digits-default ${ingredientStyle.icon}`}>{count}</p>
+                <Counter count={count} size="default" extraClass="m-1" />
             }
             <img className="mr-4 ml-4" src={ingredient.image}/>
             <div className={`mt-1 mb-1 ${ingredientStyle.price}`}>

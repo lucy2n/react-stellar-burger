@@ -52,7 +52,7 @@ function BurgerConstructor({ingredients}) {
             </ul>
             <div className={burgerConstructor.sum}>
                 <div className= {burgerConstructor.price}>
-                    <p className='text text_type_digits-medium'>610</p>
+                    <p className='text text_type_digits-medium mr-4'>610</p>
                     <CurrencyIcon />
                 </div>
                 <Button htmlType="button" type="primary" size="medium">
