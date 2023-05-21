@@ -31,7 +31,6 @@ function App() {
           <BurgerConstructor ingredients={ingredients} />
         </section>
       </main>
-      <Modal/>
     </div>
   );
 }

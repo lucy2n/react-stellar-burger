@@ -6,9 +6,9 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals")
 
-function Modal() {
+function Modal({ children }) {
 
-    const[state, setState] = React.useState({visible: false})
+    const[state, setState] = React.useState({visible: true})
 
     function handleOpeneModal() {
         setState({ visible: true })
@@ -29,6 +29,7 @@ function Modal() {
                         <div className={`mt-15 mr-10 ${modalStyles.close}`}>
                             <CloseIcon type="primary" onClick={handleCloseModal}/>
                         </div>
+                        { children }
                     </div>
                 </>
             }

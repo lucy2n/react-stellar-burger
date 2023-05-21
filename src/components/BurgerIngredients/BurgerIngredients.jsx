@@ -2,6 +2,7 @@ import React from 'react';
 import { Counter, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './burgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 function BurgerIngredients({ ingredients }) {
     const [current, setCurrent] = React.useState('Булки')
@@ -27,6 +28,7 @@ function BurgerIngredients({ ingredients }) {
                              ingredients.map((ingredient) => ( ingredient.type === "bun" &&
                                 <li className={`mr-1 ${ingredientsStyles.li}`} key={ingredient._id}>
                                     <Ingredient ingredient={ingredient}></Ingredient>
+                                    <IngredientDetails ingredient={ingredient} />
                                 </li>
                              ))
                         }
