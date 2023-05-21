@@ -4,7 +4,7 @@ import { api } from "../../utils/constants";
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import Modal from "../modal/Modal";
+import Modal from "../Modal/Modal";
 
 function App() {
 
