@@ -5,7 +5,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-    height: 539px;
+    min-height: 539px;
     width: 720px;
     background-color: #1C1C21;
     border-radius: 40px;

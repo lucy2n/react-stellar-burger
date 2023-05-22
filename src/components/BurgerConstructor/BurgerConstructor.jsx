@@ -1,6 +1,7 @@
 import React from 'react';
 import { ConstructorElement, CurrencyIcon, LockIcon, DragIcon, DeleteIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './burgerConstructor.module.css'
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 function BurgerConstructor({ingredients}) {   
 
@@ -59,6 +60,7 @@ function BurgerConstructor({ingredients}) {
                     Оформить заказ
                 </Button>
             </div>
+            <OrderDetails />
         </div>
     )
 }

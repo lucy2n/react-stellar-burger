@@ -28,7 +28,7 @@ function BurgerIngredients({ ingredients }) {
                              ingredients.map((ingredient) => ( ingredient.type === "bun" &&
                                 <li className={`mr-1 ${ingredientsStyles.li}`} key={ingredient._id}>
                                     <Ingredient ingredient={ingredient}></Ingredient>
-                                    <IngredientDetails ingredient={ingredient} />
+                                    {/* <IngredientDetails ingredient={ingredient} /> */}
                                 </li>
                              ))
                         }
