@@ -1,8 +1,9 @@
 .main {
+    margin: 0;
+    padding: 0;
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    height: 656px;
     overflow-y: scroll;
 }
 
@@ -21,17 +22,16 @@
     max-height: 60px;
     width: 600px;
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
 }
 
 .price {
     align-items: center;
     display: flex;
-    margin-left: 40%;
 }
 
 .wrapper{
-    height: 470px;
+    max-height: 470px;
     overflow-y: scroll;
     max-width: 600px;
 }

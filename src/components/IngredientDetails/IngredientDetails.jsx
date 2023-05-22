@@ -2,11 +2,13 @@ import React from "react";
 import Modal from "../Modal/Modal";
 import ingredientDetails from './ingredientDetails.module.css'
 
-function IngredientDetails({ ingredient }) {
+const IngredientDetails = ({ ingredient, isVisible, setVisibility }) => {
 
     return (
         <Modal 
-            children={
+            isVisible={ isVisible }
+            setVisibility={ setVisibility }
+            children={ 
                 <div className={ingredientDetails.main}>
                     <h2 className={`text text_type_main-large mt-10 ml-10 ${ingredientDetails.title}`}>Детали ингредиента</h2>
                     <div className={`mb-15 ${ingredientDetails.about}`}>

@@ -5,15 +5,22 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 
 function BurgerConstructor({ingredients}) {   
 
+    const [isVisible, setVisibility] = React.useState(false);
+
+    function openModal() {
+        setVisibility(true)
+    }
+
     const bun = ingredients.find(ingredient => ingredient.type === "bun")
+    
 
     return(
-        <div>
-            <ul className={`ml-4${burgerConstructor.main}`}>
+        <>
+            <ul className={`ml-4 mr-4 ${burgerConstructor.main}`}>
                 { bun &&
                     <li className={burgerConstructor.li}>
                         <ConstructorElement 
-                        extraClass={`mt-5 mb-4 mr-4 ml-8 ${burgerConstructor.element}`}
+                        extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
                         text={bun.name}
                         type='top'
                         isLocked={true}
@@ -26,10 +33,10 @@ function BurgerConstructor({ingredients}) {
                 <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
                     {
                         ingredients.map((ingredient) => ( ingredient.type != "bun" &&
-                            <li className={burgerConstructor.li} key={ingredient._id}>
+                            <li className={`mb-4 ml-4 ${burgerConstructor.li}`} key={ingredient._id}>
                                 <DragIcon />
                                 <ConstructorElement 
-                                extraClass={`mb-4 mr-4 ml-2 ${burgerConstructor.element}`}
+                                extraClass={burgerConstructor.element}
                                 text={ingredient.name}
                                 price={ingredient.price}
                                 thumbnail={ingredient.image_mobile}
@@ -41,7 +48,7 @@ function BurgerConstructor({ingredients}) {
                 { bun &&
                     <li className={burgerConstructor.li} >
                         <ConstructorElement 
-                        extraClass={`mt-4 mr-4 ml-8 mb-5 ${burgerConstructor.element}`}
+                        extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
                         text={bun.name}
                         type='bottom'
                         isLocked={true}
@@ -52,16 +59,20 @@ function BurgerConstructor({ingredients}) {
                 }
             </ul>
             <div className={burgerConstructor.sum}>
-                <div className= {burgerConstructor.price}>
+                <div className= {`mr-10 ${burgerConstructor.price}`}>
                     <p className='text text_type_digits-medium mr-4'>610</p>
                     <CurrencyIcon />
                 </div>
-                <Button htmlType="button" type="primary" size="medium">
+                <Button extraClass='mr-4' htmlType="button" type="primary" size="medium" onClick={openModal}>
                     Оформить заказ
                 </Button>
             </div>
             <OrderDetails />
-        </div>
+            <OrderDetails 
+            isVisible={ isVisible } 
+            setVisibility={ setVisibility }
+            />
+        </>
     )
 }
 

@@ -6,23 +6,16 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals")
 
-function Modal({ children }) {
-
-    const[state, setState] = React.useState({visible: true})
-
-    function handleOpeneModal() {
-        setState({ visible: true })
-    }
+ const Modal = ({ children, isVisible, setVisibility }) => {
 
     function handleCloseModal() {
-        setState({ visible: false })
+        setVisibility(false)
     }
-
 
     return ReactDOM.createPortal(
         (       
             <>
-            { state.visible && 
+            { isVisible && 
                 <>
                     <ModalOverlay />
                     <div className={modalStyles.modal}>

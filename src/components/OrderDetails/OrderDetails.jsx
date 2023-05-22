@@ -3,9 +3,11 @@ import Modal from "../Modal/Modal";
 import orderStyles from './orderDetails.module.css'
 import Done from "../../Done/Done";
 
-function OrderDetails() {
+function OrderDetails({ isVisible, setVisibility }) {
     return (
         <Modal 
+            isVisible={ isVisible }
+            setVisibility={ setVisibility }
             children={
                 <div className={`mt-30 mb-30 ${orderStyles.main}`}>
                     <p className={`text text_type_digits-large mb-8 ${orderStyles.orderNumber}`}>034536</p>
