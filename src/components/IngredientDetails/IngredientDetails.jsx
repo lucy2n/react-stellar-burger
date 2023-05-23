@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "../Modal/Modal";
 import ingredientDetails from './ingredientDetails.module.css'
+import PropTypes from "prop-types";
+import { ingredientPropType } from '../../utils/prop-types';
 
 const IngredientDetails = ({ ingredient, isVisible, setVisibility }) => {
 
@@ -38,6 +40,12 @@ const IngredientDetails = ({ ingredient, isVisible, setVisibility }) => {
             }
         />
     );
+}
+
+IngredientDetails.propTypes = {
+    ingredient: ingredientPropType.isRequired,
+    isVisible: PropTypes.bool.isRequired,
+    setVisibility: PropTypes.func.isRequired
 }
 
 export default IngredientDetails;

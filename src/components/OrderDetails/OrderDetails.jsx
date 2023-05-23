@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "../Modal/Modal";
 import orderStyles from './orderDetails.module.css'
 import Done from "../../Done/Done";
+import PropTypes from "prop-types";
 
 function OrderDetails({ isVisible, setVisibility }) {
     return (
@@ -21,6 +22,11 @@ function OrderDetails({ isVisible, setVisibility }) {
             }
         />
     )
+}
+
+OrderDetails.propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+    setVisibility: PropTypes.func.isRequired
 }
 
 export default OrderDetails;

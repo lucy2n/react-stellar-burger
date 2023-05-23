@@ -1,8 +1,9 @@
 import React from 'react';
-import { Counter, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './burgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import Modal from '../Modal/Modal';
+import { ingredientPropType } from '../../utils/prop-types';
+import PropTypes from "prop-types";
 
 function BurgerIngredients({ ingredients }) {
     const [current, setCurrent] = React.useState('Булки')
@@ -60,6 +61,10 @@ function BurgerIngredients({ ingredients }) {
             </div>
         </div>
     )
+}
+
+BurgerIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 export default BurgerIngredients;

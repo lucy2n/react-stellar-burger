@@ -3,13 +3,13 @@ import  ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from './modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals")
 
 function Modal({ children, isVisible, setVisibility }) {
 
     function handleCloseModal() {
-        console.log("click")
         setVisibility(false)
     }
 
@@ -45,6 +45,12 @@ function Modal({ children, isVisible, setVisibility }) {
         ), 
         modalRoot
     );
+}
+
+Modal.propTypes = {
+    children: PropTypes.element.isRequired,
+    isVisible: PropTypes.bool.isRequired,
+    setVisibility: PropTypes.func.isRequired
 }
 
 export default Modal;
