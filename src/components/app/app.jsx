@@ -4,7 +4,6 @@ import { api } from "../../utils/constants";
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import Modal from "../Modal/Modal";
 
 function App() {
 
@@ -12,9 +11,13 @@ function App() {
 
   React.useEffect(() => {
     const getIngredients = async () => {
-      const res = await fetch(api);
-      const data = await res.json();
-      setIngridients(data.data);
+      try {
+        const res = await fetch(api);
+        const data = await res.json();
+        setIngridients(data.data);
+      } catch (err) {
+        console.log("Возникла ошибка :", err)
+      }
     }
     getIngredients();
   }, [])

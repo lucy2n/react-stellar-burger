@@ -67,7 +67,6 @@ function BurgerConstructor({ingredients}) {
                     Оформить заказ
                 </Button>
             </div>
-            <OrderDetails />
             <OrderDetails 
             isVisible={ isVisible } 
             setVisibility={ setVisibility }
