@@ -18,4 +18,5 @@
     padding-left: 0;
     max-width: 600px;
     flex-wrap: wrap;
+    gap: 24px;
 }
