@@ -1,4 +1,4 @@
-import styles from "./app.module.css";
+import styles from "./App.module.css";
 import React from "react";
 import { api } from "../../utils/constants";
 import AppHeader from '../AppHeader/AppHeader';
