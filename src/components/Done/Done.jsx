@@ -1,5 +1,5 @@
 import React from "react";
-import doneImage from '../images/graphics.svg'
+import doneImage from '../../images/graphics.svg'
  
 function Done() {
     return (
