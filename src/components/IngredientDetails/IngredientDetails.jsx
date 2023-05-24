@@ -1,5 +1,5 @@
 import React from "react";
-import ingredientDetails from './ingredientDetails.module.css'
+import ingredientDetails from './IngredientDetails.module.css'
 import { ingredientPropType } from '../../utils/prop-types';
 
 function IngredientDetails ({ ingredient }) {

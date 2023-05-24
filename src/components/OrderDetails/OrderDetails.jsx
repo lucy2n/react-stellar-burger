@@ -1,5 +1,5 @@
 import React from "react";
-import orderStyles from './orderDetails.module.css'
+import orderStyles from './OrderDetails.module.css'
 import Done from "../../Done/Done";
 
 function OrderDetails() {
