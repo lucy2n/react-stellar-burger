@@ -4,7 +4,7 @@ import burgerConstructor from './burgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import PropTypes from "prop-types";
 import { ingredientPropType } from '../../utils/prop-types';
-import Modal from '../modal/Modal';
+import Modal from '../Modal/Modal';
 
 function BurgerConstructor({ ingredients }) {   
 

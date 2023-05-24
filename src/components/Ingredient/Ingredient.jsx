@@ -3,7 +3,7 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import ingredientStyle from './ingredient.module.css'
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { ingredientPropType } from '../../utils/prop-types';
-import Modal from '../modal/Modal';
+import Modal from '../Modal/Modal';
 
 function Ingredient({ ingredient }) {
 
