@@ -3,6 +3,7 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import ingredientStyle from './ingredient.module.css'
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { ingredientPropType } from '../../utils/prop-types';
+import Modal from '../modal/Modal';
 
 function Ingredient({ ingredient }) {
 
@@ -30,10 +31,11 @@ function Ingredient({ ingredient }) {
                 </div>
                 <p className={`text text_type_main-default ${ingredientStyle.center}`}>{ingredient.name}</p>
             </div>
-            <IngredientDetails 
+            <Modal 
             isVisible={ isVisible } 
-            setVisibility={ setVisibility } 
-            ingredient={ingredient} /> 
+            setVisibility={ setVisibility }
+            children={<IngredientDetails ingredient={ingredient}/>}
+            /> 
         </>
     )
 }

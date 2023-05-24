@@ -4,6 +4,7 @@ import burgerConstructor from './burgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import PropTypes from "prop-types";
 import { ingredientPropType } from '../../utils/prop-types';
+import Modal from '../modal/Modal';
 
 function BurgerConstructor({ ingredients }) {   
 
@@ -69,9 +70,10 @@ function BurgerConstructor({ ingredients }) {
                     Оформить заказ
                 </Button>
             </div>
-            <OrderDetails 
+            <Modal 
             isVisible={ isVisible } 
             setVisibility={ setVisibility }
+            children={<OrderDetails />}
             />
         </>
     )

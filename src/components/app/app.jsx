@@ -13,6 +13,9 @@ function App() {
     const getIngredients = async () => {
       try {
         const res = await fetch(api);
+        if (!res.ok) {
+          throw new Error("Некорректный результат");
+        }
         const data = await res.json();
         setIngridients(data.data);
       } catch (err) {
