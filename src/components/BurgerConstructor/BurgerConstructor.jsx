@@ -70,11 +70,13 @@ function BurgerConstructor({ ingredients }) {
                     Оформить заказ
                 </Button>
             </div>
-            <Modal 
-            isVisible={ isVisible } 
-            setVisibility={ setVisibility }
-            children={<OrderDetails />}
-            />
+            { isVisible &&
+                <Modal
+                setVisibility={ setVisibility }
+                >
+                    <OrderDetails />
+                </Modal>
+            }  
         </>
     )
 }

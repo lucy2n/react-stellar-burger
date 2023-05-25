@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals")
 
-function Modal({ children, isVisible, setVisibility }) {
+function Modal({ children, setVisibility }) {
 
     function handleCloseModal() {
         setVisibility(false)
@@ -30,17 +30,13 @@ function Modal({ children, isVisible, setVisibility }) {
     return ReactDOM.createPortal(
         (       
             <>
-            { isVisible && 
-                <>
-                    <ModalOverlay handleCloseModal={ handleCloseModal } />
-                    <div className={modalStyles.modal}>
-                        <div className={`mt-15 mr-10 ${modalStyles.close}`}>
-                            <CloseIcon type="primary" onClick={handleCloseModal}/>
-                        </div>
-                        { children }
+                <ModalOverlay handleCloseModal={ handleCloseModal } />
+                <div className={modalStyles.modal}>
+                    <div className={`mt-15 mr-10 ${modalStyles.close}`}>
+                        <CloseIcon type="primary" onClick={handleCloseModal}/>
                     </div>
-                </>
-            }
+                    { children }
+                </div>
             </>
         ), 
         modalRoot

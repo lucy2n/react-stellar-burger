@@ -31,11 +31,13 @@ function Ingredient({ ingredient }) {
                 </div>
                 <p className={`text text_type_main-default ${ingredientStyle.center}`}>{ingredient.name}</p>
             </div>
-            <Modal 
-            isVisible={ isVisible } 
-            setVisibility={ setVisibility }
-            children={<IngredientDetails ingredient={ingredient}/>}
-            /> 
+            { isVisible &&
+                <Modal 
+                setVisibility={ setVisibility }
+                > 
+                    <IngredientDetails ingredient={ingredient}/>
+                </Modal> 
+            }
         </>
     )
 }
