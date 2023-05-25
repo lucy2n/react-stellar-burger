@@ -7,15 +7,11 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals")
 
-function Modal({ children, setVisibility }) {
-
-    function handleCloseModal() {
-        setVisibility(false)
-    }
+function Modal({ children, closeModal }) {
 
     function handleCloseByEsc(e) {
         if (e.key === "Escape") {
-            handleCloseModal()
+            closeModal()
         }
     }
 
@@ -30,10 +26,10 @@ function Modal({ children, setVisibility }) {
     return ReactDOM.createPortal(
         (       
             <>
-                <ModalOverlay handleCloseModal={ handleCloseModal } />
+                <ModalOverlay handleCloseModal={closeModal} />
                 <div className={modalStyles.modal}>
                     <div className={`mt-15 mr-10 ${modalStyles.close}`}>
-                        <CloseIcon type="primary" onClick={handleCloseModal}/>
+                        <CloseIcon type="primary" onClick={closeModal}/>
                     </div>
                     { children }
                 </div>
@@ -45,8 +41,7 @@ function Modal({ children, setVisibility }) {
 
 Modal.propTypes = {
     children: PropTypes.element.isRequired,
-    isVisible: PropTypes.bool.isRequired,
-    setVisibility: PropTypes.func.isRequired
+    closeModal: PropTypes.func.isRequired
 }
 
 export default Modal;

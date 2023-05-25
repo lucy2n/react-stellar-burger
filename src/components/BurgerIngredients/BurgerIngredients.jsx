@@ -4,9 +4,20 @@ import ingredientsStyles from './BurgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
 import { ingredientPropType } from '../../utils/prop-types';
 import PropTypes from "prop-types";
+import { useModal } from '../../hooks/useModal';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 function BurgerIngredients({ ingredients }) {
     const [current, setCurrent] = React.useState('Булки')
+    const [currentIngredient, setCurrentIngredient] = React.useState();
+
+    const { isModalOpen, openModal, closeModal } = useModal();
+
+    function openIngredientDetails(ingredient) {
+        setCurrentIngredient(ingredient)
+        openModal();
+    }
 
     return(
         <div>
@@ -28,7 +39,10 @@ function BurgerIngredients({ ingredients }) {
                         {
                              ingredients.map((ingredient) => ( ingredient.type === "bun" &&
                                 <li className={ingredientsStyles.li} key={ingredient._id}>
-                                    <Ingredient ingredient={ingredient} />
+                                    <Ingredient 
+                                    ingredient={ingredient} 
+                                    openIngredientDetails={openIngredientDetails}
+                                    />
                                 </li>
                              ))
                         }
@@ -40,7 +54,10 @@ function BurgerIngredients({ ingredients }) {
                     {
                         ingredients.map((ingredient) => ( ingredient.type === "sauce" &&
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
-                            <Ingredient ingredient={ingredient} />
+                            <Ingredient 
+                            ingredient={ingredient} 
+                            openIngredientDetails={openIngredientDetails}
+                            />
                         </li>
                         ))
                     }
@@ -52,13 +69,23 @@ function BurgerIngredients({ ingredients }) {
                     {
                         ingredients.map((ingredient) => ( ingredient.type === "main" &&
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
-                            <Ingredient ingredient={ingredient} />
+                            <Ingredient 
+                            ingredient={ingredient} 
+                            openIngredientDetails={openIngredientDetails}
+                            />
                         </li>
                         ))
                     }
                     </ul>
                 </div>
             </div>
+            { isModalOpen && 
+                <Modal 
+                closeModal={closeModal}
+                > 
+                    <IngredientDetails ingredient={currentIngredient}/>
+                </Modal> 
+            }
         </div>
     )
 }

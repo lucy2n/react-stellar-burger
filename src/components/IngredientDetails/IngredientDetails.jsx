@@ -8,7 +8,7 @@ function IngredientDetails ({ ingredient }) {
         <div className={ingredientDetails.main}>
             <h2 className={`text text_type_main-large mt-10 ml-10 ${ingredientDetails.title}`}>Детали ингредиента</h2>
             <div className={`mb-15 ${ingredientDetails.about}`}>
-                <img className="mb-4" src={ingredient.image_large}/>
+                <img className="mb-4" src={ingredient.image_large} alt={ingredient.name}/>
                 <p className="mb-8 text text_type_main-medium">{ingredient.name}</p>
                 <ul className={ingredientDetails.ul}>
                     <li className={`mr-5 ${ingredientDetails.li}`}>

@@ -5,14 +5,11 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import PropTypes from "prop-types";
 import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../Modal/Modal';
+import { useModal } from '../../hooks/useModal';
 
 function BurgerConstructor({ ingredients }) {   
 
-    const [isVisible, setVisibility] = React.useState(false);
-
-    function openModal() {
-        setVisibility(true)
-    }
+    const { isModalOpen, openModal, closeModal } = useModal();
 
     const bun = ingredients.find(ingredient => ingredient.type === "bun")
     
@@ -24,7 +21,7 @@ function BurgerConstructor({ ingredients }) {
                     <li className={burgerConstructor.li}>
                         <ConstructorElement 
                         extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
-                        text={bun.name}
+                        text={`${bun.name} (верх)`}
                         type='top'
                         isLocked={true}
                         price={bun.price}
@@ -52,7 +49,7 @@ function BurgerConstructor({ ingredients }) {
                     <li className={burgerConstructor.li} >
                         <ConstructorElement 
                         extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
-                        text={bun.name}
+                        text={`${bun.name} (низ)`}
                         type='bottom'
                         isLocked={true}
                         price={bun.price}
@@ -70,9 +67,9 @@ function BurgerConstructor({ ingredients }) {
                     Оформить заказ
                 </Button>
             </div>
-            { isVisible &&
+            { isModalOpen &&
                 <Modal
-                setVisibility={ setVisibility }
+                closeModal={closeModal}
                 >
                     <OrderDetails />
                 </Modal>
