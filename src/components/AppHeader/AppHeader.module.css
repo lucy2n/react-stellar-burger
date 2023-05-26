@@ -1,0 +1,30 @@
+.header {
+    background-color: #1C1C21;
+    width: 100vw;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    max-width: 1280px;
+    justify-content: space-between;
+}
+
+.navigation {
+    display: flex;
+}
+
+.link {
+    border-radius: 40px;
+    text-decoration: none;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+}
+
+.logolink {
+    align-items: center;
+    margin-right: 13%;
+    cursor: pointer;
+}
