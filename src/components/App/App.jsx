@@ -14,6 +14,7 @@ function App() {
   function reducer(state, action) {
     switch (action.type) {
       case "add" : 
+        // Подсчёт цены
         const totalPrice = state.price + action.ingredient.price;
         const bunPrice = state.bun !== null ? state.bun.price: 0
         if (action.ingredient.type === "bun") {
@@ -56,17 +57,17 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.main}>
-        <IngredientsContext.Provider value={{ ingredients }}>
-          <ConstructorContext.Provider value={{ constructorState, constructorDispatcher }}>
-            <section className="mr-10 mt-10 mb-10">
-              <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
-                <BurgerIngredients />
-            </section>
-            <section className="mt-25 mb-10">
-                <BurgerConstructor />
-            </section>
-          </ConstructorContext.Provider>
-        </IngredientsContext.Provider>
+        <ConstructorContext.Provider value={{ constructorState, constructorDispatcher }}>
+          <section className="mr-10 mt-10 mb-10">
+            <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
+            <IngredientsContext.Provider value={{ ingredients }}>
+              <BurgerIngredients />
+            </IngredientsContext.Provider>
+          </section>
+          <section className="mt-25 mb-10">
+            <BurgerConstructor />
+          </section>
+        </ConstructorContext.Provider>
       </main>
     </div>
   );

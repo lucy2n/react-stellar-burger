@@ -14,37 +14,43 @@ import { OrderContext } from '../../services/OrderContext';
 function BurgerConstructor() {
 
     const { constructorState } = React.useContext(ConstructorContext);
+
     const { isModalOpen, openModal, closeModal } = useModal();
     const [ orderNumber, setOrderNumber ] = React.useState(0);
 
     async function createOrder() {
+        // Создание массива id ингредиентов для оформления заказа
         let ingredientsId = constructorState.ingredients.map((ingredient) => {
             return ingredient._id
         })
-        ingredientsId.push(constructorState.bun._id)
+        if (constructorState.bun) {
+            ingredientsId.push(constructorState.bun._id)
+        }
 
-        try {
+        if (ingredientsId.length > 0) {
+            // Отправка запроса
+            try {
+                // Настройки для POST запроса
+                const settings = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ "ingredients": ingredientsId })
+                };
 
-            const settings = {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ "ingredients": ingredientsId })
-            };
-
-            const res = await fetch(orderApi, settings)
-            console.log(res)
-            if (!res.ok) {
-                throw new Error("Некорректный результат");
+                const res = await fetch(orderApi, settings)
+                if (!res.ok) {
+                    throw new Error("Некорректный результат");
+                }
+                const data = await res.json();
+                setOrderNumber(data.order.number)
+                // Открытие модального окна после формирования заказа 
+                openModal();
+            } catch (err) {
+                console.log("Post error: ", err)
             }
-            const data = await res.json();
-            console.log(data.order.number)
-            setOrderNumber(data.order.number)
-            openModal();
-        } catch (err) {
-            console.log("Post error: ", err)
         }
     }
 
@@ -104,7 +110,7 @@ function BurgerConstructor() {
                 <Modal
                 closeModal={closeModal}
                 >
-                    <OrderContext.Provider value={ { orderNumber }} >
+                    <OrderContext.Provider value={{ orderNumber }} >
                         <OrderDetails />
                     </OrderContext.Provider>
                 </Modal>
@@ -113,8 +119,8 @@ function BurgerConstructor() {
     )
 }
 
-BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
-}
+// BurgerConstructor.propTypes = {
+//     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
+// }
 
 export default BurgerConstructor;
