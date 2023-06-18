@@ -1,11 +1,15 @@
 import React from "react";
 import orderStyles from './OrderDetails.module.css'
 import Done from "../Done/Done";
+import { OrderContext } from "../../services/OrderContext";
 
 function OrderDetails() {
+
+    const { orderNumber } = React.useContext(OrderContext)
+
     return (
         <div className={`mt-30 mb-30 ${orderStyles.main}`}>
-            <p className={`text text_type_digits-large mb-8 ${orderStyles.orderNumber}`}>034536</p>
+            <p className={`text text_type_digits-large mb-8 ${orderStyles.orderNumber}`}>{ orderNumber }</p>
             <p className="text text_type_main-medium">идентификатор заказа</p>
             <div className="mb-15 mt-15">
                 <Done />

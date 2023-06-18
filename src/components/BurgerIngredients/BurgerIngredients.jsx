@@ -7,15 +7,23 @@ import PropTypes from "prop-types";
 import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { IngredientsContext, ConstructorContext} from "../../services/IngredientsContext";
 
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
     const [current, setCurrent] = React.useState('Булки')
     const [currentIngredient, setCurrentIngredient] = React.useState();
+
+    const { ingredients } = React.useContext(IngredientsContext);
+    const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
 
     const { isModalOpen, openModal, closeModal } = useModal();
 
     function openIngredientDetails(ingredient) {
-        setCurrentIngredient(ingredient)
+        setCurrentIngredient(ingredient);
+        constructorDispatcher({
+            type: "add",
+            ingredient: ingredient
+        });
         openModal();
     }
 
