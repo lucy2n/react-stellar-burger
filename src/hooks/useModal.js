@@ -11,6 +11,7 @@ export const useModal = () => {
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
   }, []);
+  
   return {
     isModalOpen,
     openModal,

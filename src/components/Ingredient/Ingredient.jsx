@@ -7,10 +7,6 @@ function Ingredient({ ingredient, openIngredientDetails }) {
 
     const [count, setCount] = React.useState(0);
 
-    function plus() {
-        setCount(count + 1)
-    }
-
     function clickIngredient() {
         openIngredientDetails(ingredient)
     }
@@ -18,7 +14,7 @@ function Ingredient({ ingredient, openIngredientDetails }) {
     return(
         <>
             <div className={ingredientStyle.main} onClick={clickIngredient}>
-                {count > 0 &&
+                { count > 0 &&
                     <Counter count={count} size="default" extraClass="m-1" />
                 }
                 <img className="mr-4 ml-4" src={ingredient.image} alt={ingredient.name}/>
@@ -37,4 +33,3 @@ Ingredient.propTypes = {
 }
 
 export default Ingredient
-

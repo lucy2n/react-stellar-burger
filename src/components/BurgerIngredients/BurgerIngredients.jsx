@@ -2,8 +2,6 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './BurgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import { ingredientPropType } from '../../utils/prop-types';
-import PropTypes from "prop-types";
 import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
@@ -44,16 +42,16 @@ function BurgerIngredients() {
                 <div className='mb-10'>
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <ul className={ingredientsStyles.ul}>
-                        {
-                             ingredients.map((ingredient) => ( ingredient.type === "bun" &&
-                                <li className={ingredientsStyles.li} key={ingredient._id}>
-                                    <Ingredient 
-                                    ingredient={ingredient} 
-                                    openIngredientDetails={openIngredientDetails}
-                                    />
-                                </li>
-                             ))
-                        }
+                    {
+                         ingredients.map((ingredient) => ( ingredient.type === "bun" &&
+                            <li className={ingredientsStyles.li} key={ingredient._id}>
+                                <Ingredient
+                                ingredient={ingredient}
+                                openIngredientDetails={openIngredientDetails}
+                                />
+                            </li>
+                         ))
+                    }
                     </ul>
                 </div>
                 <div className='mb-10'>
@@ -97,9 +95,5 @@ function BurgerIngredients() {
         </div>
     )
 }
-
-// BurgerIngredients.propTypes = {
-//     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
-// }
 
 export default BurgerIngredients;

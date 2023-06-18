@@ -2,14 +2,12 @@ import React from 'react';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
-import PropTypes from "prop-types";
-import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../Modal/Modal';
 import { useModal } from '../../hooks/useModal';
 import { ConstructorContext } from '../../services/IngredientsContext';
 import { v4 as uuidv4 } from 'uuid';
-import { orderApi } from '../../utils/constants';
 import { OrderContext } from '../../services/OrderContext';
+import { getOrderData } from '../../utils/api';
 
 function BurgerConstructor() {
 
@@ -20,7 +18,7 @@ function BurgerConstructor() {
 
     async function createOrder() {
         // Создание массива id ингредиентов для оформления заказа
-        let ingredientsId = constructorState.ingredients.map((ingredient) => {
+        const ingredientsId = constructorState.ingredients.map((ingredient) => {
             return ingredient._id
         })
         if (constructorState.bun) {
@@ -30,21 +28,7 @@ function BurgerConstructor() {
         if (ingredientsId.length > 0) {
             // Отправка запроса
             try {
-                // Настройки для POST запроса
-                const settings = {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ "ingredients": ingredientsId })
-                };
-
-                const res = await fetch(orderApi, settings)
-                if (!res.ok) {
-                    throw new Error("Некорректный результат");
-                }
-                const data = await res.json();
+                const data = await getOrderData(ingredientsId);
                 setOrderNumber(data.order.number)
                 // Открытие модального окна после формирования заказа 
                 openModal();
@@ -118,9 +102,5 @@ function BurgerConstructor() {
         </>
     )
 }
-
-// BurgerConstructor.propTypes = {
-//     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
-// }
 
 export default BurgerConstructor;
