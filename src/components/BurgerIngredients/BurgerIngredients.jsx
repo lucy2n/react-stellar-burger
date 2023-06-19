@@ -2,20 +2,26 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './BurgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import { ingredientPropType } from '../../utils/prop-types';
-import PropTypes from "prop-types";
 import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { IngredientsContext, ConstructorContext} from "../../services/IngredientsContext";
 
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
     const [current, setCurrent] = React.useState('Булки')
     const [currentIngredient, setCurrentIngredient] = React.useState();
+
+    const { ingredients } = React.useContext(IngredientsContext);
+    const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
 
     const { isModalOpen, openModal, closeModal } = useModal();
 
     function openIngredientDetails(ingredient) {
-        setCurrentIngredient(ingredient)
+        setCurrentIngredient(ingredient);
+        constructorDispatcher({
+            type: "add",
+            ingredient: ingredient
+        });
         openModal();
     }
 
@@ -36,16 +42,16 @@ function BurgerIngredients({ ingredients }) {
                 <div className='mb-10'>
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <ul className={ingredientsStyles.ul}>
-                        {
-                             ingredients.map((ingredient) => ( ingredient.type === "bun" &&
-                                <li className={ingredientsStyles.li} key={ingredient._id}>
-                                    <Ingredient 
-                                    ingredient={ingredient} 
-                                    openIngredientDetails={openIngredientDetails}
-                                    />
-                                </li>
-                             ))
-                        }
+                    {
+                         ingredients.map((ingredient) => ( ingredient.type === "bun" &&
+                            <li className={ingredientsStyles.li} key={ingredient._id}>
+                                <Ingredient
+                                ingredient={ingredient}
+                                openIngredientDetails={openIngredientDetails}
+                                />
+                            </li>
+                         ))
+                    }
                     </ul>
                 </div>
                 <div className='mb-10'>
@@ -88,10 +94,6 @@ function BurgerIngredients({ ingredients }) {
             }
         </div>
     )
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 export default BurgerIngredients;

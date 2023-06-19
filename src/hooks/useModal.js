@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 
+// Кастомный хук для открытия/закрытия попапа
 export const useModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -10,7 +11,7 @@ export const useModal = () => {
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
   }, []);
-
+  
   return {
     isModalOpen,
     openModal,

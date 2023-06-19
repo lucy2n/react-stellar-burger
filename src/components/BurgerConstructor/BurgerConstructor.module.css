@@ -21,7 +21,7 @@
     max-height: 60px;
     width: 600px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .price {
