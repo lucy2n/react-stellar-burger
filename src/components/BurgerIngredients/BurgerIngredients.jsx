@@ -5,24 +5,28 @@ import Ingredient from '../Ingredient/Ingredient';
 import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { IngredientsContext, ConstructorContext} from "../../services/IngredientsContext";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
+import { ADD_INGREDIENT } from '../../services/actions/constructor';
 
 function BurgerIngredients() {
-    const [current, setCurrent] = React.useState('Булки')
-    const [currentIngredient, setCurrentIngredient] = React.useState();
+    const { ingredients, ingredientsRequest, ingredientsFailed }  = useSelector(state => state.ingredients)
 
-    const { ingredients } = React.useContext(IngredientsContext);
-    const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
+    const dispatch = useDispatch();
+  
+    React.useEffect(() => {
+      dispatch(getIngredients());
+    }, [])
 
+    const [current, setCurrent] = React.useState('Булки');
     const { isModalOpen, openModal, closeModal } = useModal();
 
     function openIngredientDetails(ingredient) {
-        setCurrentIngredient(ingredient);
-        constructorDispatcher({
-            type: "add",
-            ingredient: ingredient
-        });
-        openModal();
+       // openModal();
+       dispatch({
+        type: ADD_INGREDIENT,
+        ingredient: ingredient
+       })
     }
 
     return(
@@ -43,7 +47,7 @@ function BurgerIngredients() {
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <ul className={ingredientsStyles.ul}>
                     {
-                         ingredients.map((ingredient) => ( ingredient.type === "bun" &&
+                         ingredients.filter(ingredient => ingredient.type === "bun").map((ingredient) => (
                             <li className={ingredientsStyles.li} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient}
@@ -58,7 +62,7 @@ function BurgerIngredients() {
                     <p className="text text_type_main-medium mb-6">Соусы</p>
                     <ul className={ingredientsStyles.ul}>
                     {
-                        ingredients.map((ingredient) => ( ingredient.type === "sauce" &&
+                        ingredients.filter(ingredient => ingredient.type === "sauce").map((ingredient) => (
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
                             <Ingredient 
                             ingredient={ingredient} 
@@ -73,7 +77,7 @@ function BurgerIngredients() {
                     <p className="text text_type_main-medium mb-6">Начинки</p>
                     <ul className={ingredientsStyles.ul}>
                     {
-                        ingredients.map((ingredient) => ( ingredient.type === "main" &&
+                        ingredients.filter(ingredient => ingredient.type === "main").map((ingredient) => (
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
                             <Ingredient 
                             ingredient={ingredient} 
@@ -89,7 +93,7 @@ function BurgerIngredients() {
                 <Modal 
                 closeModal={closeModal}
                 > 
-                    <IngredientDetails ingredient={currentIngredient}/>
+                    <IngredientDetails />
                 </Modal> 
             }
         </div>

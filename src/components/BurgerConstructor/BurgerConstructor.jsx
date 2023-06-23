@@ -4,58 +4,47 @@ import burgerConstructor from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import { useModal } from '../../hooks/useModal';
-import { ConstructorContext } from '../../services/IngredientsContext';
 import { v4 as uuidv4 } from 'uuid';
-import { OrderContext } from '../../services/OrderContext';
-import { getOrderData } from '../../utils/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrder } from '../../services/actions/order';
 
 function BurgerConstructor() {
-
-    const { constructorState } = React.useContext(ConstructorContext);
+    const dispatch = useDispatch();
+    const { ingredients, bun, price } = useSelector(state => state.burgerConstructor)
 
     const { isModalOpen, openModal, closeModal } = useModal();
-    const [ orderNumber, setOrderNumber ] = React.useState(0);
 
     async function createOrder() {
         // Создание массива id ингредиентов для оформления заказа
-        const ingredientsId = constructorState.ingredients.map((ingredient) => {
-            return ingredient._id
-        })
-        if (constructorState.bun) {
-            ingredientsId.push(constructorState.bun._id)
+        const ingredientsId = ingredients.map(ingredient => ingredient._id)
+        if ( bun ) {
+            ingredientsId.push(bun._id)
         }
 
         if (ingredientsId.length > 0) {
             // Отправка запроса
-            try {
-                const data = await getOrderData(ingredientsId);
-                setOrderNumber(data.order.number)
-                // Открытие модального окна после формирования заказа 
-                openModal();
-            } catch (err) {
-                console.log("Post error: ", err)
-            }
+            dispatch(getOrder(ingredientsId));
         }
     }
 
     return (
         <>
             <ul className={`ml-4 mr-4 ${burgerConstructor.main}`}>
-                { constructorState.bun &&
+                { bun &&
                 <li className={burgerConstructor.li}>
                     <ConstructorElement
                     extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
-                    text={`${constructorState.bun.name} (верх)`}
+                    text={`${bun.name} (верх)`}
                     type='top'
                     isLocked={true}
-                    price={constructorState.bun.price}
-                    thumbnail={constructorState.bun.image_mobile}
+                    price={bun.price}
+                    thumbnail={bun.image_mobile}
                     />
                 </li>
                 }
                 <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
                     {
-                        constructorState.ingredients.map((ingredient) => (
+                        ingredients.map((ingredient) => (
                             <li className={`mb-4 ml-4 ${burgerConstructor.li}`} key={uuidv4()}>
                                 <DragIcon />
                                 <ConstructorElement 
@@ -68,22 +57,22 @@ function BurgerConstructor() {
                         ))
                     }
                 </div>
-                { constructorState.bun &&
+                { bun &&
                 <li className={burgerConstructor.li} >
                     <ConstructorElement
                     extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
-                    text={`${constructorState.bun.name} (низ)`}
+                    text={`${bun.name} (низ)`}
                     type='bottom'
                     isLocked={true}
-                    price={constructorState.bun.price}
-                    thumbnail={constructorState.bun.image_mobile}
+                    price={bun.price}
+                    thumbnail={bun.image_mobile}
                     />
                 </li>
                 }
             </ul>
             <div className={burgerConstructor.sum}>
                 <div className= {`mr-10 ${burgerConstructor.price}`}>
-                    <p className='text text_type_digits-medium mr-4'>{constructorState.price}</p>
+                    <p className='text text_type_digits-medium mr-4'>{price}</p>
                     <CurrencyIcon />
                 </div>
                 <Button extraClass='mr-4' htmlType="button" type="primary" size="medium" onClick={createOrder}>
@@ -94,9 +83,7 @@ function BurgerConstructor() {
                 <Modal
                 closeModal={closeModal}
                 >
-                    <OrderContext.Provider value={{ orderNumber }} >
-                        <OrderDetails />
-                    </OrderContext.Provider>
+                    <OrderDetails />
                 </Modal>
             }  
         </>
