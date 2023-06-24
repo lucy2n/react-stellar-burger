@@ -2,31 +2,35 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './BurgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
 import { ADD_INGREDIENT } from '../../services/actions/constructor';
+import { INGREDIENT_MODAL, OPEN_MODAL } from '../../services/actions/modal';
 
 function BurgerIngredients() {
     const { ingredients, ingredientsRequest, ingredientsFailed }  = useSelector(state => state.ingredients)
+    const { modalType, modalProps } = useSelector(state => state.modal)
 
     const dispatch = useDispatch();
   
+    const [current, setCurrent] = React.useState('Булки');
+
     React.useEffect(() => {
-      dispatch(getIngredients());
+        dispatch(getIngredients());
     }, [])
 
-    const [current, setCurrent] = React.useState('Булки');
-    const { isModalOpen, openModal, closeModal } = useModal();
-
     function openIngredientDetails(ingredient) {
-       // openModal();
-       dispatch({
-        type: ADD_INGREDIENT,
-        ingredient: ingredient
-       })
+        dispatch({
+            type: ADD_INGREDIENT,
+            ingredient: ingredient
+        })
+        dispatch({
+            type: OPEN_MODAL,
+            modalType: INGREDIENT_MODAL,
+            modalProps: ingredient
+        })
     }
 
     return(
@@ -89,10 +93,8 @@ function BurgerIngredients() {
                     </ul>
                 </div>
             </div>
-            { isModalOpen && 
-                <Modal 
-                closeModal={closeModal}
-                > 
+            { modalType === INGREDIENT_MODAL && 
+                <Modal> 
                     <IngredientDetails />
                 </Modal> 
             }

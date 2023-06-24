@@ -1,18 +1,16 @@
-import React from 'react';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
-import { useModal } from '../../hooks/useModal';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrder } from '../../services/actions/order';
+import { ORDER_MODAL } from '../../services/actions/modal';
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
     const { ingredients, bun, price } = useSelector(state => state.burgerConstructor)
-
-    const { isModalOpen, openModal, closeModal } = useModal();
+    const { modalType, modalProps } = useSelector(state => state.modal)
 
     async function createOrder() {
         // Создание массива id ингредиентов для оформления заказа
@@ -23,7 +21,7 @@ function BurgerConstructor() {
 
         if (ingredientsId.length > 0) {
             // Отправка запроса
-            dispatch(getOrder(ingredientsId));
+            dispatch(getOrder(ingredientsId))
         }
     }
 
@@ -79,10 +77,8 @@ function BurgerConstructor() {
                     Оформить заказ
                 </Button>
             </div>
-            { isModalOpen &&
-                <Modal
-                closeModal={closeModal}
-                >
+            { modalType === ORDER_MODAL &&
+                <Modal>
                     <OrderDetails />
                 </Modal>
             }  

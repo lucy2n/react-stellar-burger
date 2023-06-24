@@ -1,4 +1,5 @@
 import { api } from "../../utils/constants";
+import { OPEN_MODAL, ORDER_MODAL } from "./modal";
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -29,11 +30,15 @@ export function getOrder(ingredientsId) {
             }
         })
         .then( res => {
-            console.log(res, 'fvdf')
             if( res && res.success ) {
                 dispatch({
                     type: GET_ORDER_SUCCESS,
-                    order: res.data.order
+                    order: res.order
+                })
+                dispatch({
+                    type: OPEN_MODAL,
+                    modalType: ORDER_MODAL,
+                    modalProps: res.order
                 })
             } else {
                 dispatch({
