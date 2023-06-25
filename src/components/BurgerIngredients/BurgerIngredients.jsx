@@ -6,27 +6,22 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import { ADD_INGREDIENT } from '../../services/actions/constructor';
 import { INGREDIENT_MODAL, OPEN_MODAL } from '../../services/actions/modal';
-import { useInView, InView } from 'react-intersection-observer';
 
 function BurgerIngredients() {
-    const { ingredients, ingredientsRequest, ingredientsFailed }  = useSelector(state => state.ingredients)
-    const { modalType, modalProps } = useSelector(state => state.modal)
-
-    const [ scrollPosition, setScrollPosition ] = React.useState(0);
 
     const dispatch = useDispatch();
+
+    const { ingredients }  = useSelector(state => state.ingredients)
+    const { modalType } = useSelector(state => state.modal)
+
+    const [ scrollPosition, setScrollPosition ] = React.useState(0);
 
     React.useEffect(() => {
         dispatch(getIngredients());
     }, [])
 
     function openIngredientDetails(ingredient) {
-        dispatch({
-            type: ADD_INGREDIENT,
-            ingredient: ingredient
-        })
         dispatch({
             type: OPEN_MODAL,
             modalType: INGREDIENT_MODAL,
@@ -65,6 +60,7 @@ function BurgerIngredients() {
     };
 
     const getDistance = (className) => {
+        // Модуль расстояния от блока до вкладок
         return Math.abs(document.querySelector(className).getBoundingClientRect().top - 281);
     }
 
@@ -104,7 +100,7 @@ function BurgerIngredients() {
                     {
                         ingredients.filter(ingredient => ingredient.type === "sauce").map((ingredient) => (
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
-                            <Ingredient 
+                            <Ingredient
                             ingredient={ingredient} 
                             openIngredientDetails={openIngredientDetails}
                             />

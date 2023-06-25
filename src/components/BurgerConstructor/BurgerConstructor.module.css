@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     max-width: 600px;
+    min-height: 696px;
     display: flex;
     flex-direction: column;
 }

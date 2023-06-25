@@ -20,7 +20,6 @@ export function getOrder(ingredientsId) {
         };
         fetch(`${api}/orders`, settings)
         .then( res => {
-            console.log(res)
             if (res && res.ok ) {
                 return res.json();
             } else {

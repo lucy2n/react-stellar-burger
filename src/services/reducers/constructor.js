@@ -1,5 +1,6 @@
 import { 
-    ADD_INGREDIENT 
+    ADD_INGREDIENT, 
+    DELETE_INGREDIENT 
 } from "../actions/constructor"
 
 const constructorInitialState = {
@@ -27,7 +28,18 @@ export const constructorReducer = (state = constructorInitialState, action) => {
                     price: state.price + action.ingredient.price
                 }
             }
-      default:
-        return state
+        case DELETE_INGREDIENT:
+            const arr = state.ingredients
+            const index = arr.indexOf(action.ingredient);
+            if (index > -1) {
+              arr.splice(index, 1);
+            }
+            return {
+                bun: state.bun,
+                ingredients: [...arr],
+                price: state.price - action.ingredient.price
+            }
+        default:
+            return state
     }
   }
