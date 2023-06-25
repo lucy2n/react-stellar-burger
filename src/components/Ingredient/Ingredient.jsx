@@ -28,7 +28,6 @@ function Ingredient({ ingredient, openIngredientDetails }) {
         } else {
             ingredientCount = ingredients.filter(item => item._id === ingredient._id).length;
         }
-        console.log(`${ingredient.name} ${ingredientCount}`)
         setCount(ingredientCount)
     }, [bun, ingredients])
 

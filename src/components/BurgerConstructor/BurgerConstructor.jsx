@@ -1,13 +1,16 @@
-import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
-import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrder } from '../../services/actions/order';
 import { ORDER_MODAL } from '../../services/actions/modal';
 import { useDrop } from "react-dnd";
-import { ADD_INGREDIENT, DELETE_INGREDIENT } from '../../services/actions/constructor';
+import { ADD_INGREDIENT, SWAP_INGREDIENT } from '../../services/actions/constructor';
+import { ItemTypes } from '../../utils/ItemTypes';
+import { ConstructorIngredient } from '../ConstructorIngredient/ConstructorIngredient';
+import { useCallback } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -27,8 +30,16 @@ function BurgerConstructor() {
         }
     }
 
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
+        dispatch({
+            type: SWAP_INGREDIENT,
+            fromIndex: dragIndex,
+            toIndex: hoverIndex
+        })
+      }, [])
+
     const [, dropTarget] = useDrop({
-        accept: "ingredient",
+        accept: ItemTypes.INGREDIENT,
         drop(ingredient) {
             dispatch({
                 type: ADD_INGREDIENT,
@@ -36,13 +47,6 @@ function BurgerConstructor() {
             })
         },
     });
-
-    const deleteIngredient = (ingredient) => {
-        dispatch({
-            type: DELETE_INGREDIENT,
-            ingredient: ingredient
-        })
-    }
 
     return (
         <div ref={dropTarget}>
@@ -61,18 +65,14 @@ function BurgerConstructor() {
                 }
                 <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
                     {
-                        ingredients.map((ingredient) => (
-                            <li className={`mb-4 ml-4 ${burgerConstructor.li}`} key={uuidv4()}>
-                                <DragIcon />
-                                <ConstructorElement 
-                                extraClass={burgerConstructor.element}
-                                text={ingredient.name}
-                                price={ingredient.price}
-                                thumbnail={ingredient.image_mobile}
-                                handleClose={() => deleteIngredient(ingredient)}
-                                />
-                            </li>
-                        ))
+                        ingredients.map((ingredient, index) => 
+                        <ConstructorIngredient 
+                        key={uuidv4()}
+                        ingredient={ingredient}
+                        index={index}
+                        moveCard={moveCard}
+                        />
+                        )
                     }
                 </div>
                 { bun &&
