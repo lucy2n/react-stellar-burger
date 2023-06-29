@@ -1,11 +1,11 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import orderStyles from './OrderDetails.module.css'
 import doneImage from '../../images/graphics.svg'
+import { getOrderState } from '../../services/reducers/order';
 
 function OrderDetails() {
 
-    const order = useSelector(state => state.order.order)
+    const { order } = useSelector(getOrderState)
 
     return (
         <div className={`mt-30 mb-30 ${orderStyles.main}`}>

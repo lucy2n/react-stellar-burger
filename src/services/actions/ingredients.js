@@ -1,40 +1,37 @@
 import { api } from "../../utils/constants";
+import { checkReponse } from "../../utils/utils";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
-export function getIngredients() {
+const ingredientsRequest = () => ({
+    type: GET_INGREDIENTS_REQUEST
+});
+
+const ingredientsFailed = () => ({
+    type: GET_INGREDIENTS_FAILED
+});
+
+const ingredientsSuccess = (ingredients) => ({
+    type: GET_INGREDIENTS_SUCCESS,
+    ingredients: ingredients
+});
+
+export function loadIngredients() {
     return function(dispatch) {
-        dispatch({
-            type: GET_INGREDIENTS_REQUEST
-        });
+        dispatch(ingredientsRequest());
         fetch(`${api}/ingredients`)
-        .then( res => {
-            if (res && res.ok) {
-                return res.json()
-            } else {
-                dispatch({
-                    type: GET_INGREDIENTS_FAILED
-                })
-            }
-        })
+        .then(res => checkReponse(res))
         .then(res => {
             if (res && res.success ) {
-                dispatch({
-                    type: GET_INGREDIENTS_SUCCESS,
-                    ingredients: res.data
-                })
+                dispatch(ingredientsSuccess(res.data))
             } else {
-                dispatch({
-                    type: GET_INGREDIENTS_FAILED
-                })
+                dispatch(ingredientsFailed())
             }
         })
         .catch ( err => {
-            dispatch({
-                type: GET_INGREDIENTS_FAILED
-            })
+            dispatch(ingredientsFailed())
         })
     }
 }

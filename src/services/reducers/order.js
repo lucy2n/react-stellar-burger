@@ -8,6 +8,8 @@ const orderInitialState = {
     orderFailed: false,
 }
 
+export const getOrderState = (state) => state.order;
+
 export const orderReducer = (state = orderInitialState, action) => {
     switch (action.type) {
         case GET_ORDER_REQUEST: {

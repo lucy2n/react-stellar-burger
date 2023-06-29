@@ -1,25 +1,16 @@
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
-import { DELETE_INGREDIENT } from "../../services/actions/constructor";
 import { useRef } from 'react';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { useDrag, useDrop } from "react-dnd";
 import constructorIngredient from "./ConstructorIngredient.module.css"
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import { deleteIngredient } from "../../services/actions/constructor";
 
 export const ConstructorIngredient = ({ ingredient, index, moveCard }) => {
 
     const dispatch = useDispatch();
-
-    const deleteIngredient = (ingredient) => {
-        dispatch({
-            type: DELETE_INGREDIENT,
-            ingredient: ingredient
-        })
-    }
-
-    // DND in constructor
 
     const ref = useRef(null)
     const [{ handlerId }, drop] = useDrop({
@@ -79,7 +70,7 @@ export const ConstructorIngredient = ({ ingredient, index, moveCard }) => {
             text={ingredient.name}
             price={ingredient.price}
             thumbnail={ingredient.image_mobile}
-            handleClose={() => deleteIngredient(ingredient)}
+            handleClose={() => dispatch(deleteIngredient(ingredient))}
             />
         </div>
     );

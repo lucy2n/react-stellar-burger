@@ -6,16 +6,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrder } from '../../services/actions/order';
 import { ORDER_MODAL } from '../../services/actions/modal';
 import { useDrop } from "react-dnd";
-import { ADD_INGREDIENT, SWAP_INGREDIENT } from '../../services/actions/constructor';
+import { addIngredient, swapIngedients } from '../../services/actions/constructor';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { ConstructorIngredient } from '../ConstructorIngredient/ConstructorIngredient';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { getModalState } from '../../services/reducers/modal';
+import { getConstructorState } from '../../services/reducers/constructor';
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-    const { ingredients, bun, price } = useSelector(state => state.burgerConstructor)
-    const { modalType } = useSelector(state => state.modal)
+    
+    const { ingredients, bun } = useSelector(getConstructorState)
+    const { modalType } = useSelector(getModalState)
+
+    const [price, setPrice] = useState(0);
+
+    useEffect(() => {
+        let totalPrice = 0;
+        ingredients.map(ingredient => (totalPrice += ingredient.price))
+        if (bun) {
+            totalPrice += (bun.price * 2)
+        }
+        setPrice(totalPrice);
+    }, [ingredients, bun])
 
     async function createOrder() {
         // Создание массива id ингредиентов для оформления заказа
@@ -31,20 +45,13 @@ function BurgerConstructor() {
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
-        dispatch({
-            type: SWAP_INGREDIENT,
-            fromIndex: dragIndex,
-            toIndex: hoverIndex
-        })
+        dispatch(swapIngedients(dragIndex, hoverIndex))
       }, [])
 
     const [, dropTarget] = useDrop({
         accept: ItemTypes.INGREDIENT,
         drop(ingredient) {
-            dispatch({
-                type: ADD_INGREDIENT,
-                ingredient: ingredient
-            })
+            dispatch(addIngredient(ingredient))
         },
     });
 

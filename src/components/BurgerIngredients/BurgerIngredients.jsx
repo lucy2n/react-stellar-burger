@@ -5,29 +5,23 @@ import Ingredient from '../Ingredient/Ingredient';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
-import { INGREDIENT_MODAL, OPEN_MODAL } from '../../services/actions/modal';
+import { loadIngredients } from "../../services/actions/ingredients";
+import { INGREDIENT_MODAL, openIngredientModal } from '../../services/actions/modal';
+import { getIngredientsState } from '../../services/reducers/ingredients';
+import { getModalState } from '../../services/reducers/modal';
 
 function BurgerIngredients() {
 
     const dispatch = useDispatch();
 
-    const { ingredients }  = useSelector(state => state.ingredients)
-    const { modalType } = useSelector(state => state.modal)
+    const { ingredients }  = useSelector(getIngredientsState)
+    const { modalType } = useSelector(getModalState)
 
     const [ scrollPosition, setScrollPosition ] = React.useState(0);
 
     React.useEffect(() => {
-        dispatch(getIngredients());
+        dispatch(loadIngredients());
     }, [])
-
-    function openIngredientDetails(ingredient) {
-        dispatch({
-            type: OPEN_MODAL,
-            modalType: INGREDIENT_MODAL,
-            modalProps: ingredient
-        })
-    }
 
     const bunTab = "buns";
     const mainTab = "main";
@@ -87,7 +81,7 @@ function BurgerIngredients() {
                             <li className={ingredientsStyles.li} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient}
-                                openIngredientDetails={openIngredientDetails}
+                                openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
                                 />
                             </li>
                         ))
@@ -102,7 +96,7 @@ function BurgerIngredients() {
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
                             <Ingredient
                             ingredient={ingredient} 
-                            openIngredientDetails={openIngredientDetails}
+                            openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
                             />
                         </li>
                         ))
@@ -117,7 +111,7 @@ function BurgerIngredients() {
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
                             <Ingredient 
                             ingredient={ingredient} 
-                            openIngredientDetails={openIngredientDetails}
+                            openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
                             />
                         </li>
                         ))

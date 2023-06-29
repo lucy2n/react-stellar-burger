@@ -5,7 +5,7 @@ import modalStyles from './Modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { CLOSE_MODAL } from "../../services/actions/modal";
+import { closeModal } from "../../services/actions/modal";
 
 const modalRoot = document.getElementById("react-modals")
 
@@ -15,14 +15,8 @@ function Modal({ children }) {
 
     function handleCloseByEsc(e) {
         if (e.key === "Escape") {
-            closeModal();
+            dispatch(closeModal())
         }
-    }
-
-    function closeModal() {
-        dispatch({
-            type: CLOSE_MODAL
-        })
     }
 
     React.useEffect(() => {
@@ -36,10 +30,10 @@ function Modal({ children }) {
     return ReactDOM.createPortal(
         (       
             <>
-                <ModalOverlay handleCloseModal={closeModal} />
+                <ModalOverlay handleCloseModal={() => dispatch(closeModal())} />
                 <div className={modalStyles.modal}>
                     <div className={`mt-15 mr-10 ${modalStyles.close}`}>
-                        <CloseIcon type="primary" onClick={closeModal}/>
+                        <CloseIcon type="primary" onClick={() => dispatch(closeModal())}/>
                     </div>
                     { children }
                 </div>

@@ -1,9 +1,11 @@
+import { getModalState } from '../../services/reducers/modal';
 import ingredientDetails from './IngredientDetails.module.css'
 import { useSelector } from "react-redux";
 
 function IngredientDetails () {
 
-    const ingredient = useSelector(state => state.modal.modalProps)
+    const { modalProps } = useSelector(getModalState)
+    const ingredient = modalProps
 
     return (
         <div className={ingredientDetails.main}>

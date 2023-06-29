@@ -6,27 +6,23 @@ import {
 
 const constructorInitialState = {
     ingredients: [],
-    bun: null,
-    price: 0
+    bun: null
 }
+
+export const getConstructorState = (state) => state.burgerConstructor;
 
 export const constructorReducer = (state = constructorInitialState, action) => {
     switch (action.type) {
-        case ADD_INGREDIENT:
-            // Цена выбранной булочки
-            const bunPrice = state.bun !== null ? state.bun.price: 0
-    
+        case ADD_INGREDIENT:    
             if (action.ingredient.type === "bun") {
                 return {
-                    bun: action.ingredient,
-                    ingredients: state.ingredients,
-                    price: state.price + (action.ingredient.price * 2) - (bunPrice * 2)
+                    ...state,
+                    bun: action.ingredient
                 }
             } else {
                 return {
                     ...state,
                     ingredients: [...state.ingredients, action.ingredient],
-                    price: state.price + action.ingredient.price
                 }
             }
         case DELETE_INGREDIENT:
@@ -38,7 +34,6 @@ export const constructorReducer = (state = constructorInitialState, action) => {
             return {
                 ...state,
                 ingredients: [...arr],
-                price: state.price - action.ingredient.price
             }
         case SWAP_INGREDIENT:
             const ingredients = [...state.ingredients];

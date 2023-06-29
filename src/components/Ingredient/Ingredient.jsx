@@ -4,10 +4,11 @@ import ingredientStyle from './Ingredient.module.css'
 import { ingredientPropType } from '../../utils/prop-types';
 import { useDrag } from "react-dnd";
 import { useSelector } from 'react-redux';
+import { getConstructorState } from '../../services/reducers/constructor';
 
 function Ingredient({ ingredient, openIngredientDetails }) {
 
-    const { ingredients, bun } = useSelector(state => state.burgerConstructor)
+    const { ingredients, bun } = useSelector(getConstructorState)
 
     const [, dragRef] = useDrag({
         type: "ingredient",
