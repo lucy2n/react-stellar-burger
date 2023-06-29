@@ -1,105 +1,115 @@
-import React from 'react';
-import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
-import { useModal } from '../../hooks/useModal';
-import { ConstructorContext } from '../../services/IngredientsContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrder } from '../../services/actions/order';
+import { ORDER_MODAL } from '../../services/actions/modal';
+import { useDrop } from "react-dnd";
+import { addIngredient, swapIngedients } from '../../services/actions/constructor';
+import { ItemTypes } from '../../utils/ItemTypes';
+import { ConstructorIngredient } from '../ConstructorIngredient/ConstructorIngredient';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { OrderContext } from '../../services/OrderContext';
-import { getOrderData } from '../../utils/api';
+import { getModalState } from '../../services/reducers/modal';
+import { getConstructorState } from '../../services/reducers/constructor';
 
 function BurgerConstructor() {
+    const dispatch = useDispatch();
+    
+    const { ingredients, bun } = useSelector(getConstructorState)
+    const { modalType } = useSelector(getModalState)
 
-    const { constructorState } = React.useContext(ConstructorContext);
+    const [price, setPrice] = useState(0);
 
-    const { isModalOpen, openModal, closeModal } = useModal();
-    const [ orderNumber, setOrderNumber ] = React.useState(0);
+    useEffect(() => {
+        let totalPrice = 0;
+        ingredients.map(ingredient => (totalPrice += ingredient.price))
+        if (bun) {
+            totalPrice += (bun.price * 2)
+        }
+        setPrice(totalPrice);
+    }, [ingredients, bun])
 
     async function createOrder() {
         // Создание массива id ингредиентов для оформления заказа
-        const ingredientsId = constructorState.ingredients.map((ingredient) => {
-            return ingredient._id
-        })
-        if (constructorState.bun) {
-            ingredientsId.push(constructorState.bun._id)
+        const ingredientsId = ingredients.map(ingredient => ingredient._id)
+        if ( bun ) {
+            ingredientsId.push(bun._id)
         }
 
         if (ingredientsId.length > 0) {
             // Отправка запроса
-            try {
-                const data = await getOrderData(ingredientsId);
-                setOrderNumber(data.order.number)
-                // Открытие модального окна после формирования заказа 
-                openModal();
-            } catch (err) {
-                console.log("Post error: ", err)
-            }
+            dispatch(getOrder(ingredientsId))
         }
     }
 
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
+        dispatch(swapIngedients(dragIndex, hoverIndex))
+      }, [])
+
+    const [, dropTarget] = useDrop({
+        accept: ItemTypes.INGREDIENT,
+        drop(ingredient) {
+            dispatch(addIngredient(ingredient))
+        },
+    });
+
     return (
-        <>
+        <div ref={dropTarget}>
             <ul className={`ml-4 mr-4 ${burgerConstructor.main}`}>
-                { constructorState.bun &&
+                { bun &&
                 <li className={burgerConstructor.li}>
                     <ConstructorElement
                     extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
-                    text={`${constructorState.bun.name} (верх)`}
+                    text={`${bun.name} (верх)`}
                     type='top'
                     isLocked={true}
-                    price={constructorState.bun.price}
-                    thumbnail={constructorState.bun.image_mobile}
+                    price={bun.price}
+                    thumbnail={bun.image_mobile}
                     />
                 </li>
                 }
                 <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
                     {
-                        constructorState.ingredients.map((ingredient) => (
-                            <li className={`mb-4 ml-4 ${burgerConstructor.li}`} key={uuidv4()}>
-                                <DragIcon />
-                                <ConstructorElement 
-                                extraClass={burgerConstructor.element}
-                                text={ingredient.name}
-                                price={ingredient.price}
-                                thumbnail={ingredient.image_mobile}
-                                />
-                            </li>
-                        ))
+                        ingredients.map((ingredient, index) => 
+                        <ConstructorIngredient 
+                        key={uuidv4()}
+                        ingredient={ingredient}
+                        index={index}
+                        moveCard={moveCard}
+                        />
+                        )
                     }
                 </div>
-                { constructorState.bun &&
+                { bun &&
                 <li className={burgerConstructor.li} >
                     <ConstructorElement
                     extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
-                    text={`${constructorState.bun.name} (низ)`}
+                    text={`${bun.name} (низ)`}
                     type='bottom'
                     isLocked={true}
-                    price={constructorState.bun.price}
-                    thumbnail={constructorState.bun.image_mobile}
+                    price={bun.price}
+                    thumbnail={bun.image_mobile}
                     />
                 </li>
                 }
             </ul>
             <div className={burgerConstructor.sum}>
                 <div className= {`mr-10 ${burgerConstructor.price}`}>
-                    <p className='text text_type_digits-medium mr-4'>{constructorState.price}</p>
+                    <p className='text text_type_digits-medium mr-4'>{price}</p>
                     <CurrencyIcon />
                 </div>
                 <Button extraClass='mr-4' htmlType="button" type="primary" size="medium" onClick={createOrder}>
                     Оформить заказ
                 </Button>
             </div>
-            { isModalOpen &&
-                <Modal
-                closeModal={closeModal}
-                >
-                    <OrderContext.Provider value={{ orderNumber }} >
-                        <OrderDetails />
-                    </OrderContext.Provider>
+            { modalType === ORDER_MODAL &&
+                <Modal>
+                    <OrderDetails />
                 </Modal>
             }  
-        </>
+        </div>
     )
 }
 

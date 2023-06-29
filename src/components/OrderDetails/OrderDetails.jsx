@@ -1,15 +1,15 @@
-import React from "react";
+import { useSelector } from 'react-redux';
 import orderStyles from './OrderDetails.module.css'
 import doneImage from '../../images/graphics.svg'
-import { OrderContext } from "../../services/OrderContext";
+import { getOrderState } from '../../services/reducers/order';
 
 function OrderDetails() {
 
-    const { orderNumber } = React.useContext(OrderContext)
+    const { order } = useSelector(getOrderState)
 
     return (
         <div className={`mt-30 mb-30 ${orderStyles.main}`}>
-            <p className={`text text_type_digits-large mb-8 ${orderStyles.orderNumber}`}>{ orderNumber }</p>
+            <p className={`text text_type_digits-large mb-8 ${orderStyles.orderNumber}`}>{ order.number }</p>
             <p className="text text_type_main-medium">идентификатор заказа</p>
             <div className="mb-15 mt-15">
                 <img src={doneImage} alt="Готово" />

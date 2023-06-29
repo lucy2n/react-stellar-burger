@@ -1,8 +1,11 @@
-import React from "react";
+import { getModalState } from '../../services/reducers/modal';
 import ingredientDetails from './IngredientDetails.module.css'
-import { ingredientPropType } from '../../utils/prop-types';
+import { useSelector } from "react-redux";
 
-function IngredientDetails ({ ingredient }) {
+function IngredientDetails () {
+
+    const { modalProps } = useSelector(getModalState)
+    const ingredient = modalProps
 
     return (
         <div className={ingredientDetails.main}>
@@ -31,10 +34,6 @@ function IngredientDetails ({ ingredient }) {
             </div>
         </div>
     )
-}
-    
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropType.isRequired,
 }
 
 export default IngredientDetails;

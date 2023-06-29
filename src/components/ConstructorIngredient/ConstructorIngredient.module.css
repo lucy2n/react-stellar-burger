@@ -1,0 +1,9 @@
+.li {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+
+.element {
+    background-color: #1C1C21;
+}

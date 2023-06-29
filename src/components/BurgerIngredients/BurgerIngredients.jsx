@@ -2,82 +2,116 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyles from './BurgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { IngredientsContext, ConstructorContext} from "../../services/IngredientsContext";
+import { useDispatch, useSelector } from "react-redux";
+import { loadIngredients } from "../../services/actions/ingredients";
+import { INGREDIENT_MODAL, openIngredientModal } from '../../services/actions/modal';
+import { getIngredientsState } from '../../services/reducers/ingredients';
+import { getModalState } from '../../services/reducers/modal';
 
 function BurgerIngredients() {
-    const [current, setCurrent] = React.useState('Булки')
-    const [currentIngredient, setCurrentIngredient] = React.useState();
 
-    const { ingredients } = React.useContext(IngredientsContext);
-    const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
+    const dispatch = useDispatch();
 
-    const { isModalOpen, openModal, closeModal } = useModal();
+    const { ingredients }  = useSelector(getIngredientsState)
+    const { modalType } = useSelector(getModalState)
 
-    function openIngredientDetails(ingredient) {
-        setCurrentIngredient(ingredient);
-        constructorDispatcher({
-            type: "add",
-            ingredient: ingredient
-        });
-        openModal();
+    const [ scrollPosition, setScrollPosition ] = React.useState(0);
+
+    React.useEffect(() => {
+        dispatch(loadIngredients());
+    }, [])
+
+    const bunTab = "buns";
+    const mainTab = "main";
+    const sauceTab = "sauce";
+
+    const [activeTab, setActiveTab] = React.useState(bunTab);
+
+    React.useEffect(() => {
+        const scrollWrapper = document.querySelector(".custom-scroll");
+        scrollWrapper.addEventListener("scroll", handleScroll, { passive: true });
+    
+        return () => {
+            scrollWrapper.removeEventListener("scroll", handleScroll);
+        };
+    }, [scrollPosition]);
+    
+    const handleScroll = () => {
+        // Создание объекта типа "вкладка": "расстояние до верха"
+        const tabsDistance = {
+            [bunTab]: getDistance(`.${bunTab}`),
+            [sauceTab]: getDistance(`.${sauceTab}`),
+            [mainTab]: getDistance(`.${mainTab}`),
+        }
+
+        // Сортировка
+        const sortedTabs = Object.keys(tabsDistance).sort((a, b) => {
+            return tabsDistance[a] - tabsDistance[b]
+        }) 
+        setActiveTab(sortedTabs[0])
+    };
+
+    const getDistance = (className) => {
+        // Модуль расстояния от блока до вкладок
+        return Math.abs(document.querySelector(className).getBoundingClientRect().top - 281);
     }
 
     return(
-        <div>
+        <>
             <div className={`mb-10 ${ingredientsStyles.tabs}`}>
-                <Tab value="one" active={current === 'Булки'} onClick={setCurrent}>
+                <Tab value="one" active={activeTab === bunTab} onClick={setActiveTab}>
                     Булки
                 </Tab>
-                <Tab value="two" active={current === 'Соусы'} onClick={setCurrent}>
+                <Tab value="two" active={activeTab === sauceTab} onClick={setActiveTab}>
                     Соусы
                 </Tab>
-                <Tab value="three" active={current === 'Начинки'} onClick={setCurrent}>
+                <Tab value="three" active={activeTab === mainTab} onClick={setActiveTab}>
                     Начинки
                 </Tab>
             </div>
             <div className={`custom-scroll ${ingredientsStyles.wrapper}`}>
-                <div className='mb-10'>
+
+                <div className={`mb-10 ${bunTab}`}>
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <ul className={ingredientsStyles.ul}>
                     {
-                         ingredients.map((ingredient) => ( ingredient.type === "bun" &&
+                        ingredients.filter(ingredient => ingredient.type === "bun").map((ingredient) => (
                             <li className={ingredientsStyles.li} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient}
-                                openIngredientDetails={openIngredientDetails}
+                                openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
                                 />
                             </li>
-                         ))
+                        ))
                     }
                     </ul>
                 </div>
-                <div className='mb-10'>
+                <div className={`mb-10 ${sauceTab}`}>
                     <p className="text text_type_main-medium mb-6">Соусы</p>
                     <ul className={ingredientsStyles.ul}>
                     {
-                        ingredients.map((ingredient) => ( ingredient.type === "sauce" &&
+                        ingredients.filter(ingredient => ingredient.type === "sauce").map((ingredient) => (
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
-                            <Ingredient 
+                            <Ingredient
                             ingredient={ingredient} 
-                            openIngredientDetails={openIngredientDetails}
+                            openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
                             />
                         </li>
                         ))
                     }
                     </ul>
                 </div>
-                <div className='mb-10'>
+                <div className={`mb-10 ${mainTab}`}>
                     <p className="text text_type_main-medium mb-6">Начинки</p>
                     <ul className={ingredientsStyles.ul}>
                     {
-                        ingredients.map((ingredient) => ( ingredient.type === "main" &&
+                        ingredients.filter(ingredient => ingredient.type === "main").map((ingredient) => (
                         <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
                             <Ingredient 
                             ingredient={ingredient} 
-                            openIngredientDetails={openIngredientDetails}
+                            openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
                             />
                         </li>
                         ))
@@ -85,14 +119,12 @@ function BurgerIngredients() {
                     </ul>
                 </div>
             </div>
-            { isModalOpen && 
-                <Modal 
-                closeModal={closeModal}
-                > 
-                    <IngredientDetails ingredient={currentIngredient}/>
+            { modalType === INGREDIENT_MODAL && 
+                <Modal> 
+                    <IngredientDetails />
                 </Modal> 
             }
-        </div>
+        </>
     )
 }
 
