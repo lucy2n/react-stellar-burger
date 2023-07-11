@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import { HomePage } from "./pages/HomePage/HomePage";
 import { RegistrationPage } from "./pages/RegistrationPage/RegistrationPage";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -22,7 +23,7 @@ const store = createStore(rootReducer, enhancer);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-     <RegistrationPage />
+     <LoginPage/>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
