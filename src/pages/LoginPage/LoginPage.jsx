@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/AppHeader/AppHeader";
 import styles from './LoginPage.module.css'
@@ -14,11 +15,15 @@ export const LoginPage = () => {
                 <Button htmlType="button" type="primary" size="medium" extraClass="mb-20">Войти</Button>
                 <div className={`mb-4 ${styles.subtitle}`}>
                     <p className="text text_type_main-small text_color_inactive">Вы — новый пользователь?</p>
-                    <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Зарегистрироваться</Button>
+                    <Link to='/register'>
+                        <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Зарегистрироваться</Button>
+                    </Link>
                 </div>
                 <div className={styles.subtitle}>
                     <p className="text text_type_main-small text_color_inactive">Забыли пароль?</p>
-                    <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Восстановить пароль</Button>
+                    <Link to='/forgot-password'>
+                        <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Восстановить пароль</Button>
+                    </Link>
                 </div>
             </div>
         </>

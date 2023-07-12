@@ -25,7 +25,7 @@ const store = createStore(rootReducer, enhancer);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-     <ResettPasswordPage />
+     <App/>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
