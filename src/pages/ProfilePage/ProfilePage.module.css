@@ -1,0 +1,44 @@
+.main {
+    max-width: 1280px;
+    display: flex;
+    margin: 10vw auto;
+}
+
+.content {
+    max-width: 320px;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+}
+
+.inputs {
+    max-width: 480px;
+}
+
+.text_color_dark {
+   opacity: 0.4;
+}
+
+.tab {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--background-alt);
+    min-width: 200px;
+    text-align: start;
+    color: var(--text-inactive-color);
+    transition: var(--common-transition);
+    box-sizing: border-box;
+  }
+  
+  /* .tab:hover {
+    color: var(--text-primary-color);
+  } */
+  
+  .tab_type_current {
+    pointer-events: none;
+    color: var(--text-primary-color);
+  }
+
