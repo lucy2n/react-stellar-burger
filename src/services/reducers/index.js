@@ -5,6 +5,7 @@ import { orderReducer } from './order';
 import { modalReducer } from './modal';
 import { forgotPasswordReducer } from './forgot-password';
 import { registerReducer } from './register';
+import { authReducer } from './auth';
 
 export const rootReducer = combineReducers({
     burgerConstructor: constructorReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
     order: orderReducer,
     modal: modalReducer,
     forgotPassword: forgotPasswordReducer,
-    registration: registerReducer
+    registration: registerReducer,
+    auth: authReducer
 });

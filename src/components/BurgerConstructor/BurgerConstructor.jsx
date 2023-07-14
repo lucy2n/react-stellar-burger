@@ -1,5 +1,5 @@
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerConstructor from './BurgerConstructor.module.css'
+import styles from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,11 +57,11 @@ function BurgerConstructor() {
 
     return (
         <div ref={dropTarget}>
-            <ul className={`ml-4 mr-4 ${burgerConstructor.main}`}>
+            <ul className={`ml-4 mr-4 ${styles.main}`}>
                 { bun &&
-                <li className={burgerConstructor.li}>
+                <li className={styles.li}>
                     <ConstructorElement
-                    extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
+                    extraClass={`mb-4 mr-8 ml-8 ml-6 ${styles.element}`}
                     text={`${bun.name} (верх)`}
                     type='top'
                     isLocked={true}
@@ -70,7 +70,7 @@ function BurgerConstructor() {
                     />
                 </li>
                 }
-                <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
+                <div className={`custom-scroll ${styles.wrapper}`}>
                     {
                         ingredients.map((ingredient, index) => 
                         <ConstructorIngredient 
@@ -83,9 +83,9 @@ function BurgerConstructor() {
                     }
                 </div>
                 { bun &&
-                <li className={burgerConstructor.li} >
+                <li className={styles.li} >
                     <ConstructorElement
-                    extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
+                    extraClass={`mt-4 mr-8 ml-8 mb-10 ${styles.element}`}
                     text={`${bun.name} (низ)`}
                     type='bottom'
                     isLocked={true}
@@ -95,8 +95,8 @@ function BurgerConstructor() {
                 </li>
                 }
             </ul>
-            <div className={burgerConstructor.sum}>
-                <div className= {`mr-10 ${burgerConstructor.price}`}>
+            <div className={styles.sum}>
+                <div className= {`mr-10 ${styles.price}`}>
                     <p className='text text_type_digits-medium mr-4'>{price}</p>
                     <CurrencyIcon />
                 </div>

@@ -17,7 +17,7 @@ const forgotPasswordFalied = () => ({
     type: FORGOT_PASSWORD_FALIED
 })
 
-export function forgotPassword(email) {
+export function forgotPassword(email, handleRedirect) {
     return function(dispatch) {
         dispatch(forgotPasswordRequest());
         const settings = {
@@ -33,6 +33,7 @@ export function forgotPassword(email) {
         .then(res => {
             if(res && res.success) {
                 console.log("Message :", res.message)
+                handleRedirect()
             } else {
                 dispatch(forgotPasswordFalied())
             }

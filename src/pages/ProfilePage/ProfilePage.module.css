@@ -33,9 +33,9 @@
     box-sizing: border-box;
   }
   
-  /* .tab:hover {
+  .tab:hover {
     color: var(--text-primary-color);
-  } */
+  }
   
   .tab_type_current {
     pointer-events: none;

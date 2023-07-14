@@ -1,5 +1,5 @@
 import { getModalState } from '../../services/reducers/modal';
-import ingredientDetails from './IngredientDetails.module.css'
+import styles from './IngredientDetails.module.css'
 import { useSelector } from "react-redux";
 
 function IngredientDetails () {
@@ -8,25 +8,25 @@ function IngredientDetails () {
     const ingredient = modalProps
 
     return (
-        <div className={ingredientDetails.main}>
-            <h2 className={`text text_type_main-large mt-10 ml-10 ${ingredientDetails.title}`}>Детали ингредиента</h2>
-            <div className={`mb-15 ${ingredientDetails.about}`}>
+        <div className={styles.main}>
+            <h2 className={`text text_type_main-large mt-10 ml-10 ${styles.title}`}>Детали ингредиента</h2>
+            <div className={`mb-15 ${styles.about}`}>
                 <img className="mb-4" src={ingredient.image_large} alt={ingredient.name}/>
                 <p className="mb-8 text text_type_main-medium">{ingredient.name}</p>
-                <ul className={ingredientDetails.ul}>
-                    <li className={`mr-5 ${ingredientDetails.li}`}>
+                <ul className={styles.ul}>
+                    <li className={`mr-5 ${styles.li}`}>
                         <p className="text text_type_main-default text_color_inactive mb-2">Калории,ккал</p>
                         <p className="text text_type_digits-default text_color_inactive">{ingredient.calories}</p>
                     </li>
-                    <li className={`mr-5 ${ingredientDetails.li}`}>
+                    <li className={`mr-5 ${styles.li}`}>
                         <p className="text text_type_main-default text_color_inactive mb-2">Белки, г</p>
                         <p className="text text_type_digits-default text_color_inactive">{ingredient.proteins}</p>
                     </li>
-                    <li className={`mr-5 ${ingredientDetails.li}`}> 
+                    <li className={`mr-5 ${styles.li}`}> 
                         <p className="text text_type_main-default text_color_inactive mb-2">Жиры, г</p>
                         <p className="text text_type_digits-default text_color_inactive">{ingredient.fat}</p>
                     </li>
-                    <li className={ingredientDetails.li}>
+                    <li className={styles.li}>
                         <p className="text text_type_main-default text_color_inactive mb-2">Углеводы, г</p>
                         <p className="text text_type_digits-default text_color_inactive">{ingredient.carbohydrates}</p>
                     </li>
