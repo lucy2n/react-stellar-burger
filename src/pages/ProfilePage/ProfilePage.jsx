@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PasswordInput, Input, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ProfilePage.module.css'
+import { getUser } from "../../services/actions/user";
+import { useDispatch, useSelector } from "react-redux";
 
 export const ProfilePage = () => {
+
+    const dispatch = useDispatch();
+
+    const { user } = useSelector(store => store.user.user)
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -54,5 +60,4 @@ export const ProfilePage = () => {
             </div>
         </div>
     )
-
 }

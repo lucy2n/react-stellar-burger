@@ -2,7 +2,7 @@ import React from "react";
 import { Button, PasswordInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ResetPasswordPage.module.css'
 import { useDispatch } from "react-redux";
-import { resetPassword } from "../../services/actions/reset-password";
+import { resetPassword } from "../../utils/api";
 
 export const ResettPasswordPage = () => {
 
@@ -20,7 +20,11 @@ export const ResettPasswordPage = () => {
     }
 
     const reset = () => {
-        dispatch(resetPassword(password))
+        resetPassword(password, token)
+        .then(res => {
+            console.log("Reset", res)
+            // ???
+        })
     }
 
     return (
@@ -35,5 +39,4 @@ export const ResettPasswordPage = () => {
             </div>
         </div>
     )
-
 }

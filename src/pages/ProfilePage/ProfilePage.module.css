@@ -33,7 +33,7 @@
     box-sizing: border-box;
   }
   
-  .tab:hover {
+  .tab:active {
     color: var(--text-primary-color);
   }
   

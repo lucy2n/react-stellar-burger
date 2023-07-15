@@ -3,7 +3,7 @@ import { Button, EmailInput, PasswordInput, Input } from "@ya.praktikum/react-de
 import styles from './RegistrationPage.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { registration } from "../../services/actions/register";
+import { registerUser } from "../../services/actions/user";
 
 export const RegistrationPage = () => {
     const dispatch = useDispatch();
@@ -25,7 +25,8 @@ export const RegistrationPage = () => {
 
     const register = () => {
         if (email && name && password) {
-            dispatch(registration(name, email, password))
+            dispatch(registerUser(email, password, name))
+            
             console.log(name, email, password)
         }
     }
@@ -59,5 +60,4 @@ export const RegistrationPage = () => {
             </div>
         </div>
     )
-
 }

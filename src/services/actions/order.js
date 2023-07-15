@@ -1,5 +1,5 @@
-import { api } from "../../utils/constants";
-import { checkReponse } from "../../utils/utils";
+import { apiUrl } from "../../utils/constants";
+import { checkReponse } from "../../utils/api";
 import { openOrderModal } from "./modal";
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -30,7 +30,7 @@ export function getOrder(ingredientsId) {
             },
             body: JSON.stringify({ "ingredients": ingredientsId })
         };
-        fetch(`${api}/orders`, settings)
+        fetch(`${apiUrl}/orders`, settings)
         .then(res => checkReponse(res))
         .then(res => {
             if(res && res.success) {

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ForgotPasswordPage.module.css'
 import { useDispatch } from "react-redux";
-import { forgotPassword } from "../../services/actions/forgot-password";
 import { useNavigate } from "react-router";
+import { forgotPassword } from "../../utils/api";
 
 export const ForgotPasswordPage = () => {
 
@@ -17,7 +17,11 @@ export const ForgotPasswordPage = () => {
 
     const forgot = () => {
         if (email) {
-            dispatch(forgotPassword(email, () => navigate('/reset-password')))
+            forgotPassword(email)
+            .then(res => {
+                console.log("Forgot Password ", res)
+                navigate('/reset-password')
+            })
         }
     }
 
@@ -32,5 +36,4 @@ export const ForgotPasswordPage = () => {
             </div>
         </div>
     )
-
 }

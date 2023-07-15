@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './LoginPage.module.css'
 import { useDispatch } from "react-redux";
-import { signInUser } from "../../services/actions/auth";
+import { signInUser } from "../../utils/api";
+import { login } from "../../services/actions/user";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const LoginPage = () => {
 
     const signIn = () => {
         if(email && password) {
-            dispatch(signInUser(email, password, () => navigate('/')))
+            dispatch(login(email, password))
         }
     }
 
@@ -47,5 +48,4 @@ export const LoginPage = () => {
             </div>
         </div>
     )
-
 }
