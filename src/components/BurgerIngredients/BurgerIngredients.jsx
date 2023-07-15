@@ -2,20 +2,16 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css'
 import Ingredient from '../Ingredient/Ingredient';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { useDispatch, useSelector } from "react-redux";
 import { loadIngredients } from "../../services/actions/ingredients";
-import { INGREDIENT_MODAL, openIngredientModal } from '../../services/actions/modal';
+import { openIngredientModal } from '../../services/actions/modal';
 import { getIngredientsState } from '../../services/reducers/ingredients';
-import { getModalState } from '../../services/reducers/modal';
 
 function BurgerIngredients() {
 
     const dispatch = useDispatch();
 
     const { ingredients }  = useSelector(getIngredientsState)
-    const { modalType } = useSelector(getModalState)
 
     const [ scrollPosition, setScrollPosition ] = React.useState(0);
 
@@ -119,11 +115,6 @@ function BurgerIngredients() {
                     </ul>
                 </div>
             </div>
-            { modalType === INGREDIENT_MODAL && 
-                <Modal> 
-                    <IngredientDetails />
-                </Modal> 
-            }
         </>
     )
 }

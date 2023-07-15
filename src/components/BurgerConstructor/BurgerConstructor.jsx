@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/reducers/modal';
 import { getConstructorState } from '../../services/reducers/constructor';
+import { Link } from 'react-router-dom';
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -105,7 +106,9 @@ function BurgerConstructor() {
                 </Button>
             </div>
             { modalType === ORDER_MODAL &&
-                <Modal>
+                <Modal onClose={() => {
+                    // Временное решение, чтобы не ругался компилятор
+                }}>
                     <OrderDetails />
                 </Modal>
             }  

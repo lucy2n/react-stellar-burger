@@ -10,11 +10,12 @@ function IngredientDetails () {
    const { modalProps } = useSelector(getModalState)
 
     const location = useLocation();
-    const background = location.state && location.state.background;
+    let background = location.state && location.state.background;
 
     const [ingredient, setIngredient] = useState({});
 
     useEffect(() => {
+        background = location.state && location.state.background;
         if (Object.keys(modalProps).length !== 0) { // Если в modalState есть ингредиент, берем оттуда
             setIngredient(modalProps)
         } else { // если там нет, получаем с сервера
