@@ -1,6 +1,12 @@
-.main {
+.modal {
     width: 720px;
     margin: 1% auto;
+}
+
+.main {
+    width: 720px;
+    margin: 10vh auto;
+    text-align: center;
 }
 
 .about {
@@ -16,9 +22,7 @@
 .title {
     padding: 0;
     padding-top: 8px;
-    min-height: 64px;
     width: 640px;
-    vertical-align: middle;
 }
 
 .ul {

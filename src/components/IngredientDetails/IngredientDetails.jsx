@@ -1,14 +1,35 @@
-import { getModalState } from '../../services/reducers/modal';
+import { useLocation } from 'react-router';
 import styles from './IngredientDetails.module.css'
 import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { getIngredients } from '../../utils/api';
+import { getModalState } from '../../services/reducers/modal';
 
 function IngredientDetails () {
 
-    const { modalProps } = useSelector(getModalState)
-    const ingredient = modalProps
+   const { modalProps } = useSelector(getModalState)
+
+    const location = useLocation();
+    const background = location.state && location.state.background;
+
+    const [ingredient, setIngredient] = useState({});
+
+    useEffect(() => {
+        if (Object.keys(modalProps).length !== 0) { // Если в modalState есть ингредиент, берем оттуда
+            setIngredient(modalProps)
+        } else { // если там нет, получаем с сервера
+            const ingredientId = location.pathname.split('/')[2] // получаем id ингредиента из url
+            getIngredients()
+            .then(res => {
+                const currentIngredient = res.data.find(ingredient => ingredient._id === ingredientId) // находим по id
+                setIngredient(currentIngredient)
+            })
+        }
+    }, [location])
 
     return (
-        <div className={styles.main}>
+        //применяем стили в зависимости от локации
+        <div className={background ? styles.modal: styles.main}>
             <h2 className={`text text_type_main-large mt-10 ml-10 ${styles.title}`}>Детали ингредиента</h2>
             <div className={`mb-15 ${styles.about}`}>
                 <img className="mb-4" src={ingredient.image_large} alt={ingredient.name}/>
