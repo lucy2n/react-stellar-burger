@@ -17,7 +17,10 @@ export const getUser = () => {
   return (dispatch) => {
     return api.getUserData().then((res) => {
       dispatch(setUser(res.user));
-    });
+    })
+    .catch(err => {
+      console.log(`Error: ${err}`)
+    })
   };
 };
 
@@ -28,7 +31,10 @@ export const login = (email, password) => {
       localStorage.setItem("refreshToken", res.refreshToken);
       dispatch(setUser(res.user));
       dispatch(setAuthChecked(true));
-    });
+    })
+    .catch(err => {
+      console.log(`Error: ${err}`)
+    })
   };
 };
 
@@ -39,6 +45,9 @@ export const registerUser = (email, password, name) => {
             localStorage.setItem("refreshToken", res.refreshToken);
             dispatch(setUser(res.user));
             dispatch(setAuthChecked(true))
+        })
+        .catch(err => {
+          console.log(`Error: ${err}`)
         })
     }
 }
@@ -66,6 +75,23 @@ export const logout = () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       dispatch(setUser(null));
-    });
+    })
+    .catch(err => {
+      console.log(`Error: ${err}`)
+    })
   };
 };
+
+export const uptadeUserData = (password, name, email) => {
+  return (dispatch) => {
+    return api.patchUserData(password, name, email).then((res) => {
+      dispatch(setUser({
+        email: res.email,
+        name: res.name
+      }))
+    })
+    .catch(err => {
+      console.log(`Error: ${err}`)
+    })
+  }
+}

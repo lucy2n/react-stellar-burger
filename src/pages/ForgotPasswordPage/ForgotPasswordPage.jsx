@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ForgotPasswordPage.module.css'
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { forgotPassword } from "../../utils/api";
 
 export const ForgotPasswordPage = () => {
-
-    const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
 

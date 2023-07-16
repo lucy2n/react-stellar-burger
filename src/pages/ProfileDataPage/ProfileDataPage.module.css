@@ -1,3 +1,14 @@
 .inputs {
     max-width: 480px;
 }
+
+.buttons {
+    visibility: hidden;
+    display: flex;
+    justify-content: end;
+}
+
+.buttons_active {
+    display: flex;
+    justify-content: end;
+}

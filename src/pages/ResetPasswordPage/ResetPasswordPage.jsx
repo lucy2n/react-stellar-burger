@@ -2,11 +2,13 @@ import React from "react";
 import { Button, PasswordInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ResetPasswordPage.module.css'
 import { resetPassword } from "../../utils/api";
+import { useNavigate } from "react-router";
 
 export const ResettPasswordPage = () => {
 
     const [password, setPassword] = React.useState('')
     const [token, setToken] = React.useState('');
+    const navigate = useNavigate();
 
     const onChange = e => {
         setPassword(e.target.value)
@@ -20,7 +22,7 @@ export const ResettPasswordPage = () => {
         resetPassword(password, token)
         .then(res => {
             console.log("Reset", res)
-            // ???
+            navigate('/login')
         })
     }
 

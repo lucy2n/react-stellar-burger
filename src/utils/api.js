@@ -42,6 +42,42 @@ const fetchWithRefresh = async (url, options) => {
     }
 };
 
+export const resetPassword = (password, token) => {
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            "password": password,
+            "token": token
+        })
+    };
+    return fetch(`${apiUrl}/password-reset/reset`, settings)
+    .then(checkReponse)
+    .catch(err => {
+        console.log(`Error: ${err}`)
+    })
+} 
+
+export const forgotPassword = (email) => {
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ "email": email })
+    };
+    return fetch(`${apiUrl}/password-reset`, settings)
+    .then(checkReponse)
+    .catch(err => {
+        console.log(`Error: ${err}`)
+    })
+}
+
+//Функции для userReducer
 const signInUser = (email, password) => {
     return fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
@@ -67,19 +103,6 @@ const signOutUser = () => {
     }).then(checkReponse)
 }
 
-export const forgotPassword = (email) => {
-    const settings = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ "email": email })
-    };
-    return fetch(`${apiUrl}/password-reset`, settings)
-    .then(checkReponse)
-}
-
 const postRegistration = (name, email, password) => {
     const settings = {
         method: 'POST',
@@ -97,22 +120,6 @@ const postRegistration = (name, email, password) => {
     .then(checkReponse)
 } 
 
-export const resetPassword = (password, token) => {
-    const settings = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-            "password": password,
-            "token": token
-        })
-    };
-    return fetch(`${apiUrl}/password-reset/reset`, settings)
-    .then(checkReponse)
-} 
-
 const getUserData = () => {
     return fetchWithRefresh(`${apiUrl}/auth/user`, {
         method: 'GET',
@@ -122,8 +129,21 @@ const getUserData = () => {
             authorization: localStorage.getItem('accessToken')
         },
     })
-    .catch(err => {
-        console.log("Error : ", err)
+}
+
+const patchUserData = (password, name, email) => {
+    return fetchWithRefresh(`${apiUrl}/auth/user`, {
+        method: 'PATCH',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            authorization: localStorage.getItem('accessToken')
+        },
+        body: JSON.stringify({
+            "password": password,
+            "name": name,
+            "email": email
+        })
     })
 }
 
@@ -132,4 +152,5 @@ export const api = {
     signOutUser,
     postRegistration,
     getUserData,
+    patchUserData
 }

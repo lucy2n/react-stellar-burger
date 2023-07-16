@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { PasswordInput, Input, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getUser } from "../../services/actions/user";
+import { PasswordInput, Input, EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { getUser, uptadeUserData } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import styles from './ProfileDataPage.module.css'
+import { getUserState } from "../../services/reducers/user";
 
 export const ProfileDataPage = () => {
     const dispatch = useDispatch();
 
-    const { user } = useSelector(store => store.user)
+    const { user } = useSelector(getUserState)
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -25,6 +26,19 @@ export const ProfileDataPage = () => {
         setPassword(e.target.value)
     }
 
+    const setDefault = () => {
+        setEmail(user.email)
+        setName(user.name)
+        setPassword('')
+    }
+
+    const submitData = () => {
+        dispatch(uptadeUserData(password, name, email))
+        dispatch(getUser())
+        
+        setPassword('')
+    }
+
     useEffect(() => {
         dispatch(getUser())
         if (user) {
@@ -38,7 +52,6 @@ export const ProfileDataPage = () => {
                 <Input 
                 type={'text'}
                 placeholder={'Имя'}
-                extraClass="mt-6" 
                 value={name}
                 onChange={onChangeName}
                 icon={'EditIcon'}
@@ -55,6 +68,13 @@ export const ProfileDataPage = () => {
                 onChange={onChangePassword}
                 icon={'EditIcon'}
                 />
+                <div 
+                className={password.length !== 0 || 
+                           user.name !== name || 
+                           user.email !== email ? styles.buttons_active: styles.buttons }>
+                    <Button onClick={setDefault} htmlType="button" type="secondary" size="medium">Отмена</Button>
+                    <Button onClick={submitData} htmlType="button" type="primary" size="medium">Сохранить</Button>
+                </div>
             </form>
     )
 }
