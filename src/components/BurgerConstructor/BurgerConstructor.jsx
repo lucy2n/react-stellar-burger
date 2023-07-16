@@ -1,7 +1,7 @@
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css'
-import OrderDetails from '../OrderDetails/OrderDetails';
-import Modal from '../Modal/Modal';
+import { OrderDetails } from '../OrderDetails/OrderDetails';
+import { Modal } from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrder } from '../../services/actions/order';
 import { ORDER_MODAL } from '../../services/actions/modal';
@@ -13,9 +13,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/reducers/modal';
 import { getConstructorState } from '../../services/reducers/constructor';
-import { Link } from 'react-router-dom';
 
-function BurgerConstructor() {
+export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     
     const { ingredients, bun } = useSelector(getConstructorState)
@@ -115,5 +114,3 @@ function BurgerConstructor() {
         </div>
     )
 }
-
-export default BurgerConstructor;

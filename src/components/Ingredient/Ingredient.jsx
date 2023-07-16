@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { getConstructorState } from '../../services/reducers/constructor';
 import { Link, useLocation } from 'react-router-dom';
 
-function Ingredient({ ingredient, openIngredientDetails }) {
+export const Ingredient = ({ ingredient, openIngredientDetails }) => {
 
     const location = useLocation();
     const ingredientId = ingredient._id;
@@ -68,5 +68,3 @@ function Ingredient({ ingredient, openIngredientDetails }) {
 Ingredient.propTypes = {
     ingredient: ingredientPropType.isRequired
 }
-
-export default Ingredient

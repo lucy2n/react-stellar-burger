@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './LoginPage.module.css'
 import { useDispatch } from "react-redux";
-import { signInUser } from "../../utils/api";
 import { login } from "../../services/actions/user";
 
 export const LoginPage = () => {
-    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 

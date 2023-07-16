@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { getIngredients } from '../../utils/api';
 import { getModalState } from '../../services/reducers/modal';
 
-function IngredientDetails () {
+export const IngredientDetails = () => {
 
    const { modalProps } = useSelector(getModalState)
 
@@ -57,5 +57,3 @@ function IngredientDetails () {
         </div>
     )
 }
-
-export default IngredientDetails;

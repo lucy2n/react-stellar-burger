@@ -1,12 +1,9 @@
 import React from "react";
 import { Button, PasswordInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ResetPasswordPage.module.css'
-import { useDispatch } from "react-redux";
 import { resetPassword } from "../../utils/api";
 
 export const ResettPasswordPage = () => {
-
-    const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('')
     const [token, setToken] = React.useState('');

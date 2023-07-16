@@ -3,7 +3,7 @@ import styles from './OrderDetails.module.css'
 import doneImage from '../../images/graphics.svg'
 import { getOrderState } from '../../services/reducers/order';
 
-function OrderDetails() {
+export const OrderDetails = () => {
 
     const { order } = useSelector(getOrderState)
 
@@ -19,5 +19,3 @@ function OrderDetails() {
         </div>
     )
 }
-
-export default OrderDetails;

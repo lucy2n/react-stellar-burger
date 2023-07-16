@@ -5,9 +5,9 @@ import { RegistrationPage } from '../../pages/RegistrationPage/RegistrationPage'
 import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage/ForgotPasswordPage';
 import { ResettPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import { ProfilePage } from '../../pages/ProfilePage/ProfilePage';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import Modal from '../Modal/Modal';
-import AppHeader from '../AppHeader/AppHeader';
+import { IngredientDetails } from '../IngredientDetails/IngredientDetails';
+import { Modal } from '../Modal/Modal';
+import { AppHeader } from '../AppHeader/AppHeader';
 import { OnlyAuth, OnlyUnAuth } from '../ProtectedRoute/ProtectedRoute';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,7 @@ import { checkUserAuth } from '../../services/actions/user';
 import { ProfileOrdersPage } from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
 import { ProfileDataPage } from '../../pages/ProfileDataPage/ProfileDataPage';
 
-function App() {
+export const App = () => {
   const dispatch = useDispatch()
   const location = useLocation(); // текущий url
   const navigate = useNavigate();
@@ -62,5 +62,3 @@ function App() {
     </>
   )
 }
-
-export default App;

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css'
-import Ingredient from '../Ingredient/Ingredient';
+import { Ingredient } from '../Ingredient/Ingredient';
 import { useDispatch, useSelector } from "react-redux";
 import { loadIngredients } from "../../services/actions/ingredients";
 import { openIngredientModal } from '../../services/actions/modal';
 import { getIngredientsState } from '../../services/reducers/ingredients';
 
-function BurgerIngredients() {
+export const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
 
@@ -118,5 +118,3 @@ function BurgerIngredients() {
         </>
     )
 }
-
-export default BurgerIngredients;

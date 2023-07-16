@@ -2,14 +2,14 @@ import React from "react";
 import  ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './Modal.module.css'
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../services/actions/modal";
 
 const modalRoot = document.getElementById("react-modals")
 
-function Modal({ children, onClose }) {
+export const Modal = ({ children, onClose }) => {
 
     const dispatch = useDispatch();
 
@@ -51,5 +51,3 @@ function Modal({ children, onClose }) {
 Modal.propTypes = {
     children: PropTypes.element.isRequired,
 }
-
-export default Modal;
