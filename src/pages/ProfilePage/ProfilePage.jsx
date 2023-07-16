@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { PasswordInput, Input, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ProfilePage.module.css'
-import { getUser } from "../../services/actions/user";
+import { checkUserAuth, getUser, logout } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 
 export const ProfilePage = () => {
 
     const dispatch = useDispatch();
 
-    const { user } = useSelector(store => store.user.user)
+    const { user } = useSelector(store => store.user)
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -26,13 +26,21 @@ export const ProfilePage = () => {
         setPassword(e.target.value)
     }
 
+    useEffect(() => {
+        dispatch(getUser())
+        if (user) {
+            setEmail(user.email)
+            setName(user.name)
+        }
+    }, [])
+
     return (
         <div className={styles.main}>
             <div className={`mr-15 ${styles.content}`}>
                 <nav className={`mb-20 ${styles.navigation}`}>
                     <a className={`text text_type_main-medium pt-4 pr-10 pb-4 pl-10 ${ styles.tab, styles.tab_type_current }`} >Профиль</a>
                     <a className={`text text_type_main-medium pt-4 pr-10 pb-4 pl-10 ${ styles.tab }`}> История заказов</a>
-                    <a className={`text text_type_main-medium pt-4 pr-10 pb-4 pl-10 ${ styles.tab }`}>Выход</a>
+                    <a onClick={() => dispatch(logout())} className={`text text_type_main-medium pt-4 pr-10 pb-4 pl-10 ${ styles.tab }`}>Выход</a>
                 </nav>
                 <p className={`text text_type_main-small text_color_inactive pt-4 pb-4 pl-10 ${styles.text_color_dark}`}> В этом разделе вы можете изменить свои персональные данные</p>
             </div>

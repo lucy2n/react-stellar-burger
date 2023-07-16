@@ -56,6 +56,17 @@ const signInUser = (email, password) => {
     }).then(checkReponse)
 }
 
+const signOutUser = () => {
+    return fetch(`${apiUrl}/auth/logout`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: localStorage.getItem("refreshToken") })
+    }).then(checkReponse)
+}
+
 export const forgotPassword = (email) => {
     const settings = {
         method: 'POST',
@@ -103,12 +114,22 @@ export const resetPassword = (password, token) => {
 } 
 
 const getUserData = () => {
-    return fetchWithRefresh(`${apiUrl}/auth/user`)
-    .then(checkReponse)
+    return fetchWithRefresh(`${apiUrl}/auth/user`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            authorization: localStorage.getItem('accessToken')
+        },
+    })
+    .catch(err => {
+        console.log("Error : ", err)
+    })
 }
 
 export const api = {
     signInUser,
+    signOutUser,
     postRegistration,
     getUserData,
 }

@@ -60,9 +60,9 @@ export const checkUserAuth = () => {
 };
 
 
-export const logout = (token) => {
+export const logout = () => {
   return (dispatch) => {
-    return api.logout(token).then(() => {
+    return api.signOutUser().then(() => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       dispatch(setUser(null));
