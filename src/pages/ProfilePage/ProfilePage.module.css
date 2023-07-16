@@ -21,20 +21,13 @@
 .tab {
     text-decoration: none;
     cursor: pointer;
-    background-color: var(--background-alt);
     min-width: 200px;
     text-align: start;
-    color: var(--text-inactive-color);
-    transition: var(--common-transition);
+    color: #8585AD;
     box-sizing: border-box;
   }
-  
-  .tab:active {
-    color: var(--text-primary-color);
-  }
-  
-  .tab_type_current {
-    pointer-events: none;
-    color: var(--text-primary-color);
-  }
 
+.tab_active {
+  color: white;
+  text-decoration: none;
+}
