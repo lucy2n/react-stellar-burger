@@ -12,6 +12,8 @@ import { OnlyAuth, OnlyUnAuth } from '../ProtectedRoute/ProtectedRoute';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { checkUserAuth } from '../../services/actions/user';
+import { ProfileOrdersPage } from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
+import { ProfileDataPage } from '../../pages/ProfileDataPage/ProfileDataPage';
 
 function App() {
   const dispatch = useDispatch()
@@ -31,13 +33,18 @@ function App() {
     <>
     <AppHeader />
       <Routes location={background || location}>
-        <Route exact path="/" element={<OnlyAuth component={<HomePage />} />} />
+        <Route exact path="/" element={<HomePage />} />
         <Route path='/ingredients/:ingredientId' component={<IngredientDetails />} />
+
         <Route path="/login" element={<OnlyUnAuth component={<LoginPage />}/>} />
         <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage />}/>} />
         <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
         <Route path="/reset-password" element={<OnlyUnAuth component={<ResettPasswordPage />} />}/>
-        <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />}/>
+
+        <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />}>
+          <Route path="/profile" element={<OnlyAuth component={<ProfileDataPage />} />}/>
+          <Route path="orders" element={<OnlyAuth component={<ProfileOrdersPage />} />}/>
+        </Route>
       </Routes>
 
       {background && (

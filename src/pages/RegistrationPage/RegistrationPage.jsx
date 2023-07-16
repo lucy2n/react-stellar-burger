@@ -32,7 +32,7 @@ export const RegistrationPage = () => {
     }
 
     return (
-        <div className={styles.main}>
+        <form className={styles.main}>
             <h1 className="text text_type_main-medium">Регистрация</h1>
             <Input 
             type={'text'}
@@ -58,6 +58,6 @@ export const RegistrationPage = () => {
                     <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Войти</Button>
                 </Link>
             </div>
-        </div>
+        </form>
     )
 }

@@ -28,7 +28,7 @@ export const ResettPasswordPage = () => {
     }
 
     return (
-        <div className={styles.main}>
+        <form className={styles.main}>
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
             <PasswordInput onChange={onChange} value={password} extraClass="mt-6 mb-6"  placeholder="Введите новый пароль"/>
             <Input extraClass="mb-6" onChange={onChangeToken} value={token}  placeholder="Введите код из письма"/>
@@ -37,6 +37,6 @@ export const ResettPasswordPage = () => {
                 <p className="text text_type_main-small text_color_inactive">Вспомнили пароль?</p>
                 <Button onClick={reset} extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Войти</Button>
             </div>
-        </div>
+        </form>
     )
 }

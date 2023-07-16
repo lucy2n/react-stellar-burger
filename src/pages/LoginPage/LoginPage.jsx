@@ -29,7 +29,7 @@ export const LoginPage = () => {
     }
 
     return (
-        <div className={styles.main}>
+        <form className={styles.main}>
             <h1 className="text text_type_main-medium">Вход</h1>
             <EmailInput value={email} onChange={onChangeEmail} extraClass="mt-6 mb-6" />
             <PasswordInput value={password} onChange={onChangePassword} extraClass="mb-6" />
@@ -46,6 +46,6 @@ export const LoginPage = () => {
                     <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Восстановить пароль</Button>
                 </Link>
             </div>
-        </div>
+        </form>
     )
 }
