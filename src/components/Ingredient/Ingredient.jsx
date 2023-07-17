@@ -6,6 +6,7 @@ import { useDrag } from "react-dnd";
 import { useSelector } from 'react-redux';
 import { getConstructorState } from '../../services/reducers/constructor';
 import { Link, useLocation } from 'react-router-dom';
+import PropTypes from "prop-types";
 
 export const Ingredient = ({ ingredient, openIngredientDetails }) => {
 
@@ -66,5 +67,6 @@ export const Ingredient = ({ ingredient, openIngredientDetails }) => {
 }
 
 Ingredient.propTypes = {
-    ingredient: ingredientPropType.isRequired
+    ingredient: ingredientPropType.isRequired,
+    openIngredientDetails: PropTypes.func.isRequired
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './LoginPage.module.css'
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import { login } from "../../services/actions/user";
 export const LoginPage = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,7 +23,16 @@ export const LoginPage = () => {
 
     const signIn = () => {
         if(email && password) {
-            dispatch(login(email, password))
+            dispatch(
+                login(email, password)
+            )
+            .then(() => {
+                console.log("hi")
+                navigate('/')
+            })
+            .catch(err => {
+                console.log(`Error: ${err}`)
+            })
         }
     }
 

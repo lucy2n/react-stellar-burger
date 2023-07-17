@@ -21,7 +21,7 @@ export const refreshToken = () => {
     }).then(checkReponse);
 };
 
-const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async (url, options) => {
     try {
         const res = await fetch(url, options);
         return await checkReponse(res);

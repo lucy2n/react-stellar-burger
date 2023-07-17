@@ -9,10 +9,11 @@ import { useDrop } from "react-dnd";
 import { addIngredient, swapIngedients } from '../../services/actions/constructor';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { ConstructorIngredient } from '../ConstructorIngredient/ConstructorIngredient';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, CSSProperties } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/reducers/modal';
 import { getConstructorState } from '../../services/reducers/constructor';
+import { PacmanLoader } from 'react-spinners';
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -21,6 +22,9 @@ export const BurgerConstructor = () => {
     const { modalType } = useSelector(getModalState)
 
     const [price, setPrice] = useState(0);
+
+    const [loading, setLoading] = useState(false);
+    const [color, setColor] = useState("#4C4CFF");
 
     useEffect(() => {
         let totalPrice = 0;
@@ -31,7 +35,12 @@ export const BurgerConstructor = () => {
         setPrice(totalPrice);
     }, [ingredients, bun])
 
+    useEffect(() => {
+        setLoading(false) // скрываем анимацию при появлении модала
+    }, [modalType]) 
+
     async function createOrder() {
+        setLoading(true)
         // Создание массива id ингредиентов для оформления заказа
         const ingredientsId = ingredients.map(ingredient => ingredient._id)
         if ( bun ) {
@@ -56,8 +65,18 @@ export const BurgerConstructor = () => {
     });
 
     return (
-        <div ref={dropTarget}>
-            <ul className={`ml-4 mr-4 ${styles.main}`}>
+        <div className={styles.content} ref={dropTarget}>
+            <div className={styles.loader}>
+                <PacmanLoader
+                    className={styles}
+                    color={color}
+                    loading={loading}
+                    size={40}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                    />
+            </div>
+            <ul className={`ml-4 mr-4 ${styles.main} ${loading ? styles.main_blured: ''}`}>
                 { bun &&
                 <li className={styles.li}>
                     <ConstructorElement

@@ -32,9 +32,6 @@ export const login = (email, password) => {
       dispatch(setUser(res.user));
       dispatch(setAuthChecked(true));
     })
-    .catch(err => {
-      console.log(`Error: ${err}`)
-    })
   };
 };
 

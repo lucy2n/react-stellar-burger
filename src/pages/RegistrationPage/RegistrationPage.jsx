@@ -26,8 +26,6 @@ export const RegistrationPage = () => {
     const register = () => {
         if (email && name && password) {
             dispatch(registerUser(email, password, name))
-            
-            console.log(name, email, password)
         }
     }
 
