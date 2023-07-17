@@ -1,40 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PasswordInput, Input, EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getUser, uptadeUserData } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import styles from './ProfileDataPage.module.css'
 import { getUserState } from "../../services/reducers/user";
+import { useForm } from "../../hooks/useForm";
 
 export const ProfileDataPage = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector(getUserState)
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const onChangeName = (e) => {
-        setName(e.target.value)
-    }
-
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
+    const { values, handleChange, setValues } = useForm({
+        name: "",
+        email: "",
+        password: "",
+    });
 
     const setDefault = () => {
-        setEmail(user.email)
-        setName(user.name)
-        setPassword('')
+        setValues({
+            name: user.name,
+            email: user.email,
+            password: '',
+        })
     }
 
     const submitData = (e) => {
         e.preventDefault()
-        dispatch(uptadeUserData(password, name, email))
+        dispatch(uptadeUserData(values.password, values.name, values.email))
     }
 
     useEffect(() => {
@@ -46,32 +39,35 @@ export const ProfileDataPage = () => {
 
     return (
         <form className={styles.inputs} onSubmit={submitData}>
-                <Input 
-                type={'text'}
-                placeholder={'Имя'}
-                value={name}
-                onChange={onChangeName}
-                icon={'EditIcon'}
-                />
-                <EmailInput 
-                value={email}
-                extraClass="mt-6 mb-6" 
-                onChange={onChangeEmail}
-                icon={'EditIcon'}
-                />
-                <PasswordInput 
-                value={password}
-                extraClass="mb-6" 
-                onChange={onChangePassword}
-                icon={'EditIcon'}
-                />
-                <div 
-                className={password.length !== 0 || 
-                           user.name !== name || 
-                           user.email !== email ? styles.buttons_active: styles.buttons }>
-                    <Button onClick={setDefault} htmlType="button" type="secondary" size="medium">Отмена</Button>
-                    <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
-                </div>
+            <Input 
+            name="name"
+            type={'text'}
+            placeholder={'Имя'}
+            value={values.name}
+            onChange={handleChange}
+            icon={'EditIcon'}
+            />
+            <EmailInput 
+            name="email"
+            value={values.email}
+            extraClass="mt-6 mb-6" 
+            onChange={handleChange}
+            icon={'EditIcon'}
+            />
+            <PasswordInput 
+            name="password"
+            value={values.password}
+            extraClass="mb-6" 
+            onChange={handleChange}
+            icon={'EditIcon'}
+            />
+            <div 
+            className={values.password.length !== 0 || 
+                        user.name !== values.name || 
+                        user.email !== values.email ? styles.buttons_active: styles.buttons }>
+                <Button onClick={setDefault} htmlType="button" type="secondary" size="medium">Отмена</Button>
+                <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
+            </div>
             </form>
     )
 }

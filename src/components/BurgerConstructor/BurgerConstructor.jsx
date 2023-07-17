@@ -9,13 +9,14 @@ import { useDrop } from "react-dnd";
 import { addIngredient, swapIngedients } from '../../services/actions/constructor';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { ConstructorIngredient } from '../ConstructorIngredient/ConstructorIngredient';
-import { useCallback, useEffect, useState, CSSProperties } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/reducers/modal';
 import { getConstructorState } from '../../services/reducers/constructor';
 import { PacmanLoader } from 'react-spinners';
 import { getUserState } from '../../services/reducers/user';
 import { useNavigate } from 'react-router';
+import { RoutePathname } from '../../utils/constants';
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export const BurgerConstructor = () => {
 
     async function createOrder() {
         if (!user) {
-            navigate('/login');
+            navigate(RoutePathname.loginPage);
         } else {
             setLoading(true)
             // Создание массива id ингредиентов для оформления заказа

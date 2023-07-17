@@ -4,6 +4,7 @@ import styles from './ForgotPasswordPage.module.css'
 import { useNavigate } from "react-router";
 import { forgotPassword } from "../../utils/api";
 import { Link } from "react-router-dom";
+import { RoutePathname } from "../../utils/constants";
 
 export const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ export const ForgotPasswordPage = () => {
             forgotPassword(email)
             .then(res => {
                 localStorage.setItem('forgot-password', true)
-                navigate('/reset-password')
+                navigate(RoutePathname.resetPassPage)
             })
         }
     }

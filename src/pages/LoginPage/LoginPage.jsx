@@ -1,35 +1,28 @@
-import { useState } from "react";
+import { useForm } from '../../hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './LoginPage.module.css'
 import { useDispatch } from "react-redux";
 import { login } from "../../services/actions/user";
+import { RoutePathname } from "../../utils/constants";
 
 export const LoginPage = () => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const onChangeEmail = e => {
-        setEmail(e.target.value)
-    }
-
-    const onChangePassword = e => {
-        setPassword(e.target.value)
-    }
+    const { values, handleChange } = useForm({
+        email: "",
+        password: "",
+    });
 
     const signIn = (e) => {
         e.preventDefault()
-        if(email && password) {
+        if(values.email && values.password) {
             dispatch(
-                login(email, password)
+                login(values.email, values.password)
             )
             .then(() => {
-                console.log("hi")
-                navigate('/')
+                navigate(RoutePathname.homePage)
             })
             .catch(err => {
                 console.log(`Error: ${err}`)
@@ -40,18 +33,28 @@ export const LoginPage = () => {
     return (
         <form className={styles.main} onSubmit={signIn}>
             <h1 className="text text_type_main-medium">Вход</h1>
-            <EmailInput value={email} onChange={onChangeEmail} extraClass="mt-6 mb-6" />
-            <PasswordInput value={password} onChange={onChangePassword} extraClass="mb-6" />
+            <EmailInput 
+            name="email"
+            value={values.email} 
+            onChange={handleChange} 
+            extraClass="mt-6 mb-6" 
+            />
+            <PasswordInput 
+            name="password"
+            value={values.password} 
+            onChange={handleChange} 
+            extraClass="mb-6" 
+            />
             <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">Войти</Button>
             <div className={`mb-4 ${styles.subtitle}`}>
                 <p className="text text_type_main-small text_color_inactive">Вы — новый пользователь?</p>
-                <Link to='/register'>
+                <Link to={RoutePathname.registerPage}>
                     <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Зарегистрироваться</Button>
                 </Link>
             </div>
             <div className={styles.subtitle}>
                 <p className="text text_type_main-small text_color_inactive">Забыли пароль?</p>
-                <Link to='/forgot-password'>
+                <Link to={RoutePathname.forgotPassPage}>
                     <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Восстановить пароль</Button>
                 </Link>
             </div>

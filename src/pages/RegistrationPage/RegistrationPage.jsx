@@ -1,32 +1,24 @@
-import { useState } from "react";
 import { Button, EmailInput, PasswordInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './RegistrationPage.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../services/actions/user";
+import { RoutePathname } from "../../utils/constants";
+import { useForm } from "../../hooks/useForm";
 
 export const RegistrationPage = () => {
     const dispatch = useDispatch();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { values, handleChange } = useForm({
+        email: "",
+        name: "",
+        password: ""
+    });
 
-    const onChangeName = (e) => {
-        setName(e.target.value)
-    }
-
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
 
     const register = (e) => {
         e.preventDefault()
-        if (email && name && password) {
-            dispatch(registerUser(email, password, name))
+        if (values.email && values.name && values.password) {
+            dispatch(registerUser(values.email, values.password, values.name))
         }
     }
 
@@ -34,26 +26,29 @@ export const RegistrationPage = () => {
         <form className={styles.main} onSubmit={register}>
             <h1 className="text text_type_main-medium">Регистрация</h1>
             <Input 
+            name="name"
             type={'text'}
             placeholder={'Имя'}
             extraClass="mt-6" 
-            value={name}
-            onChange={onChangeName}
+            value={values.name}
+            onChange={handleChange}
             />
             <EmailInput 
-            value={email}
+            name="email"
+            value={values.email}
             extraClass="mt-6 mb-6" 
-            onChange={onChangeEmail}
+            onChange={handleChange}
             />
             <PasswordInput 
-            value={password}
+            name="password"
+            value={values.password}
             extraClass="mb-6" 
-            onChange={onChangePassword}
+            onChange={handleChange}
             />
             <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">Зарегестрироваться</Button>
             <div className={styles.subtitle}>
                 <p className="text text_type_main-small text_color_inactive">Уже зарегистрированы?</p>
-                <Link to='/login'>
+                <Link to={RoutePathname.loginPage}>
                     <Button extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Войти</Button>
                 </Link>
             </div>

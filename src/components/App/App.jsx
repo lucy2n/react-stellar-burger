@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { checkUserAuth } from '../../services/actions/user';
 import { ProfileOrdersPage } from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
 import { ProfileDataPage } from '../../pages/ProfileDataPage/ProfileDataPage';
+import { RoutePathname } from '../../utils/constants';
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -33,24 +34,24 @@ export const App = () => {
     <>
     <AppHeader />
       <Routes location={background || location}>
-        <Route exact path="/" element={<HomePage />} />
-        <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
+        <Route exact path={RoutePathname.homePage} element={<HomePage />} />
+        <Route path={RoutePathname.ingredientDetailsPage} element={<IngredientDetails />} />
 
-        <Route path="/login" element={<OnlyUnAuth component={<LoginPage />}/>} />
-        <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage />}/>} />
-        <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
-        <Route path="/reset-password" element={<OnlyUnAuth component={<ResettPasswordPage />} />}/>
+        <Route path={RoutePathname.loginPage} element={<OnlyUnAuth component={<LoginPage />}/>} />
+        <Route path={RoutePathname.registerPage} element={<OnlyUnAuth component={<RegistrationPage />}/>} />
+        <Route path={RoutePathname.forgotPassPage} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+        <Route path={RoutePathname.resetPassPage} element={<OnlyUnAuth component={<ResettPasswordPage />} />}/>
 
-        <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />}>
-          <Route path="/profile" element={<OnlyAuth component={<ProfileDataPage />} />}/>
-          <Route path="orders" element={<OnlyAuth component={<ProfileOrdersPage />} />}/>
+        <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfilePage />} />}>
+          <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfileDataPage />} />}/>
+          <Route path={RoutePathname.ordersPage} element={<OnlyAuth component={<ProfileOrdersPage />} />}/>
         </Route>
       </Routes>
 
       {background && (
         <Routes>
 	        <Route
-	          path='/ingredients/:ingredientId'
+	          path={RoutePathname.ingredientDetailsPage}
 	          element={
 	            <Modal onClose={handleModalClose}>
 	              <IngredientDetails />
