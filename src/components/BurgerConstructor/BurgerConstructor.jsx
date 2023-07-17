@@ -14,9 +14,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/reducers/modal';
 import { getConstructorState } from '../../services/reducers/constructor';
 import { PacmanLoader } from 'react-spinners';
+import { getUserState } from '../../services/reducers/user';
+import { useNavigate } from 'react-router';
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     const { ingredients, bun } = useSelector(getConstructorState)
     const { modalType } = useSelector(getModalState)
@@ -25,6 +28,8 @@ export const BurgerConstructor = () => {
 
     const [loading, setLoading] = useState(false);
     const [color, setColor] = useState("#4C4CFF");
+
+    const { user } = useSelector(getUserState)
 
     useEffect(() => {
         let totalPrice = 0;
@@ -40,16 +45,20 @@ export const BurgerConstructor = () => {
     }, [modalType]) 
 
     async function createOrder() {
-        setLoading(true)
-        // Создание массива id ингредиентов для оформления заказа
-        const ingredientsId = ingredients.map(ingredient => ingredient._id)
-        if ( bun ) {
-            ingredientsId.push(bun._id)
-        }
+        if (!user) {
+            navigate('/login');
+        } else {
+            setLoading(true)
+            // Создание массива id ингредиентов для оформления заказа
+            const ingredientsId = ingredients.map(ingredient => ingredient._id)
+            if ( bun ) {
+                ingredientsId.push(bun._id)
+            }
 
-        if (ingredientsId.length > 0) {
-            // Отправка запроса
-            dispatch(getOrder(ingredientsId))
+            if (ingredientsId.length > 0) {
+                // Отправка запроса
+                dispatch(getOrder(ingredientsId))
+            }
         }
     }
 
