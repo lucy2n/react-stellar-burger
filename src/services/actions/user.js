@@ -83,9 +83,10 @@ export const uptadeUserData = (password, name, email) => {
   return (dispatch) => {
     return api.patchUserData(password, name, email).then((res) => {
       dispatch(setUser({
-        email: res.email,
-        name: res.name
+        email: res.user.email,
+        name: res.user.name
       }))
+      return res
     })
     .catch(err => {
       console.log(`Error: ${err}`)

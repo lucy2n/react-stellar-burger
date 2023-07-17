@@ -9,10 +9,10 @@ export const AppHeader = () => {
         <header className={styles.header}>
             <nav className={`p-4 ${styles.content}`}>
                 <div className={styles.navigation}>
-                    <a className={`mr-2 pl-5 pr-5 ${styles.link}`}> 
+                    <Link to='/' className={`mr-2 pl-5 pr-5 ${styles.link}`}> 
                         <BurgerIcon type={location.pathname === '/' ? 'primary': 'secondary'}/>
                         <p className={`ml-2 text text_type_main-default ${location.pathname === '/' ? '': 'text_color_inactive'}`}> Конструктор </p>
-                    </a>
+                    </Link>
                     <a className={`pl-5 pr-5 ${styles.link}`}>
                         <ListIcon className='ml-5' type='secondary'/> 
                         <p className='ml-2 text text_type_main-default text_color_inactive'> Лента заказов </p>

@@ -38,11 +38,11 @@ export const LoginPage = () => {
     }
 
     return (
-        <form className={styles.main}>
+        <form className={styles.main} onSubmit={signIn}>
             <h1 className="text text_type_main-medium">Вход</h1>
             <EmailInput value={email} onChange={onChangeEmail} extraClass="mt-6 mb-6" />
             <PasswordInput value={password} onChange={onChangePassword} extraClass="mb-6" />
-            <Button onClick={signIn} htmlType="submit" type="primary" size="medium" extraClass="mb-20">Войти</Button>
+            <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">Войти</Button>
             <div className={`mb-4 ${styles.subtitle}`}>
                 <p className="text text_type_main-small text_color_inactive">Вы — новый пользователь?</p>
                 <Link to='/register'>

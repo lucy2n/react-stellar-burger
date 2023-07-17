@@ -31,7 +31,7 @@ export const RegistrationPage = () => {
     }
 
     return (
-        <form className={styles.main}>
+        <form className={styles.main} onSubmit={register}>
             <h1 className="text text_type_main-medium">Регистрация</h1>
             <Input 
             type={'text'}
@@ -50,7 +50,7 @@ export const RegistrationPage = () => {
             extraClass="mb-6" 
             onChange={onChangePassword}
             />
-            <Button onClick={register} htmlType="submit" type="primary" size="medium" extraClass="mb-20">Зарегестрироваться</Button>
+            <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">Зарегестрироваться</Button>
             <div className={styles.subtitle}>
                 <p className="text text_type_main-small text_color_inactive">Уже зарегистрированы?</p>
                 <Link to='/login'>

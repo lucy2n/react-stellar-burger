@@ -35,21 +35,17 @@ export const ProfileDataPage = () => {
     const submitData = (e) => {
         e.preventDefault()
         dispatch(uptadeUserData(password, name, email))
-        dispatch(getUser())
-        
-        setPassword('')
     }
 
     useEffect(() => {
         dispatch(getUser())
         if (user) {
-            setEmail(user.email)
-            setName(user.name)
+            setDefault();
         }
     }, [])
 
     return (
-        <form className={styles.inputs}>
+        <form className={styles.inputs} onSubmit={submitData}>
                 <Input 
                 type={'text'}
                 placeholder={'Имя'}
@@ -74,7 +70,7 @@ export const ProfileDataPage = () => {
                            user.name !== name || 
                            user.email !== email ? styles.buttons_active: styles.buttons }>
                     <Button onClick={setDefault} htmlType="button" type="secondary" size="medium">Отмена</Button>
-                    <Button onClick={submitData} htmlType="submit" type="primary" size="medium">Сохранить</Button>
+                    <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
                 </div>
             </form>
     )
