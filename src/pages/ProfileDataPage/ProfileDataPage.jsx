@@ -32,7 +32,8 @@ export const ProfileDataPage = () => {
         setPassword('')
     }
 
-    const submitData = () => {
+    const submitData = (e) => {
+        e.preventDefault()
         dispatch(uptadeUserData(password, name, email))
         dispatch(getUser())
         
@@ -73,7 +74,7 @@ export const ProfileDataPage = () => {
                            user.name !== name || 
                            user.email !== email ? styles.buttons_active: styles.buttons }>
                     <Button onClick={setDefault} htmlType="button" type="secondary" size="medium">Отмена</Button>
-                    <Button onClick={submitData} htmlType="button" type="primary" size="medium">Сохранить</Button>
+                    <Button onClick={submitData} htmlType="submit" type="primary" size="medium">Сохранить</Button>
                 </div>
             </form>
     )

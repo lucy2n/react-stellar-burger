@@ -21,7 +21,8 @@ export const LoginPage = () => {
         setPassword(e.target.value)
     }
 
-    const signIn = () => {
+    const signIn = (e) => {
+        e.preventDefault()
         if(email && password) {
             dispatch(
                 login(email, password)
@@ -41,7 +42,7 @@ export const LoginPage = () => {
             <h1 className="text text_type_main-medium">Вход</h1>
             <EmailInput value={email} onChange={onChangeEmail} extraClass="mt-6 mb-6" />
             <PasswordInput value={password} onChange={onChangePassword} extraClass="mb-6" />
-            <Button onClick={signIn} htmlType="button" type="primary" size="medium" extraClass="mb-20">Войти</Button>
+            <Button onClick={signIn} htmlType="submit" type="primary" size="medium" extraClass="mb-20">Войти</Button>
             <div className={`mb-4 ${styles.subtitle}`}>
                 <p className="text text_type_main-small text_color_inactive">Вы — новый пользователь?</p>
                 <Link to='/register'>

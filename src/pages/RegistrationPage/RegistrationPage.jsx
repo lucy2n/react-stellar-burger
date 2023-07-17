@@ -23,7 +23,8 @@ export const RegistrationPage = () => {
         setPassword(e.target.value)
     }
 
-    const register = () => {
+    const register = (e) => {
+        e.preventDefault()
         if (email && name && password) {
             dispatch(registerUser(email, password, name))
         }
@@ -49,7 +50,7 @@ export const RegistrationPage = () => {
             extraClass="mb-6" 
             onChange={onChangePassword}
             />
-            <Button onClick={register} htmlType="button" type="primary" size="medium" extraClass="mb-20">Зарегестрироваться</Button>
+            <Button onClick={register} htmlType="submit" type="primary" size="medium" extraClass="mb-20">Зарегестрироваться</Button>
             <div className={styles.subtitle}>
                 <p className="text text_type_main-small text_color_inactive">Уже зарегистрированы?</p>
                 <Link to='/login'>
