@@ -16,7 +16,7 @@ export const ForgotPasswordPage = () => {
         if (email) {
             forgotPassword(email)
             .then(res => {
-                console.log("Forgot Password ", res)
+                localStorage.setItem('forgot-password', true)
                 navigate('/reset-password')
             })
         }

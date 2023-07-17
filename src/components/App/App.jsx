@@ -34,7 +34,7 @@ export const App = () => {
     <AppHeader />
       <Routes location={background || location}>
         <Route exact path="/" element={<HomePage />} />
-        <Route path='/ingredients/:ingredientId' component={<IngredientDetails />} />
+        <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
 
         <Route path="/login" element={<OnlyUnAuth component={<LoginPage />}/>} />
         <Route path="/register" element={<OnlyUnAuth component={<RegistrationPage />}/>} />

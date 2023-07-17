@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, PasswordInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ResetPasswordPage.module.css'
 import { resetPassword } from "../../utils/api";
 import { useNavigate } from "react-router";
+import { Navigate } from "react-router";
 
 export const ResettPasswordPage = () => {
 
@@ -20,13 +21,14 @@ export const ResettPasswordPage = () => {
 
     const reset = () => {
         resetPassword(password, token)
-        .then(res => {
-            console.log("Reset", res)
+        .then(() => {
+            localStorage.removeItem('forgot-password')
             navigate('/login')
         })
     }
 
     return (
+        ( !localStorage.getItem('forgot-password') ?  <Navigate to='/' /> :
         <form className={styles.main}>
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
             <PasswordInput onChange={onChange} value={password} extraClass="mt-6 mb-6"  placeholder="Введите новый пароль"/>
@@ -37,5 +39,6 @@ export const ResettPasswordPage = () => {
                 <Button onClick={reset} extraClass="text text_type_main-small ml-2" htmlType="button" type="secondary" size="small">Войти</Button>
             </div>
         </form>
+        )
     )
 }
