@@ -1,7 +1,7 @@
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerConstructor from './BurgerConstructor.module.css'
-import OrderDetails from '../OrderDetails/OrderDetails';
-import Modal from '../Modal/Modal';
+import styles from './BurgerConstructor.module.css'
+import { OrderDetails } from '../OrderDetails/OrderDetails';
+import { Modal } from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrder } from '../../services/actions/order';
 import { ORDER_MODAL } from '../../services/actions/modal';
@@ -13,14 +13,24 @@ import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/reducers/modal';
 import { getConstructorState } from '../../services/reducers/constructor';
+import { PacmanLoader } from 'react-spinners';
+import { getUserState } from '../../services/reducers/user';
+import { useNavigate } from 'react-router';
+import { RoutePathname } from '../../utils/constants';
 
-function BurgerConstructor() {
+export const BurgerConstructor = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     const { ingredients, bun } = useSelector(getConstructorState)
     const { modalType } = useSelector(getModalState)
 
     const [price, setPrice] = useState(0);
+
+    const [loading, setLoading] = useState(false);
+    const [color, setColor] = useState("#4C4CFF");
+
+    const { user } = useSelector(getUserState)
 
     useEffect(() => {
         let totalPrice = 0;
@@ -31,16 +41,25 @@ function BurgerConstructor() {
         setPrice(totalPrice);
     }, [ingredients, bun])
 
-    async function createOrder() {
-        // Создание массива id ингредиентов для оформления заказа
-        const ingredientsId = ingredients.map(ingredient => ingredient._id)
-        if ( bun ) {
-            ingredientsId.push(bun._id)
-        }
+    useEffect(() => {
+        setLoading(false) // скрываем анимацию при появлении модала
+    }, [modalType]) 
 
-        if (ingredientsId.length > 0) {
-            // Отправка запроса
-            dispatch(getOrder(ingredientsId))
+    async function createOrder() {
+        if (!user) {
+            navigate(RoutePathname.loginPage);
+        } else {
+            setLoading(true)
+            // Создание массива id ингредиентов для оформления заказа
+            const ingredientsId = ingredients.map(ingredient => ingredient._id)
+            if ( bun ) {
+                ingredientsId.push(bun._id)
+            }
+
+            if (ingredientsId.length > 0) {
+                // Отправка запроса
+                dispatch(getOrder(ingredientsId))
+            }
         }
     }
 
@@ -56,12 +75,22 @@ function BurgerConstructor() {
     });
 
     return (
-        <div ref={dropTarget}>
-            <ul className={`ml-4 mr-4 ${burgerConstructor.main}`}>
+        <div className={styles.content} ref={dropTarget}>
+            <div className={styles.loader}>
+                <PacmanLoader
+                    className={styles}
+                    color={color}
+                    loading={loading}
+                    size={40}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                    />
+            </div>
+            <ul className={`ml-4 mr-4 ${styles.main} ${loading ? styles.main_blured: ''}`}>
                 { bun &&
-                <li className={burgerConstructor.li}>
+                <li className={styles.li}>
                     <ConstructorElement
-                    extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
+                    extraClass={`mb-4 mr-8 ml-8 ml-6 ${styles.element}`}
                     text={`${bun.name} (верх)`}
                     type='top'
                     isLocked={true}
@@ -70,7 +99,7 @@ function BurgerConstructor() {
                     />
                 </li>
                 }
-                <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
+                <div className={`custom-scroll ${styles.wrapper}`}>
                     {
                         ingredients.map((ingredient, index) => 
                         <ConstructorIngredient 
@@ -83,9 +112,9 @@ function BurgerConstructor() {
                     }
                 </div>
                 { bun &&
-                <li className={burgerConstructor.li} >
+                <li className={styles.li} >
                     <ConstructorElement
-                    extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
+                    extraClass={`mt-4 mr-8 ml-8 mb-10 ${styles.element}`}
                     text={`${bun.name} (низ)`}
                     type='bottom'
                     isLocked={true}
@@ -95,8 +124,8 @@ function BurgerConstructor() {
                 </li>
                 }
             </ul>
-            <div className={burgerConstructor.sum}>
-                <div className= {`mr-10 ${burgerConstructor.price}`}>
+            <div className={styles.sum}>
+                <div className= {`mr-10 ${styles.price}`}>
                     <p className='text text_type_digits-medium mr-4'>{price}</p>
                     <CurrencyIcon />
                 </div>
@@ -105,12 +134,12 @@ function BurgerConstructor() {
                 </Button>
             </div>
             { modalType === ORDER_MODAL &&
-                <Modal>
+                <Modal onClose={() => {
+                    // Временное решение, чтобы не ругался компилятор
+                }}>
                     <OrderDetails />
                 </Modal>
             }  
         </div>
     )
 }
-
-export default BurgerConstructor;

@@ -1,6 +1,7 @@
-import { api } from "../../utils/constants";
-import { checkReponse } from "../../utils/utils";
+import { apiUrl } from "../../utils/constants";
+import { checkReponse } from "../../utils/api";
 import { openOrderModal } from "./modal";
+import { fetchWithRefresh } from "../../utils/api"
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -27,11 +28,12 @@ export function getOrder(ingredientsId) {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                authorization: localStorage.getItem('accessToken')
             },
             body: JSON.stringify({ "ingredients": ingredientsId })
         };
-        fetch(`${api}/orders`, settings)
-        .then(res => checkReponse(res))
+        
+        fetchWithRefresh(`${apiUrl}/orders`, settings)
         .then(res => {
             if(res && res.success) {
                 dispatch(orderSuccess(res.order))

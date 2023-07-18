@@ -1,27 +1,65 @@
-import styles from "./App.module.css";
-import AppHeader from '../AppHeader/AppHeader';
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { HomePage } from '../../pages/HomePage/HomePage';
+import { LoginPage } from '../../pages/LoginPage/LoginPage';
+import { RegistrationPage } from '../../pages/RegistrationPage/RegistrationPage';
+import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage/ForgotPasswordPage';
+import { ResettPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage';
+import { ProfilePage } from '../../pages/ProfilePage/ProfilePage';
+import { IngredientDetails } from '../IngredientDetails/IngredientDetails';
+import { Modal } from '../Modal/Modal';
+import { AppHeader } from '../AppHeader/AppHeader';
+import { OnlyAuth, OnlyUnAuth } from '../ProtectedRoute/ProtectedRoute';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { checkUserAuth } from '../../services/actions/user';
+import { ProfileOrdersPage } from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
+import { ProfileDataPage } from '../../pages/ProfileDataPage/ProfileDataPage';
+import { RoutePathname } from '../../utils/constants';
 
-function App() {
+export const App = () => {
+  const dispatch = useDispatch()
+  const location = useLocation(); // текущий url
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, [])
+
+  const handleModalClose = () => {
+      navigate(-1);
+  };
+
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.main}>
-        <DndProvider backend={HTML5Backend}>
-          <section className="mr-10 mt-10 mb-10">
-            <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
-            <BurgerIngredients />
-          </section>
-          <section className="mt-25 mb-10">
-            <BurgerConstructor />
-          </section>
-        </DndProvider>
-      </main>
-    </div>
-  );
-}
+    <>
+    <AppHeader />
+      <Routes location={background || location}>
+        <Route exact path={RoutePathname.homePage} element={<HomePage />} />
+        <Route path={RoutePathname.ingredientDetailsPage} element={<IngredientDetails />} />
 
-export default App;
+        <Route path={RoutePathname.loginPage} element={<OnlyUnAuth component={<LoginPage />}/>} />
+        <Route path={RoutePathname.registerPage} element={<OnlyUnAuth component={<RegistrationPage />}/>} />
+        <Route path={RoutePathname.forgotPassPage} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+        <Route path={RoutePathname.resetPassPage} element={<OnlyUnAuth component={<ResettPasswordPage />} />}/>
+
+        <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfilePage />} />}>
+          <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfileDataPage />} />}/>
+          <Route path={RoutePathname.ordersPage} element={<OnlyAuth component={<ProfileOrdersPage />} />}/>
+        </Route>
+      </Routes>
+
+      {background && (
+        <Routes>
+	        <Route
+	          path={RoutePathname.ingredientDetailsPage}
+	          element={
+	            <Modal onClose={handleModalClose}>
+	              <IngredientDetails />
+	            </Modal>
+	          }
+	        />
+        </Routes>
+      )}
+    </>
+  )
+}

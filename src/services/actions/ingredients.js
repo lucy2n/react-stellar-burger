@@ -1,5 +1,5 @@
-import { api } from "../../utils/constants";
-import { checkReponse } from "../../utils/utils";
+import { apiUrl } from "../../utils/constants";
+import { checkReponse } from "../../utils/api";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -21,7 +21,7 @@ const ingredientsSuccess = (ingredients) => ({
 export function loadIngredients() {
     return function(dispatch) {
         dispatch(ingredientsRequest());
-        fetch(`${api}/ingredients`)
+        fetch(`${apiUrl}/ingredients`)
         .then(res => checkReponse(res))
         .then(res => {
             if (res && res.success ) {

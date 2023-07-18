@@ -1,0 +1,33 @@
+.main {
+    max-width: 1280px;
+    display: flex;
+    margin: 10vw auto;
+}
+
+.content {
+    max-width: 320px;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+}
+
+.text_color_dark {
+   opacity: 0.4;
+}
+
+.tab {
+    text-decoration: none;
+    cursor: pointer;
+    min-width: 200px;
+    text-align: start;
+    color: #8585AD;
+    box-sizing: border-box;
+  }
+
+.tab_active {
+  color: white;
+  text-decoration: none;
+}

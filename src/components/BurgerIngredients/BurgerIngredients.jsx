@@ -1,21 +1,17 @@
 import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import ingredientsStyles from './BurgerIngredients.module.css'
-import Ingredient from '../Ingredient/Ingredient';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import styles from './BurgerIngredients.module.css'
+import { Ingredient } from '../Ingredient/Ingredient';
 import { useDispatch, useSelector } from "react-redux";
 import { loadIngredients } from "../../services/actions/ingredients";
-import { INGREDIENT_MODAL, openIngredientModal } from '../../services/actions/modal';
+import { openIngredientModal } from '../../services/actions/modal';
 import { getIngredientsState } from '../../services/reducers/ingredients';
-import { getModalState } from '../../services/reducers/modal';
 
-function BurgerIngredients() {
+export const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
 
     const { ingredients }  = useSelector(getIngredientsState)
-    const { modalType } = useSelector(getModalState)
 
     const [ scrollPosition, setScrollPosition ] = React.useState(0);
 
@@ -60,7 +56,7 @@ function BurgerIngredients() {
 
     return(
         <>
-            <div className={`mb-10 ${ingredientsStyles.tabs}`}>
+            <div className={`mb-10 ${styles.tabs}`}>
                 <Tab value="one" active={activeTab === bunTab} onClick={setActiveTab}>
                     Булки
                 </Tab>
@@ -71,14 +67,14 @@ function BurgerIngredients() {
                     Начинки
                 </Tab>
             </div>
-            <div className={`custom-scroll ${ingredientsStyles.wrapper}`}>
+            <div className={`custom-scroll ${styles.wrapper}`}>
 
                 <div className={`mb-10 ${bunTab}`}>
                     <p className="text text_type_main-medium mb-6">Булки</p>
-                    <ul className={ingredientsStyles.ul}>
+                    <ul className={styles.ul}>
                     {
                         ingredients.filter(ingredient => ingredient.type === "bun").map((ingredient) => (
-                            <li className={ingredientsStyles.li} key={ingredient._id}>
+                            <li className={styles.li} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient}
                                 openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
@@ -90,10 +86,10 @@ function BurgerIngredients() {
                 </div>
                 <div className={`mb-10 ${sauceTab}`}>
                     <p className="text text_type_main-medium mb-6">Соусы</p>
-                    <ul className={ingredientsStyles.ul}>
+                    <ul className={styles.ul}>
                     {
                         ingredients.filter(ingredient => ingredient.type === "sauce").map((ingredient) => (
-                        <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
+                        <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
                             <Ingredient
                             ingredient={ingredient} 
                             openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
@@ -105,10 +101,10 @@ function BurgerIngredients() {
                 </div>
                 <div className={`mb-10 ${mainTab}`}>
                     <p className="text text_type_main-medium mb-6">Начинки</p>
-                    <ul className={ingredientsStyles.ul}>
+                    <ul className={styles.ul}>
                     {
                         ingredients.filter(ingredient => ingredient.type === "main").map((ingredient) => (
-                        <li className={`mr-1 mb-8 ${ingredientsStyles.li}`} key={ingredient._id}>
+                        <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
                             <Ingredient 
                             ingredient={ingredient} 
                             openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
@@ -119,13 +115,6 @@ function BurgerIngredients() {
                     </ul>
                 </div>
             </div>
-            { modalType === INGREDIENT_MODAL && 
-                <Modal> 
-                    <IngredientDetails />
-                </Modal> 
-            }
         </>
     )
 }
-
-export default BurgerIngredients;

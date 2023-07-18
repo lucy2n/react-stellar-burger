@@ -1,15 +1,15 @@
 import { useSelector } from 'react-redux';
-import orderStyles from './OrderDetails.module.css'
+import styles from './OrderDetails.module.css'
 import doneImage from '../../images/graphics.svg'
 import { getOrderState } from '../../services/reducers/order';
 
-function OrderDetails() {
+export const OrderDetails = () => {
 
     const { order } = useSelector(getOrderState)
 
     return (
-        <div className={`mt-30 mb-30 ${orderStyles.main}`}>
-            <p className={`text text_type_digits-large mb-8 ${orderStyles.orderNumber}`}>{ order.number }</p>
+        <div className={`mt-30 mb-30 ${styles.main}`}>
+            <p className={`text text_type_digits-large mb-8 ${styles.orderNumber}`}>{ order.number }</p>
             <p className="text text_type_main-medium">идентификатор заказа</p>
             <div className="mb-15 mt-15">
                 <img src={doneImage} alt="Готово" />
@@ -19,5 +19,3 @@ function OrderDetails() {
         </div>
     )
 }
-
-export default OrderDetails;
