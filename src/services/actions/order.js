@@ -1,5 +1,4 @@
 import { apiUrl } from "../../utils/constants";
-import { checkReponse } from "../../utils/api";
 import { openOrderModal } from "./modal";
 import { fetchWithRefresh } from "../../utils/api"
 

@@ -147,6 +147,17 @@ const patchUserData = (password, name, email) => {
     })
 }
 
+const getOrderHistory = () => {
+    return fetchWithRefresh(`${apiUrl}/orders`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            authorization: localStorage.getItem('accessToken')
+        },
+    })
+}
+
 export const api = {
     signInUser,
     signOutUser,
