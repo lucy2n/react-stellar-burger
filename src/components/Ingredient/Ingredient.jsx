@@ -1,22 +1,22 @@
 import React from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './Ingredient.module.css'
+import styles from './ingredient.module.css';
 import { ingredientPropType } from '../../utils/prop-types';
-import { useDrag } from "react-dnd";
+import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
-import { getConstructorState } from '../../services/reducers/constructor';
+import { getConstructorState } from '../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const Ingredient = ({ ingredient, openIngredientDetails }) => {
 
     const location = useLocation();
     const ingredientId = ingredient._id;
 
-    const { ingredients, bun } = useSelector(getConstructorState)
+    const { ingredients, bun } = useSelector(getConstructorState);
 
     const [, dragRef] = useDrag({
-        type: "ingredient",
+        type: 'ingredient',
         item: ingredient,
         collect: monitor => ({
             didDrop: monitor.didDrop(),
@@ -27,18 +27,18 @@ export const Ingredient = ({ ingredient, openIngredientDetails }) => {
     const [count, setCount] = React.useState(0);
 
     React.useEffect(() => {
-        let ingredientCount = 0
+        let ingredientCount = 0;
         
-        if (bun && ingredient.type === "bun" && ingredient._id === bun._id) {
+        if (bun && ingredient.type === 'bun' && ingredient._id === bun._id) {
             ingredientCount = 1;
         } else {
             ingredientCount = ingredients.filter(item => item._id === ingredient._id).length;
         }
-        setCount(ingredientCount)
-    }, [bun, ingredients])
+        setCount(ingredientCount);
+    }, [bun, ingredients]);
 
     function clickIngredient() {
-        openIngredientDetails(ingredient)
+        openIngredientDetails(ingredient);
     }
 
     return(
@@ -63,10 +63,10 @@ export const Ingredient = ({ ingredient, openIngredientDetails }) => {
                 <p className={`text text_type_main-default ${styles.center}`}>{ingredient.name}</p>
             </div>
         </Link>
-    )
-}
+    );
+};
 
 Ingredient.propTypes = {
     ingredient: ingredientPropType.isRequired,
     openIngredientDetails: PropTypes.func.isRequired
-}
+};
