@@ -4,7 +4,7 @@ import styles from './burger-ingredients.module.css';
 import { Ingredient } from '../ingredient/ingredient';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadIngredients } from '../../services/ingredients/action';
-import { openIngredientModal } from '../../services/modal/action';
+import { INGREDIENT_MODAL, openModal } from '../../services/modal/action';
 import { getIngredientsState } from '../../services/ingredients/reducer';
 
 export const BurgerIngredients = () => {
@@ -77,7 +77,7 @@ export const BurgerIngredients = () => {
                             <li className={styles.li} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient}
-                                openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
+                                openIngredientDetails={() => dispatch(openModal({modalProps: ingredient, type: INGREDIENT_MODAL }))}
                                 />
                             </li>
                         ))
@@ -92,7 +92,7 @@ export const BurgerIngredients = () => {
                             <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient} 
-                                openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
+                                openIngredientDetails={() => dispatch(openModal({modalProps: ingredient, type: INGREDIENT_MODAL }))}
                                 />
                             </li>
                         ))
@@ -107,7 +107,7 @@ export const BurgerIngredients = () => {
                             <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
                                 <Ingredient 
                                 ingredient={ingredient} 
-                                openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}
+                                openIngredientDetails={() => dispatch(openModal({modalProps: ingredient, type: INGREDIENT_MODAL }))}
                                 />
                             </li>
                         ))

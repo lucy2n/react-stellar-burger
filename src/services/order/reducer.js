@@ -1,39 +1,26 @@
-import { GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS } from './action';
+import { createReducer } from '@reduxjs/toolkit';
+import { orderRequest, orderSuccess, orderFailed } from './action';
 
 const orderInitialState = {
-    order: {
-        number: null
-    },
+    order: {},
     orderRequest: false,
     orderFailed: false,
 };
 
 export const getOrderState = (state) => state.order;
 
-export const orderReducer = (state = orderInitialState, action) => {
-    switch (action.type) {
-        case GET_ORDER_REQUEST: {
-            return {
-                ...state, 
-                orderRequest: true,
-            };
-        }
-        case GET_ORDER_SUCCESS: {
-            return {
-                ...state, 
-                orderFailed: false, 
-                order: action.order, 
-                orderRequest: false,
-            };
-        }
-        case GET_ORDER_FAILED: {
-            return {
-                ...state,
-                orderFailed: true,
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-};
+export const orderReducer = createReducer(orderInitialState, (builder) => {
+    builder
+    .addCase(orderRequest, (state) => {
+        state.orderRequest = true;
+    })
+    .addCase(orderSuccess, (state, action) => {
+        console.log(action);
+        state.orderFailed = false,
+        state.order = action.payload,
+        state.orderRequest = false;
+    })
+    .addCase(orderFailed, (state) => {
+        state.orderFailed = true;
+    });
+});

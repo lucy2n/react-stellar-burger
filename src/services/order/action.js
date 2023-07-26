@@ -1,23 +1,11 @@
 import { apiUrl } from '../../utils/constants';
-import { openOrderModal } from '../modal/action';
+import { ORDER_MODAL, openModal } from '../modal/action';
 import { fetchWithRefresh } from '../../utils/api';
+import { createAction } from '@reduxjs/toolkit';
 
-export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
-export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
-export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
-
-const orderFailed = () => ({
-    type: GET_ORDER_FAILED
-});
-
-const orderRequest = () => ({
-    type: GET_ORDER_REQUEST
-});
-
-const orderSuccess = (order) => ({
-    type: GET_ORDER_SUCCESS,
-    order: order
-});
+export const orderRequest = createAction('order/orderRequest');
+export const orderSuccess = createAction('order/orderSuccess');
+export const orderFailed = createAction('order/orderFailed');
 
 export function getOrder(ingredientsId) {
     return function(dispatch) {
@@ -36,7 +24,7 @@ export function getOrder(ingredientsId) {
         .then(res => {
             if(res && res.success) {
                 dispatch(orderSuccess(res.order));
-                dispatch(openOrderModal(res.order));
+                dispatch(openModal({modalProps: res.order, modalType: ORDER_MODAL}));
             } else {
                 dispatch(orderFailed());
             }
