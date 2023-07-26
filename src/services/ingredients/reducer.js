@@ -14,12 +14,11 @@ export const getIngredientsState = (state) => state.ingredients;
 
 export const ingredientsReducer = (state = ingrenientsInitialState, action) => {
     switch (action.type) {
-        case GET_INGREDIENTS_REQUEST: {
+        case GET_INGREDIENTS_REQUEST: 
             return {
                 ...state, 
                 ingredientsRequest: true,
             };
-        }
         case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state, 
@@ -28,14 +27,12 @@ export const ingredientsReducer = (state = ingrenientsInitialState, action) => {
                 ingredientsRequest: false,
             };
         }
-        case GET_INGREDIENTS_FAILED: {
+        case GET_INGREDIENTS_FAILED:
             return {
                 ...state,
                 ingredientsFailed: true,
             };
-        }
-        default: {
+        default: 
             return state;
-        }
     }
 };

@@ -3,8 +3,8 @@ import { ingredientsReducer } from './ingredients/reducer';
 import { orderReducer } from './order/reducer';
 import { modalReducer } from './modal/reducer';
 import { userReducer } from './user/reducer';
-import thunk from 'redux-thunk';
 import { configureStore, } from '@reduxjs/toolkit';
+import { socketMiddleware } from './middleware/socket-middleware';
 
 const reducer = {
     burgerConstructor: constructorReducer,
@@ -14,7 +14,8 @@ const reducer = {
     user: userReducer
 };
 
+
 export const store = configureStore({
     reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 });

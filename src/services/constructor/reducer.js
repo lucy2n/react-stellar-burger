@@ -1,7 +1,8 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { 
-    ADD_INGREDIENT, 
-    DELETE_INGREDIENT, 
-    SWAP_INGREDIENT
+    addIngredient, 
+    deleteIngredient, 
+    swapIngedients
 } from './action';
 
 const constructorInitialState = {
@@ -11,40 +12,26 @@ const constructorInitialState = {
 
 export const getConstructorState = (state) => state.burgerConstructor;
 
-export const constructorReducer = (state = constructorInitialState, action) => {
-    switch (action.type) {
-        case ADD_INGREDIENT:    
-            if (action.ingredient.type === 'bun') {
-                return {
-                    ...state,
-                    bun: action.ingredient
-                };
-            } else {
-                return {
-                    ...state,
-                    ingredients: [...state.ingredients, action.ingredient],
-                };
-            }
-        case DELETE_INGREDIENT: {
-            const arr = state.ingredients;
-            const index = arr.indexOf(action.ingredient);
+export const constructorReducer = createReducer(constructorInitialState, (builder) => {
+    builder
+    .addCase(addIngredient, (state, action) => {
+        if (action.payload.ingredient.type === 'bun') {
+            state.bun = action.payload.ingredient;
+        } else {
+            state.ingredients = [...state.ingredients, action.payload.ingredient];
+        }
+    })
+    .addCase(deleteIngredient, (state, action) => {
+        const arr = state.payload.ingredients;
+            const index = arr.indexOf(action.payload.ingredient);
             if (index > -1) {
               arr.splice(index, 1);
-            }
-            return {
-                ...state,
-                ingredients: [...arr],
-            };
-        }
-        case SWAP_INGREDIENT: {
-            const ingredients = [...state.ingredients];
-            ingredients.splice(action.toIndex, 0, ingredients.splice(action.fromIndex, 1)[0]);
-            return {
-                ...state,
-                ingredients: [...ingredients],
-            };
-        }
-        default:
-            return state;
-    }
-  };
+            } 
+            state.ingredients = [...arr];
+    })
+    .addCase(swapIngedients, (state, action) => {
+        const ingredients = [...state.ingredients];
+        ingredients.splice(action.payload.toIndex, 0, ingredients.splice(action.payload.fromIndex, 1)[0]);
+        state.ingredients = [...ingredients];
+    });
+});

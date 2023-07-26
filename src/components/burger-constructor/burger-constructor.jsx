@@ -64,13 +64,13 @@ export const BurgerConstructor = () => {
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
-        dispatch(swapIngedients(dragIndex, hoverIndex));
+        dispatch(swapIngedients({ fromIndex: dragIndex, toIndex: hoverIndex}));
       }, []);
 
     const [, dropTarget] = useDrop({
         accept: ItemTypes.INGREDIENT,
         drop(ingredient) {
-            dispatch(addIngredient(ingredient));
+            dispatch(addIngredient({ ingredient }));
         },
     });
 
