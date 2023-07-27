@@ -1,6 +1,6 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { 
-    SET_AUTH_CHECKED,
-    SET_USER 
+  setAuthChecked, setUser
 } from './action';
 
 const initialState = {
@@ -10,19 +10,12 @@ const initialState = {
 
 export const getUserState = (state) => state.user;
 
-export const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_AUTH_CHECKED:
-      return {
-        ...state,
-        isAuthChecked: action.payload
-      };
-    case SET_USER:
-      return {
-        ...state,
-        user: action.payload
-      };
-    default:
-      return state;    
-  }
-};
+export const userReducer = createReducer(initialState, (builder) => {
+  builder
+  .addCase(setAuthChecked, (state, action) => {
+    state.isAuthChecked = action.payload;
+  })
+  .addCase(setUser, (state, action) => {
+    state.user = action.payload;
+  });
+});
