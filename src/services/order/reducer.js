@@ -15,7 +15,6 @@ export const orderReducer = createReducer(orderInitialState, (builder) => {
         state.orderRequest = true;
     })
     .addCase(orderSuccess, (state, action) => {
-        console.log(action);
         state.orderFailed = false,
         state.order = action.payload,
         state.orderRequest = false;

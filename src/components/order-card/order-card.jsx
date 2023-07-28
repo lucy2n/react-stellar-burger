@@ -4,7 +4,7 @@ import styles from './order-card.module.css';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const OrderCard = ({ order }) => {
+export const OrderCard = ({ order, allIngredients }) => {
     const today = new Date();
     const yesterday = new Date(
         today.getFullYear(),
@@ -18,15 +18,13 @@ export const OrderCard = ({ order }) => {
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
-        getIngredients()
-            .then(res => {
-                const allIngredients = res.data;
-                const orderIngredients = order.ingredients.map((id) => {
-                    return allIngredients.find(ingredient => ingredient._id === id);
-                });
-                setIngredients(orderIngredients);
+        if (allIngredients.length !== 0) {
+            const orderIngredients = order.ingredients.map((id) => {
+                return allIngredients.find(ingredient => ingredient._id === id);
             });
-    }, []);
+            setIngredients(orderIngredients);
+        }
+    }, [allIngredients]);
 
     return (
         <div className={`mb-4 mr-2 ${styles.main}`}>
@@ -63,4 +61,5 @@ export const OrderCard = ({ order }) => {
 
 OrderCard.propTypes = {
     order: PropTypes.object.isRequired,
+    allIngredients: PropTypes.array.isRequired
 };
