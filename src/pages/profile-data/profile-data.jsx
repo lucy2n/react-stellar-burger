@@ -38,7 +38,7 @@ export const ProfileData = () => {
     }, []);
 
     return (
-        <form className={styles.inputs} onSubmit={submitData}>
+        <form className={`mt-30 ${styles.inputs}`} onSubmit={submitData}>
             <Input 
             name='name'
             type={'text'}

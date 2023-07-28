@@ -3,8 +3,12 @@ import { getIngredients } from '../../utils/api';
 import styles from './order-card.module.css';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router';
+import { RoutePathname } from '../../utils/constants';
 
 export const OrderCard = ({ order, allIngredients }) => {
+    const location = useLocation();
+
     const today = new Date();
     const yesterday = new Date(
         today.getFullYear(),
@@ -27,14 +31,16 @@ export const OrderCard = ({ order, allIngredients }) => {
     }, [allIngredients]);
 
     return (
-        <div className={`mb-4 mr-2 ${styles.main}`}>
-            <div className={`mt-6 mb-6 ${styles.content}`}>
+        <div className={`mb-4 mr-2 ${location.pathname === RoutePathname.feedPage ? styles.main_place_feed : styles.main}`}>
+            <div className={`mt-6 mb-6 ${location.pathname === RoutePathname.feedPage ? styles.content_place_feed : styles.content}`}>
                 <div className={`mb-6 ${styles.info}`}>
                     <p className='text text_type_digits-default'>{`#${order.number}`}</p>
                     <FormattedDate className='text text_type_main-default text_color_inactive' date={yesterday} />
                 </div>
-                <p className='text text_type_main-medium mb-2'>Death Star Starship Main бургер</p>
-                <p className='text text_type_main-small mb-6'>{order.status}</p>
+                <p className={`text text_type_main-medium mb-2 ${location.pathname === RoutePathname.feedPage ? 'mb-6' : ''}`}>Death Star Starship Main бургер</p>
+                { location.pathname !== RoutePathname.feedPage &&
+                    <p className='text text_type_main-small mb-6'>{order.status}</p>
+                }
                 <div className={` ${styles.info}`}>
                     <div className={styles.images}>
                         {

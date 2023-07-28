@@ -11,7 +11,7 @@ export const Profile = () => {
 
     return (
         <div className={styles.main}>
-            <div className={`mr-15 ${styles.content}`}>
+            <div className={`mr-15 mt-30 ${styles.content}`}>
                 <nav className={`mb-20 ${styles.navigation}`}>
                     <Link 
                     to='/profile'

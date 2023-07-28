@@ -15,6 +15,7 @@ import { checkUserAuth } from '../../services/user/action';
 import { ProfileOrders } from '../../pages/profile-orders/profile-orders';
 import { ProfileData } from '../../pages/profile-data/profile-data';
 import { RoutePathname } from '../../utils/constants';
+import { FeedPage } from '../../pages/feed/feed';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ export const App = () => {
               <Route path={RoutePathname.registerPage} element={<OnlyUnAuth component={<Registration />}/>} />
               <Route path={RoutePathname.forgotPassPage} element={<OnlyUnAuth component={<ForgotPassword />} />} />
               <Route path={RoutePathname.resetPassPage} element={<OnlyUnAuth component={<ResettPassword />} />}/>
+              <Route path={RoutePathname.feedPage} element={<FeedPage />}/>
 
               <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<Profile />} />}>
                   <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfileData />} />}/>

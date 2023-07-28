@@ -14,7 +14,7 @@ export const ProfileOrders = () => {
     }, []);
 
     return (
-        <div className={`custom-scroll ${styles.wrapper}`}>
+        <div className={`custom-scroll mt-15 ${styles.wrapper}`}>
             {  testOrders.orders.map((order) => <OrderCard order={order} key={order._id} allIngredients={ingredients}/> ) }
         </div>
     );

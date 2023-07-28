@@ -6,8 +6,8 @@
     color: #f2f2f3;
   }
   
-  .main {
-    margin: auto;
-    display: flex;
-    max-width: 1280px;
-  }
+.main {
+  margin: auto;
+  display: flex;
+  max-width: 1280px;
+}

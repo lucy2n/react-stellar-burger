@@ -15,10 +15,10 @@ export const AppHeader = () => {
                         <BurgerIcon type={location.pathname === RoutePathname.homePage ? 'primary': 'secondary'}/>
                         <p className={`ml-2 text text_type_main-default ${location.pathname === RoutePathname.homePage ? '': 'text_color_inactive'}`}> Конструктор </p>
                     </Link>
-                    <a className={`pl-5 pr-5 ${styles.link}`}>
-                        <ListIcon className='ml-5' type='secondary'/> 
-                        <p className='ml-2 text text_type_main-default text_color_inactive'> Лента заказов </p>
-                    </a>
+                    <Link to={RoutePathname.feedPage} className={`pl-5 pr-5 ${styles.link}`}>
+                        <ListIcon className='ml-5'  type={location.pathname === RoutePathname.feedPage ? 'primary': 'secondary'} /> 
+                        <p className={`ml-2 text text_type_main-default ${location.pathname === RoutePathname.feedPage ? '': 'text_color_inactive'}`}> Лента заказов </p>
+                    </Link>
                 </div>
                 <Link to={RoutePathname.homePage} className={styles.logolink}>
                     <Logo />

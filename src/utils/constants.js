@@ -8,6 +8,7 @@ const resetPassPage = '/reset-password';
 const profilePage = '/profile';
 const ordersPage = 'orders';
 const ingredientDetailsPage = '/ingredients/:ingredientId';
+const feedPage = '/feed';
 
 export const RoutePathname = {
     homePage,
@@ -17,7 +18,8 @@ export const RoutePathname = {
     resetPassPage,
     profilePage,
     ordersPage,
-    ingredientDetailsPage
+    ingredientDetailsPage,
+    feedPage
 };
 
 export const testOrders = {
