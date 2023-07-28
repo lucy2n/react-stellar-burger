@@ -1,4 +1,5 @@
 export const apiUrl = 'https://norma.nomoreparties.space/api';
+export const wsApiUrl = 'wss://norma.nomoreparties.space/orders';
 
 const homePage = '/';
 const loginPage = '/login';

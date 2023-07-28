@@ -46,6 +46,9 @@ export const BurgerConstructor = () => {
     }, [modalType]);
 
     async function createOrder() {
+        if ( price == 0 ) {
+            return;
+        }
         if (!user) {
             navigate(RoutePathname.loginPage);
         } else {
@@ -129,7 +132,7 @@ export const BurgerConstructor = () => {
                     <p className='text text_type_digits-medium mr-4'>{price}</p>
                     <CurrencyIcon />
                 </div>
-                <Button extraClass='mr-4' htmlType='button' type='primary' size='medium' onClick={createOrder}>
+                <Button extraClass='mr-4' htmlType='button' type='primary' size='medium' onClick={createOrder} >
                     Оформить заказ
                 </Button>
             </div>
