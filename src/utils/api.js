@@ -1,8 +1,14 @@
 import { apiUrl } from './constants';
 
-export const checkReponse = (res) => {
+export const checkResponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
+
+
+export const request = (url, options) => {
+    return fetch(url, options).then(checkResponse);
+};
+
 
 export const refreshToken = () => {
     return fetch(`${apiUrl}/auth/token`, {
@@ -13,13 +19,13 @@ export const refreshToken = () => {
         body: JSON.stringify({
             token: localStorage.getItem('refreshToken'),
         }),
-    }).then(checkReponse);
+    }).then(checkResponse);
 };
 
 export const fetchWithRefresh = async (url, options) => {
     try {
         const res = await fetch(url, options);
-        return await checkReponse(res);
+        return await checkResponse(res);
     } catch (err) {
         if (err.message === 'jwt expired') {
             const refreshData = await refreshToken(); 
@@ -30,7 +36,7 @@ export const fetchWithRefresh = async (url, options) => {
             localStorage.setItem('accessToken', refreshData.accessToken);
             options.headers.authorization = refreshData.accessToken;
             const res = await fetch(url, options);
-            return await checkReponse(res);
+            return await checkResponse(res);
         } else {
             return Promise.reject(err);
         }
@@ -49,8 +55,8 @@ export const resetPassword = (password, token) => {
             'token': token
         })
     };
-    return fetch(`${apiUrl}/password-reset/reset`, settings)
-    .then(checkReponse);
+    return request(`${apiUrl}/password-reset/reset`, settings);
+    
 };
 
 export const forgotPassword = (email) => {
@@ -62,13 +68,12 @@ export const forgotPassword = (email) => {
         },
         body: JSON.stringify({ 'email': email })
     };
-    return fetch(`${apiUrl}/password-reset`, settings)
-    .then(checkReponse);
+    return request(`${apiUrl}/password-reset`, settings);
 };
 
 //Функции для userReducer
 const signInUser = (email, password) => {
-    return fetch(`${apiUrl}/auth/login`, {
+    return request(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -78,18 +83,18 @@ const signInUser = (email, password) => {
                 'password': password,
                 'email': email
             })
-    }).then(checkReponse);
+    });
 };
 
 const signOutUser = () => {
-    return fetch(`${apiUrl}/auth/logout`, {
+    return request(`${apiUrl}/auth/logout`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ token: localStorage.getItem('refreshToken') })
-    }).then(checkReponse);
+    });
 };
 
 const postRegistration = (name, email, password) => {
@@ -105,8 +110,7 @@ const postRegistration = (name, email, password) => {
                 'email': email
             })
     };
-    return fetch(`${apiUrl}/auth/register`, settings)
-    .then(checkReponse);
+    return request(`${apiUrl}/auth/register`, settings);
 };
 
 const getUserData = () => {
@@ -137,8 +141,7 @@ const patchUserData = (password, name, email) => {
 };
 
 const getOrder = (orderNumber) => {
-    return fetch(`${apiUrl}/orders/${orderNumber}`)
-    .then(checkReponse);
+    return request(`${apiUrl}/orders/${orderNumber}`);
 };
 
 export const api = {
