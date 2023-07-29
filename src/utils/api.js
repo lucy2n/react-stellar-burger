@@ -4,11 +4,6 @@ export const checkReponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const getIngredients = () => {
-    return fetch(`${apiUrl}/ingredients`)
-    .then(checkReponse);
-};
-
 export const refreshToken = () => {
     return fetch(`${apiUrl}/auth/token`, {
         method: 'POST',
@@ -55,10 +50,7 @@ export const resetPassword = (password, token) => {
         })
     };
     return fetch(`${apiUrl}/password-reset/reset`, settings)
-    .then(checkReponse)
-    .catch(err => {
-        console.log(`Error: ${err}`);
-    });
+    .then(checkReponse);
 };
 
 export const forgotPassword = (email) => {
@@ -71,10 +63,7 @@ export const forgotPassword = (email) => {
         body: JSON.stringify({ 'email': email })
     };
     return fetch(`${apiUrl}/password-reset`, settings)
-    .then(checkReponse)
-    .catch(err => {
-        console.log(`Error: ${err}`);
-    });
+    .then(checkReponse);
 };
 
 //Функции для userReducer
@@ -144,17 +133,6 @@ const patchUserData = (password, name, email) => {
             'name': name,
             'email': email
         })
-    });
-};
-
-const getOrderHistory = () => {
-    return fetchWithRefresh(`${apiUrl}/orders`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            authorization: localStorage.getItem('accessToken')
-        },
     });
 };
 

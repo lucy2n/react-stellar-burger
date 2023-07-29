@@ -21,6 +21,9 @@ export const ResettPassword = () => {
         .then(() => {
             localStorage.removeItem('forgot-password');
             navigate(RoutePathname.loginPage);
+        })
+        .catch(err => {
+            console.log(`Error: ${err}`);
         });
     };
 

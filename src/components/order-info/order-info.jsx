@@ -3,13 +3,17 @@ import React, {useState, useEffect} from 'react';
 import styles from './order-info.module.css';
 import { getStatus } from '../../utils/utils';
 import { useLocation } from 'react-router';
-import { api, getIngredients } from '../../utils/api';
-import { v4 as uuidv4 } from 'uuid';
+import { api } from '../../utils/api';
+import { getIngredientsState } from '../../services/ingredients/reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadIngredients } from '../../services/ingredients/action';
 
 export const OrderInfo = () => {
+    const { ingredients } = useSelector(getIngredientsState);
+    const dispatch = useDispatch();
     const location = useLocation();
     const [order, setOrder] = useState({});
-    const [ingredients, setIngredients] = useState([]);
+    const [orderIngredients, setOrderIngredients] = useState([]);
     const [price, setPrice] = useState(0);
     const [ingredientCount, setIngredientCount] = useState({});
 
@@ -22,27 +26,28 @@ export const OrderInfo = () => {
 
     // подгрузка всех ингредиентов 
     useEffect(() => {
-        if (Object.keys(order).length !== 0) {
-            getIngredients()
-            .then(res => {
-                const orderIngredients = order.ingredients.map(ingredientId => {
-                    return res.data.find(ingredient => ingredient._id === ingredientId); 
-                });
-                let count = {};
-                orderIngredients.forEach(ingredient => count[ingredient._id] = (count[ingredient._id] || 0) + 1);
-                setIngredientCount(count);
-                setIngredients(orderIngredients);
+        if (Object.keys(order).length !== 0 && ingredients.length !== 0) {
+            const currentIngredients = order.ingredients.map(ingredientId => {
+                return ingredients.find(ingredient => ingredient._id === ingredientId); 
             });
+            let count = {};
+            currentIngredients.forEach(ingredient => count[ingredient._id] = (count[ingredient._id] || 0) + 1);
+            setIngredientCount(count);
+            setOrderIngredients(currentIngredients);
+        } else {
+            if (ingredients.length === 0) {
+                dispatch(loadIngredients());
+            }
         }
-    },[order]);
+    },[order, ingredients]);
 
     useEffect(() => {
-        if (ingredients.count !== 0) {
+        if (orderIngredients.count !== 0) {
             let totalPrice = 0;
-            ingredients.map(ingredient => (totalPrice += ingredient.price));
+            orderIngredients.map(ingredient => (totalPrice += ingredient.price));
             setPrice(totalPrice);
         }
-    }, [ingredients]);
+    }, [orderIngredients]);
 
     return (
         <div className={styles.main}>
@@ -52,8 +57,8 @@ export const OrderInfo = () => {
             <p className="text text_type_main-medium mb-6">Состав:</p>
             <div className={`custom-scroll ${styles.wrapper}`}>
                 <ul className={styles.list}>
-                    { [...new Set(ingredients)].map(ingredient => (
-                        <li className={`mb-4 ${styles.details}`} key={uuidv4()}>
+                    { [...new Set(orderIngredients)].map((ingredient, index) => (
+                        <li className={`mb-4 ${styles.details}`} key={ `${ingredient._id}${index}` }>
                             <div className={styles.flex}>
                                 <img className={`mr-4 ${styles.image}`} src={ingredient.image_mobile}/>
                                 <p className="text text_type_main-default">{ingredient.name}</p>

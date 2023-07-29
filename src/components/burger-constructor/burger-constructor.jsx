@@ -10,7 +10,6 @@ import { addIngredient, swapIngedients } from '../../services/constructor/action
 import { ItemTypes } from '../../utils/ItemTypes';
 import { ConstructorIngredient } from '../constructor-ingredient/constructor-ingredient';
 import React, { useCallback, useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { getModalState } from '../../services/modal/reducer';
 import { getConstructorState } from '../../services/constructor/reducer';
 import { PacmanLoader } from 'react-spinners';
@@ -106,7 +105,7 @@ export const BurgerConstructor = () => {
                     {
                     ingredients.map((ingredient, index) => 
                         <ConstructorIngredient 
-                        key={uuidv4()}
+                        key={ `${ingredient._id}${index}` }
                         ingredient={ingredient}
                         index={index}
                         moveCard={moveCard}

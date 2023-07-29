@@ -11,7 +11,7 @@ export const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
 
-    const { ingredients }  = useSelector(getIngredientsState);
+    const { ingredients } = useSelector(getIngredientsState);
 
     const [ scrollPosition, setScrollPosition ] = React.useState(0);
 
@@ -76,7 +76,7 @@ export const BurgerIngredients = () => {
                             <li className={styles.li} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient}
-                                openIngredientDetails={() => dispatch(openModal({modalProps: ingredient, type: INGREDIENT_MODAL }))}
+                                openIngredientDetails={() => dispatch(openModal({type: INGREDIENT_MODAL }))}
                                 />
                             </li>
                         ))
@@ -91,7 +91,7 @@ export const BurgerIngredients = () => {
                             <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
                                 <Ingredient
                                 ingredient={ingredient} 
-                                openIngredientDetails={() => dispatch(openModal({modalProps: ingredient, type: INGREDIENT_MODAL }))}
+                                openIngredientDetails={() => dispatch(openModal({type: INGREDIENT_MODAL }))}
                                 />
                             </li>
                         ))
@@ -106,7 +106,7 @@ export const BurgerIngredients = () => {
                             <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
                                 <Ingredient 
                                 ingredient={ingredient} 
-                                openIngredientDetails={() => dispatch(openModal({modalProps: ingredient, type: INGREDIENT_MODAL }))}
+                                openIngredientDetails={() => dispatch(openModal({type: INGREDIENT_MODAL }))}
                                 />
                             </li>
                         ))

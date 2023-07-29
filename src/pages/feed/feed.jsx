@@ -1,20 +1,22 @@
 import { OrderCard } from '../../components/order-card/order-card';
-import { getIngredients } from '../../utils/api';
 import styles from './feed.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from '../../services/feed/action';
 import { useDispatch, useSelector } from 'react-redux';
 import { wsApiUrl } from '../../utils/constants';
 import { Link } from 'react-router-dom';
+import { getIngredientsState } from '../../services/ingredients/reducer';
+import { loadIngredients } from '../../services/ingredients/action';
 
 export const FeedPage = () => {
-    const [ingredients, setIngredients] = useState([]);
+    const { ingredients } = useSelector(getIngredientsState);
     const dispatch = useDispatch();
     const feed = useSelector(store => store.feed);
 
     useEffect(() => {
-        getIngredients()
-        .then(res => setIngredients(res.data));
+        if(ingredients.length === 0) {
+            dispatch(loadIngredients());
+        }
         dispatch(connect(`${wsApiUrl}/all`));
     }, []);
 

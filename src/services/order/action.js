@@ -24,7 +24,7 @@ export function getOrder(ingredientsId) {
         .then(res => {
             if(res && res.success) {
                 dispatch(orderSuccess(res.order));
-                dispatch(openModal({modalProps: res.order, modalType: ORDER_MODAL}));
+                dispatch(openModal({modalType: ORDER_MODAL}));
             } else {
                 dispatch(orderFailed());
             }

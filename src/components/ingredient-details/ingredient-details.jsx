@@ -1,13 +1,14 @@
 import { useLocation } from 'react-router';
 import styles from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { getIngredients } from '../../utils/api';
-import { getModalState } from '../../services/modal/reducer';
+import { getIngredientsState } from '../../services/ingredients/reducer';
+import { loadIngredients } from '../../services/ingredients/action';
 
 export const IngredientDetails = () => {
 
-   const { modalProps } = useSelector(getModalState);
+    const dispatch = useDispatch();
+    const { ingredients } = useSelector(getIngredientsState);
 
     const location = useLocation();
     let background = location.state && location.state.background;
@@ -16,17 +17,15 @@ export const IngredientDetails = () => {
 
     useEffect(() => {
         background = location.state && location.state.background;
-        if (Object.keys(modalProps).length !== 0) { // Если в modalState есть ингредиент, берем оттуда
-            setIngredient(modalProps);
-        } else { // если там нет, получаем с сервера
+
+        if (ingredients.length !== 0) {
             const ingredientId = location.pathname.split('/')[2]; // получаем id ингредиента из url
-            getIngredients()
-            .then(res => {
-                const currentIngredient = res.data.find(ingredient => ingredient._id === ingredientId); // находим по id
-                setIngredient(currentIngredient);
-            });
+            const currentIngredient = ingredients.find(ingredient => ingredient._id === ingredientId); // находим по id
+            setIngredient(currentIngredient);
+        } else {
+            dispatch(loadIngredients());
         }
-    }, [location]);
+    }, [location, ingredients]);
 
     return (
         //применяем стили в зависимости от локации

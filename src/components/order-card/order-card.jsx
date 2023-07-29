@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 import { RoutePathname } from '../../utils/constants';
-import { v4 as uuidv4 } from 'uuid';
 import { getStatus } from '../../utils/utils';
 
 export const OrderCard = ({ order, allIngredients }) => {
@@ -43,12 +42,12 @@ export const OrderCard = ({ order, allIngredients }) => {
                     <div className={styles.images}>
                         {
                         [...new Set(ingredients)].slice(0, 6).map((ingredient, index) =>
-                            <div style={{position: 'relative'}} key={ uuidv4() } >
+                            <div style={{position: 'relative'}} key={ `${ingredient._id}${index}` } >
                                 { index === 5 &&
                                     <p className={`text text_type_main-default ${styles.count}`}> +{ingredients.length - 6} </p>
                                 }
                                 <img 
-                                key={ uuidv4() }
+                                key={ `${ingredient._id}${index}` }
                                 className={`${styles.image} ${index === 5 && ingredients.length > 5 ? styles.darkened : '' }`}
                                 src={ingredient.image_mobile} 
                                 style={{
