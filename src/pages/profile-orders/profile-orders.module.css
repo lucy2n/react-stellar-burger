@@ -3,3 +3,8 @@
     overflow-y: scroll;
     max-width: 865px;
 }
+
+.link {
+    text-decoration: none;
+    color: white;
+}

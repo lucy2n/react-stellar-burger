@@ -2,12 +2,18 @@
     width: 640px;
     display: flex;
     flex-direction: column;
-    margin: auto;
+    margin: 7vw auto;
 }
 
 .details {
     display: flex;
     justify-content: space-between;
+}
+
+.wrapper{
+    max-height: 320px;
+    overflow-y: scroll;
+    max-width: 640px;
 }
 
 .center {
@@ -16,4 +22,24 @@
 
 .flex {
     display: flex;
+    align-items: center;
+}
+
+.image {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+    border: solid 2px rgba(128, 26, 178, 1);
+    object-fit: cover;
+    background-color: #1C1C21;
+}
+
+.list {
+    margin: 0 16px 0 0;
+    padding: 0;
+    max-height: 320px;
+}
+
+.done {
+    color: #00CCCC;
 }

@@ -51,5 +51,20 @@
     object-fit: cover;
     z-index: 6;
     background-color: #1C1C21;
-
 }
+
+.done {
+    color: #00CCCC;
+}
+
+.darkened {
+    opacity: 0.5;
+}
+
+.count {
+    z-index: 2;
+    position: absolute;
+    top: 24px;
+    left: -56px;
+}
+

@@ -158,10 +158,16 @@ const getOrderHistory = () => {
     });
 };
 
+const getOrder = (orderNumber) => {
+    return fetch(`${apiUrl}/orders/${orderNumber}`)
+    .then(checkReponse);
+};
+
 export const api = {
     signInUser,
     signOutUser,
     postRegistration,
     getUserData,
-    patchUserData
+    patchUserData,
+    getOrder
 };

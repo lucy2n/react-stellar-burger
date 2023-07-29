@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 import { RoutePathname } from '../../utils/constants';
 import { v4 as uuidv4 } from 'uuid';
+import { getStatus } from '../../utils/utils';
 
 export const OrderCard = ({ order, allIngredients }) => {
     const [price, setPrice] = useState(0);
@@ -27,7 +28,6 @@ export const OrderCard = ({ order, allIngredients }) => {
         setPrice(totalPrice);
     }, [ingredients]);
 
-
     return (
         <div className={`mb-4 mr-2 ${location.pathname === RoutePathname.feedPage ? styles.main_place_feed : styles.main}`}>
             <div className={`mt-6 mb-6 ${location.pathname === RoutePathname.feedPage ? styles.content_place_feed : styles.content}`}>
@@ -37,20 +37,25 @@ export const OrderCard = ({ order, allIngredients }) => {
                 </div>
                 <p className={`text text_type_main-medium mb-2 ${location.pathname === RoutePathname.feedPage ? 'mb-6' : ''}`}>{ order.name }</p>
                 { location.pathname !== RoutePathname.feedPage &&
-                    <p className='text text_type_main-small mb-6'>{order.status}</p>
+                    <p className={`text text_type_main-small mb-6 ${order.status === 'done' ? styles.done: ''}`}>{getStatus(order.status)}</p>
                 }
-                <div className={` ${styles.info}`}>
+                <div className={styles.info}>
                     <div className={styles.images}>
                         {
-                        ingredients.slice(0, 6).map((ingredient, index) =>
-                            <img 
-                            key={ uuidv4() }
-                            className={styles.image} 
-                            src={ingredient.image_mobile} 
-                            style={{
-                                left: `-${16 * index}px`,
-                                zIndex: `${6 - index}`
-                            }}/>
+                        [...new Set(ingredients)].slice(0, 6).map((ingredient, index) =>
+                            <div style={{position: 'relative'}} key={ uuidv4() } >
+                                { index === 5 &&
+                                    <p className={`text text_type_main-default ${styles.count}`}> +{ingredients.length - 6} </p>
+                                }
+                                <img 
+                                key={ uuidv4() }
+                                className={`${styles.image} ${index === 5 && ingredients.length > 5 ? styles.darkened : '' }`}
+                                src={ingredient.image_mobile} 
+                                style={{
+                                    left: `-${16 * index}px`,
+                                    zIndex: `${6 - index}`,
+                                }}/>
+                            </div>
                         )}
                     </div>
                     <div className={`mt-6 ${styles.sum}`}>

@@ -68,7 +68,6 @@ export const BurgerIngredients = () => {
                 </Tab>
             </div>
             <div className={`custom-scroll ${styles.wrapper}`}>
-
                 <div className={`mb-10 ${bunTab}`}>
                     <p className='text text_type_main-medium mb-6'>Булки</p>
                     <ul className={styles.ul}>

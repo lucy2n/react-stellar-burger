@@ -16,6 +16,7 @@ import { ProfileOrders } from '../../pages/profile-orders/profile-orders';
 import { ProfileData } from '../../pages/profile-data/profile-data';
 import { RoutePathname } from '../../utils/constants';
 import { FeedPage } from '../../pages/feed/feed';
+import { OrderInfo } from '../order-info/order-info';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,8 @@ export const App = () => {
           <Routes location={background || location}>
               <Route exact path={RoutePathname.homePage} element={<Home />} />
               <Route path={RoutePathname.ingredientDetailsPage} element={<IngredientDetails />} />
-
+              <Route path={RoutePathname.feedOrderInfoPage} element={<OrderInfo />}/>
+              <Route path={RoutePathname.profileOrdersInfoPage} element={<OnlyAuth component={<OrderInfo />} />}/>
               <Route path={RoutePathname.loginPage} element={<OnlyUnAuth component={<Login />}/>} />
               <Route path={RoutePathname.registerPage} element={<OnlyUnAuth component={<Registration />}/>} />
               <Route path={RoutePathname.forgotPassPage} element={<OnlyUnAuth component={<ForgotPassword />} />} />

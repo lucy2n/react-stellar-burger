@@ -28,7 +28,7 @@
 }
 
 .status {
-    width: 272px;
+    min-width: 272px;
     display: flex;
     flex-direction: column;
 }
@@ -39,8 +39,21 @@
 }
 
 .info {
-    width: 580px;
+    min-width: 580px;
     display: flex;
     flex-direction: column;
     min-height: 626px;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.numbers {
+    gap: 8px;
+    max-height: 320px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
