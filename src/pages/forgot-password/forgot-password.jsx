@@ -16,7 +16,7 @@ export const ForgotPassword = () => {
 
     const forgot = (e) => {
         e.preventDefault();
-        if (email) {
+        if (email.length !== 0) {
             forgotPassword(email)
             .then(() => {
                 localStorage.setItem('forgot-password', true);

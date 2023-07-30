@@ -10,7 +10,6 @@ import { Link, useLocation } from 'react-router-dom';
 export const Ingredient = ({ ingredient }) => {
 
     const location = useLocation();
-    const ingredientId = ingredient._id;
 
     const { ingredients, bun } = useSelector(getConstructorState);
 
@@ -38,8 +37,8 @@ export const Ingredient = ({ ingredient }) => {
 
     return(
         <Link
-        key={ingredientId}
-        to={`/ingredients/${ingredientId}`}
+        key={ingredient._id}
+        to={`/ingredients/${ingredient._id}`}
         state={{ background: location }}
         className={`text text_type_main-default ${styles.link}`}
         >

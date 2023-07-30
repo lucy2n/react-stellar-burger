@@ -13,7 +13,7 @@ export const ProfileOrders = () => {
     const history = useSelector(store => store.history);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken').split(' ')[1];
+        const accessToken = localStorage.getItem('accessToken').split(' ').pop();
         dispatch(connect(`${wsApiUrl}?token=${accessToken}`));
         return () => {
             dispatch(disconnect());

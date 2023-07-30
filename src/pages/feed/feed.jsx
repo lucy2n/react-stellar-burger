@@ -29,11 +29,7 @@ export const FeedPage = () => {
                             className={styles.link} 
                             key={order._id} 
                             to={`/feed/${order.number}`} 
-                            state={
-                                { 
-                                    number: order.number,
-                                    background: location
-                                }}>
+                            state={{ background: location }}>
                                 <OrderCard order={order} key={order._id}/> 
                             </Link>
                         ) }

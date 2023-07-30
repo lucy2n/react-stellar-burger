@@ -2,6 +2,7 @@ import { apiUrl } from '../../utils/constants';
 import { ORDER_MODAL, openModal } from '../modal/action';
 import { fetchWithRefresh } from '../../utils/api';
 import { createAction } from '@reduxjs/toolkit';
+import { clearIngredients } from '../constructor/action';
 
 export const orderRequest = createAction('order/orderRequest');
 export const orderSuccess = createAction('order/orderSuccess');
@@ -25,6 +26,7 @@ export function getOrder(ingredientsId) {
             if(res && res.success) {
                 dispatch(orderSuccess(res.order));
                 dispatch(openModal({modalType: ORDER_MODAL}));
+                dispatch(clearIngredients());
             } else {
                 dispatch(orderFailed());
             }

@@ -13,3 +13,4 @@ export const addIngredient = createAction('constructor/addIngredient', ({ ingred
 });
 export const deleteIngredient = createAction('constructor/deleteIngredient');
 export const swapIngedients = createAction('constructor/swapIngedients');
+export const clearIngredients = createAction('constructor/clearIngredients');

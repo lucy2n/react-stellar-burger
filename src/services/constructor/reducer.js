@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { 
     addIngredient, 
+    clearIngredients, 
     deleteIngredient, 
     swapIngedients
 } from './action';
@@ -33,5 +34,6 @@ export const constructorReducer = createReducer(constructorInitialState, (builde
         const ingredients = [...state.ingredients];
         ingredients.splice(action.payload.toIndex, 0, ingredients.splice(action.payload.fromIndex, 1)[0]);
         state.ingredients = [...ingredients];
-    });
+    })
+    .addCase(clearIngredients, () => constructorInitialState);
 });
