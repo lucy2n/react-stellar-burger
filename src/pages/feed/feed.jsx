@@ -1,7 +1,7 @@
 import { OrderCard } from '../../components/order-card/order-card';
 import styles from './feed.module.css';
 import React, { useEffect } from 'react';
-import { connect } from '../../services/feed/action';
+import { connect, disconnect } from '../../services/feed/action';
 import { useDispatch, useSelector } from 'react-redux';
 import { wsApiUrl } from '../../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,6 +13,9 @@ export const FeedPage = () => {
 
     useEffect(() => {
         dispatch(connect(`${wsApiUrl}/all`));
+        return () => {
+            dispatch(disconnect());
+        };
     }, []);
 
     return (

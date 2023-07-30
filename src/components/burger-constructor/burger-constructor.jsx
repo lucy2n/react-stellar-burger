@@ -105,7 +105,7 @@ export const BurgerConstructor = () => {
                     {
                     ingredients.map((ingredient, index) => 
                         <ConstructorIngredient 
-                        key={ `${ingredient._id}${index}` }
+                        key={ingredient.uniqueId}
                         ingredient={ingredient}
                         index={index}
                         moveCard={moveCard}

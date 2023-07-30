@@ -2,7 +2,7 @@ import { OrderCard } from '../../components/order-card/order-card';
 import styles from './profile-orders.module.css';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { connect } from '../../services/history/action';
+import { connect, disconnect } from '../../services/history/action';
 import { wsApiUrl } from '../../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -15,6 +15,9 @@ export const ProfileOrders = () => {
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken').split(' ')[1];
         dispatch(connect(`${wsApiUrl}?token=${accessToken}`));
+        return () => {
+            dispatch(disconnect());
+        };
     }, []);
 
     return (
