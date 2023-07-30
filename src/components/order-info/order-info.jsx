@@ -5,21 +5,20 @@ import { getStatus } from '../../utils/utils';
 import { useLocation } from 'react-router';
 import { api } from '../../utils/api';
 import { getIngredientsState } from '../../services/ingredients/reducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadIngredients } from '../../services/ingredients/action';
+import { useSelector } from 'react-redux';
 
 export const OrderInfo = () => {
     const { ingredients } = useSelector(getIngredientsState);
-    const dispatch = useDispatch();
     const location = useLocation();
     const [order, setOrder] = useState({});
     const [orderIngredients, setOrderIngredients] = useState([]);
     const [price, setPrice] = useState(0);
     const [ingredientCount, setIngredientCount] = useState({});
+    const background = location.state && location.state.background;
 
-    //подгрузка заказа по номеру 
+    // подгрузка заказа по номеру 
     useEffect(() => {
-        const orderNumber = location.state.number;
+        const orderNumber = location.pathname.split('/').pop(); // последний элемент
         api.getOrder(orderNumber)
         .then(res => setOrder(res.orders[0]));
     }, []);
@@ -27,6 +26,7 @@ export const OrderInfo = () => {
     // подгрузка всех ингредиентов 
     useEffect(() => {
         if (Object.keys(order).length !== 0 && ingredients.length !== 0) {
+            
             const currentIngredients = order.ingredients.map(ingredientId => {
                 return ingredients.find(ingredient => ingredient._id === ingredientId); 
             });
@@ -34,10 +34,6 @@ export const OrderInfo = () => {
             currentIngredients.forEach(ingredient => count[ingredient._id] = (count[ingredient._id] || 0) + 1);
             setIngredientCount(count);
             setOrderIngredients(currentIngredients);
-        } else {
-            if (ingredients.length === 0) {
-                dispatch(loadIngredients());
-            }
         }
     },[order, ingredients]);
 
@@ -50,9 +46,9 @@ export const OrderInfo = () => {
     }, [orderIngredients]);
 
     return (
-        <div className={styles.main}>
-            <p className={`text text_type_digits-default mb-10 ${styles.center}`}>#{order.number}</p>
-            <p className="text text_type_main-medium mb-3">{order.name}</p>
+        <div className={background ? styles.modal: styles.main}>
+            <p className={`text text_type_digits-default mb-10 ${background ? '': styles.center}`}>#{order.number}</p>
+            <p className={`text text_type_main-medium mb-3 ${styles.name}`}>{order.name}</p>
             <p className={`text text_type_main-default mb-15 ${order.status === 'done' ? styles.done : ''}`}>{getStatus(order.status)}</p>
             <p className="text text_type_main-medium mb-6">Состав:</p>
             <div className={`custom-scroll ${styles.wrapper}`}>

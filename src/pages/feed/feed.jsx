@@ -4,19 +4,14 @@ import React, { useEffect } from 'react';
 import { connect } from '../../services/feed/action';
 import { useDispatch, useSelector } from 'react-redux';
 import { wsApiUrl } from '../../utils/constants';
-import { Link } from 'react-router-dom';
-import { getIngredientsState } from '../../services/ingredients/reducer';
-import { loadIngredients } from '../../services/ingredients/action';
+import { Link, useLocation } from 'react-router-dom';
 
 export const FeedPage = () => {
-    const { ingredients } = useSelector(getIngredientsState);
     const dispatch = useDispatch();
+    const location = useLocation();
     const feed = useSelector(store => store.feed);
 
     useEffect(() => {
-        if(ingredients.length === 0) {
-            dispatch(loadIngredients());
-        }
         dispatch(connect(`${wsApiUrl}/all`));
     }, []);
 
@@ -27,8 +22,16 @@ export const FeedPage = () => {
                     <h1 className='mb-5 text text_type_main-large'>Лента заказов</h1>
                     <div className={`custom-scroll ${styles.wrapper}`}>
                         { feed.orders.map((order) => 
-                            <Link className={styles.link} key={order._id} to={`/feed/${order._id}`} state={{number: order.number}}>
-                                <OrderCard order={order} allIngredients={ingredients}/> 
+                            <Link 
+                            className={styles.link} 
+                            key={order._id} 
+                            to={`/feed/${order.number}`} 
+                            state={
+                                { 
+                                    number: order.number,
+                                    background: location
+                                }}>
+                                <OrderCard order={order} key={order._id}/> 
                             </Link>
                         ) }
                     </div>

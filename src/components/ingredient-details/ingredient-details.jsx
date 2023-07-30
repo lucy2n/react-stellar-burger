@@ -1,13 +1,11 @@
 import { useLocation } from 'react-router';
 import styles from './ingredient-details.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { getIngredientsState } from '../../services/ingredients/reducer';
-import { loadIngredients } from '../../services/ingredients/action';
 
 export const IngredientDetails = () => {
 
-    const dispatch = useDispatch();
     const { ingredients } = useSelector(getIngredientsState);
 
     const location = useLocation();
@@ -16,14 +14,11 @@ export const IngredientDetails = () => {
     const [ingredient, setIngredient] = useState({});
 
     useEffect(() => {
-        background = location.state && location.state.background;
-
         if (ingredients.length !== 0) {
+            background = location.state && location.state.background;
             const ingredientId = location.pathname.split('/')[2]; // получаем id ингредиента из url
             const currentIngredient = ingredients.find(ingredient => ingredient._id === ingredientId); // находим по id
             setIngredient(currentIngredient);
-        } else {
-            dispatch(loadIngredients());
         }
     }, [location, ingredients]);
 

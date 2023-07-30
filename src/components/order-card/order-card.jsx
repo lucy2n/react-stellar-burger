@@ -5,27 +5,28 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 import { RoutePathname } from '../../utils/constants';
 import { getStatus } from '../../utils/utils';
+import { getIngredientsState } from '../../services/ingredients/reducer';
+import { useSelector } from 'react-redux';
 
-export const OrderCard = ({ order, allIngredients }) => {
+export const OrderCard = ({ order }) => {
     const [price, setPrice] = useState(0);
     const location = useLocation();
 
-    const [ingredients, setIngredients] = useState([]);
+    const { ingredients } = useSelector(getIngredientsState);
+    const [orderIngredients, setOrderIngredients] = useState([]);
 
     useEffect(() => {
-        if (allIngredients.length !== 0) {
-            const orderIngredients = order.ingredients.map((id) => {
-                return allIngredients.find(ingredient => ingredient._id === id);
-            });
-            setIngredients(orderIngredients);
+        if (ingredients.length !== 0) {
+            const currentOrderIngredients = order.ingredients.map((id) => ingredients.find(ingredient => ingredient._id === id) );
+            setOrderIngredients(currentOrderIngredients);
         }
-    }, [allIngredients]);
+    }, [ingredients]);
 
     useEffect(() => {
         let totalPrice = 0;
-        ingredients.map(ingredient => (totalPrice += ingredient.price));
+        orderIngredients.map(ingredient => (totalPrice += ingredient.price));
         setPrice(totalPrice);
-    }, [ingredients]);
+    }, [orderIngredients]);
 
     return (
         <div className={`mb-4 mr-2 ${location.pathname === RoutePathname.feedPage ? styles.main_place_feed : styles.main}`}>
@@ -41,7 +42,7 @@ export const OrderCard = ({ order, allIngredients }) => {
                 <div className={styles.info}>
                     <div className={styles.images}>
                         {
-                        [...new Set(ingredients)].slice(0, 6).map((ingredient, index) =>
+                        [...new Set(orderIngredients)].slice(0, 6).map((ingredient, index) =>
                             <div style={{position: 'relative'}} key={ `${ingredient._id}${index}` } >
                                 { index === 5 &&
                                     <p className={`text text_type_main-default ${styles.count}`}> +{ingredients.length - 6} </p>
@@ -69,5 +70,4 @@ export const OrderCard = ({ order, allIngredients }) => {
 
 OrderCard.propTypes = {
     order: PropTypes.object.isRequired,
-    allIngredients: PropTypes.array.isRequired
 };

@@ -17,6 +17,7 @@ import { ProfileData } from '../../pages/profile-data/profile-data';
 import { RoutePathname } from '../../utils/constants';
 import { FeedPage } from '../../pages/feed/feed';
 import { OrderInfo } from '../order-info/order-info';
+import { loadIngredients } from '../../services/ingredients/action';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(loadIngredients());
   }, []);
 
   const handleModalClose = () => {
@@ -59,6 +61,22 @@ export const App = () => {
                   element={
                       <Modal onClose={handleModalClose}>
                           <IngredientDetails />
+                      </Modal>
+                  }
+                  />
+                  <Route
+                  path={RoutePathname.profileOrdersInfoPage}
+                  element={
+                      <Modal onClose={handleModalClose}>
+                          <OrderInfo />
+                      </Modal>
+                  }
+                  />
+                  <Route
+                  path={RoutePathname.feedOrderInfoPage}
+                  element={
+                      <Modal onClose={handleModalClose}>
+                          <OrderInfo />
                       </Modal>
                   }
                   />

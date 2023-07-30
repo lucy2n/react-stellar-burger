@@ -2,22 +2,14 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { Ingredient } from '../ingredient/ingredient';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadIngredients } from '../../services/ingredients/action';
-import { INGREDIENT_MODAL, openModal } from '../../services/modal/action';
+import { useSelector } from 'react-redux';
 import { getIngredientsState } from '../../services/ingredients/reducer';
 
 export const BurgerIngredients = () => {
 
-    const dispatch = useDispatch();
-
     const { ingredients } = useSelector(getIngredientsState);
 
     const [ scrollPosition, setScrollPosition ] = React.useState(0);
-
-    React.useEffect(() => {
-        dispatch(loadIngredients());
-    }, []);
 
     const bunTab = 'buns';
     const mainTab = 'main';
@@ -74,10 +66,7 @@ export const BurgerIngredients = () => {
                         {
                         ingredients.filter(ingredient => ingredient.type === 'bun').map((ingredient) => (
                             <li className={styles.li} key={ingredient._id}>
-                                <Ingredient
-                                ingredient={ingredient}
-                                openIngredientDetails={() => dispatch(openModal({type: INGREDIENT_MODAL }))}
-                                />
+                                <Ingredient ingredient={ingredient} />
                             </li>
                         ))
                         }
@@ -89,10 +78,7 @@ export const BurgerIngredients = () => {
                         {
                         ingredients.filter(ingredient => ingredient.type === 'sauce').map((ingredient) => (
                             <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
-                                <Ingredient
-                                ingredient={ingredient} 
-                                openIngredientDetails={() => dispatch(openModal({type: INGREDIENT_MODAL }))}
-                                />
+                                <Ingredient ingredient={ingredient} />
                             </li>
                         ))
                         }
@@ -104,10 +90,7 @@ export const BurgerIngredients = () => {
                         {
                         ingredients.filter(ingredient => ingredient.type === 'main').map((ingredient) => (
                             <li className={`mr-1 mb-8 ${styles.li}`} key={ingredient._id}>
-                                <Ingredient 
-                                ingredient={ingredient} 
-                                openIngredientDetails={() => dispatch(openModal({type: INGREDIENT_MODAL }))}
-                                />
+                                <Ingredient ingredient={ingredient} />
                             </li>
                         ))
                         }

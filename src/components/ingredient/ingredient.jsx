@@ -6,9 +6,8 @@ import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import { getConstructorState } from '../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-export const Ingredient = ({ ingredient, openIngredientDetails }) => {
+export const Ingredient = ({ ingredient }) => {
 
     const location = useLocation();
     const ingredientId = ingredient._id;
@@ -37,10 +36,6 @@ export const Ingredient = ({ ingredient, openIngredientDetails }) => {
         setCount(ingredientCount);
     }, [bun, ingredients]);
 
-    function clickIngredient() {
-        openIngredientDetails(ingredient);
-    }
-
     return(
         <Link
         key={ingredientId}
@@ -51,7 +46,7 @@ export const Ingredient = ({ ingredient, openIngredientDetails }) => {
             <div 
             ref={dragRef}
             className={styles.main} 
-            onClick={clickIngredient}>
+            >
                 { count > 0 &&
                     <Counter count={count} size="default" extraClass="m-1" />
                 }
@@ -67,6 +62,5 @@ export const Ingredient = ({ ingredient, openIngredientDetails }) => {
 };
 
 Ingredient.propTypes = {
-    ingredient: ingredientPropType.isRequired,
-    openIngredientDetails: PropTypes.func.isRequired
+    ingredient: ingredientPropType.isRequired
 };
