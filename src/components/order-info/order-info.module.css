@@ -1,0 +1,56 @@
+.modal {
+    width: 720px;
+    margin: 50px 42px;
+    max-height: 716px;
+}
+
+.name {
+    max-height: 60px;
+    overflow: hidden;
+}
+
+.main {
+    width: 640px;
+    display: flex;
+    flex-direction: column;
+    margin: 7vw auto;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper{
+    max-height: 320px;
+    overflow-y: scroll;
+    max-width: 640px;
+}
+
+.center {
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+    border: solid 2px rgba(128, 26, 178, 1);
+    object-fit: cover;
+    background-color: #1C1C21;
+}
+
+.list {
+    margin: 0 16px 0 0;
+    padding: 0;
+    max-height: 320px;
+}
+
+.done {
+    color: #00CCCC;
+}

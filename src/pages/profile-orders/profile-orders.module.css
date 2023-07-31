@@ -1,0 +1,10 @@
+.wrapper {
+    max-height: 916px;
+    overflow-y: scroll;
+    max-width: 865px;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}

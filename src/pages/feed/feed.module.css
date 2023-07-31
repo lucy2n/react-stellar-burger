@@ -1,0 +1,59 @@
+.wrapper {
+    max-height: 916px;
+    overflow-y: scroll;
+    max-width: 608px;
+}
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #131316;
+    color: #f2f2f3;
+  }
+  
+.main {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    max-width: 1280px;
+}
+
+.number {
+    text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.done {
+    color: #00CCCC;
+}
+
+.status {
+    min-width: 272px;
+    display: flex;
+    flex-direction: column;
+}
+
+.progress {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info {
+    min-width: 580px;
+    display: flex;
+    flex-direction: column;
+    min-height: 626px;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.numbers {
+    gap: 8px;
+    max-height: 320px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
