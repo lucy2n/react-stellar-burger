@@ -2,33 +2,33 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { Ingredient } from '../ingredient/ingredient';
-import { useSelector } from 'react-redux';
 import { getIngredientsState } from '../../services/ingredients/reducer';
+import { useAppSelector } from '../../hooks/hooks';
 
 export const BurgerIngredients = () => {
 
-    const { ingredients } = useSelector(getIngredientsState);
+    const { ingredients } = useAppSelector(getIngredientsState);
 
-    const [ scrollPosition, setScrollPosition ] = React.useState(0);
+    const [ scrollPosition, setScrollPosition ] = React.useState<number>(0);
 
     const bunTab = 'buns';
     const mainTab = 'main';
     const sauceTab = 'sauce';
 
-    const [activeTab, setActiveTab] = React.useState(bunTab);
+    const [activeTab, setActiveTab] = React.useState<string>(bunTab);
 
     React.useEffect(() => {
         const scrollWrapper = document.querySelector('.custom-scroll');
-        scrollWrapper.addEventListener('scroll', handleScroll, { passive: true });
+        (scrollWrapper as Element).addEventListener('scroll', handleScroll, { passive: true });
     
         return () => {
-            scrollWrapper.removeEventListener('scroll', handleScroll);
+            (scrollWrapper as Element).removeEventListener('scroll', handleScroll);
         };
     }, [scrollPosition]);
     
     const handleScroll = () => {
         // Создание объекта типа 'вкладка': 'расстояние до верха'
-        const tabsDistance = {
+        const tabsDistance: {[name:string]: number} = {
             [bunTab]: getDistance(`.${bunTab}`),
             [sauceTab]: getDistance(`.${sauceTab}`),
             [mainTab]: getDistance(`.${mainTab}`),
@@ -41,9 +41,9 @@ export const BurgerIngredients = () => {
         setActiveTab(sortedTabs[0]);
     };
 
-    const getDistance = (className) => {
+    const getDistance = (className: string) => {
         // Модуль расстояния от блока до вкладок
-        return Math.abs(document.querySelector(className).getBoundingClientRect().top - 281);
+        return Math.abs((document.querySelector(className) as Element).getBoundingClientRect().top - 281);
     };
 
     return(
