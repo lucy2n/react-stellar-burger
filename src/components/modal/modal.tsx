@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { KeyboardEvent} from 'react';
 import  ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './modal.module.css';
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { closeModal } from '../../services/modal/action';
+import { useAppDispatch } from '../../hooks/hooks';
 
 const modalRoot = document.getElementById('react-modals');
 
-export const Modal = ({ children, onClose }) => {
+type TModal = {
+    children: JSX.Element;
+    onClose(): void;
+};
 
-    const dispatch = useDispatch();
+export const Modal = ({ children, onClose }: TModal): JSX.Element => {
+
+    const dispatch = useAppDispatch();
 
     const handleClose = () => {
         dispatch(closeModal());
         onClose();
     };
 
-    function handleCloseByEsc(e) {
+    const handleCloseByEsc = (e: Event & { key: string }) => {
         if (e.key === 'Escape') {
             handleClose();
         }
-    }
+    };
 
     React.useEffect(() => {
         document.addEventListener('keydown', handleCloseByEsc);
@@ -44,11 +48,6 @@ export const Modal = ({ children, onClose }) => {
                 </div>
             </>
         ), 
-        modalRoot
+        modalRoot as HTMLElement
     );
-};
-
-Modal.propTypes = {
-    children: PropTypes.element.isRequired,
-    onClose: PropTypes.func.isRequired
 };
