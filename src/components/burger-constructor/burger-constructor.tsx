@@ -2,34 +2,41 @@ import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-de
 import styles from './burger-constructor.module.css';
 import { OrderDetails } from '../order-details/order-details';
 import { Modal } from '../modal/modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getOrder } from '../../services/order/action';
 import { ORDER_MODAL } from '../../services/modal/action';
 import { useDrop } from 'react-dnd';
 import { addIngredient, swapIngedients } from '../../services/constructor/action';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { ConstructorIngredient } from '../constructor-ingredient/constructor-ingredient';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, CSSProperties } from 'react';
 import { getModalState } from '../../services/modal/reducer';
 import { getConstructorState } from '../../services/constructor/reducer';
 import { PacmanLoader } from 'react-spinners';
 import { getUserState } from '../../services/user/reducer';
 import { useNavigate } from 'react-router';
 import { RoutePathname } from '../../utils/constants';
+import type { TIngedient } from '../../types/ingredient';
+
+const override: CSSProperties = {
+    display: 'block',
+    margin: '0 auto',
+    borderColor: 'red',
+  };
 
 export const BurgerConstructor = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
-    const { ingredients, bun } = useSelector(getConstructorState);
-    const { modalType } = useSelector(getModalState);
+    const { ingredients, bun } = useAppSelector(getConstructorState);
+    const { modalType } = useAppSelector(getModalState);
 
     const [price, setPrice] = useState(0);
 
     const [loading, setLoading] = useState(false);
     const [color, setColor] = useState('#4C4CFF');
 
-    const { user } = useSelector(getUserState);
+    const { user } = useAppSelector(getUserState);
 
     useEffect(() => {
         let totalPrice = 0;
@@ -71,8 +78,8 @@ export const BurgerConstructor = () => {
 
     const [, dropTarget] = useDrop({
         accept: ItemTypes.INGREDIENT,
-        drop(ingredient) {
-            dispatch(addIngredient({ ingredient }));
+        drop: (ingredient: TIngedient) => {
+            dispatch(addIngredient(ingredient));
         },
     });
 
@@ -80,7 +87,7 @@ export const BurgerConstructor = () => {
         <div className={styles.content} ref={dropTarget}>
             <div className={styles.loader}>
                 <PacmanLoader
-                    className={styles}
+                    cssOverride={override}
                     color={color}
                     loading={loading}
                     size={40}
@@ -129,7 +136,7 @@ export const BurgerConstructor = () => {
             <div className={styles.sum}>
                 <div className= {`mr-10 ${styles.price}`}>
                     <p className='text text_type_digits-medium mr-4'>{price}</p>
-                    <CurrencyIcon />
+                    <CurrencyIcon type='primary' />
                 </div>
                 <Button extraClass='mr-4' htmlType='button' type='primary' size='medium' onClick={createOrder} >
                     Оформить заказ

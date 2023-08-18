@@ -15,17 +15,16 @@ export const AppHeader = () => {
                         <BurgerIcon type={location.pathname === RoutePathname.homePage ? 'primary': 'secondary'}/>
                         <p className={`ml-2 text text_type_main-default ${location.pathname === RoutePathname.homePage ? '': 'text_color_inactive'}`}> Конструктор </p>
                     </Link>
-                    <Link to={RoutePathname.feedPage} className={`pl-5 pr-5 ${styles.link}`}>
-                        <ListIcon className='ml-5'  type={location.pathname === RoutePathname.feedPage ? 'primary': 'secondary'} /> 
+                    <Link to={RoutePathname.feedPage} className={`pl-5 pr-5 ml-5 ${styles.link}`}>
+                        <ListIcon type={location.pathname === RoutePathname.feedPage ? 'primary': 'secondary'} /> 
                         <p className={`ml-2 text text_type_main-default ${location.pathname === RoutePathname.feedPage ? '': 'text_color_inactive'}`}> Лента заказов </p>
                     </Link>
                 </div>
                 <Link to={RoutePathname.homePage} className={styles.logolink}>
                     <Logo />
                 </Link>
-                <Link to={RoutePathname.profilePage} className={`pl-5 pr-5 ${styles.link}`}>
+                <Link to={RoutePathname.profilePage} className={`pl-5 pr-5 ml-5 ${styles.link}`}>
                     <ProfileIcon 
-                    className='ml-5' 
                     type={location.pathname === RoutePathname.profilePage || location.pathname === RoutePathname.loginPage ? 'primary': 'secondary'}
                     /> 
                     <p className={`ml-2 text text_type_main-default ${location.pathname ===  RoutePathname.profilePage || location.pathname === RoutePathname.loginPage ? '': 'text_color_inactive'}`}> Личный кабинет </p>

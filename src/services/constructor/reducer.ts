@@ -5,13 +5,20 @@ import {
     deleteIngredient, 
     swapIngedients
 } from './action';
+import type { TIngedient } from '../../types/ingredient';
+import type { RootState } from '../store';
+
+interface IConstructorState {
+    ingredients: Array<TIngedient>;
+    bun: TIngedient | null
+}
 
 const constructorInitialState = {
     ingredients: [],
     bun: null
-};
+} as IConstructorState;
 
-export const getConstructorState = (state) => state.burgerConstructor;
+export const getConstructorState = (store: RootState) => store.burgerConstructor;
 
 export const constructorReducer = createReducer(constructorInitialState, (builder) => {
     builder
@@ -23,12 +30,12 @@ export const constructorReducer = createReducer(constructorInitialState, (builde
         }
     })
     .addCase(deleteIngredient, (state, action) => {
-        const arr = state.payload.ingredients;
-            const index = arr.indexOf(action.payload.ingredient);
-            if (index > -1) {
-              arr.splice(index, 1);
-            } 
-            state.ingredients = [...arr];
+        const arr = state.ingredients;
+        const index = arr.indexOf(action.payload);
+        if (index > -1) {
+            arr.splice(index, 1);
+        } 
+        state.ingredients = [...arr];
     })
     .addCase(swapIngedients, (state, action) => {
         const ingredients = [...state.ingredients];
