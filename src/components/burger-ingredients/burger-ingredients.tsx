@@ -28,7 +28,7 @@ export const BurgerIngredients = () => {
     
     const handleScroll = () => {
         // Создание объекта типа 'вкладка': 'расстояние до верха'
-        const tabsDistance: {[name:string]: number} = {
+        const tabsDistance: {[name: string]: number} = {
             [bunTab]: getDistance(`.${bunTab}`),
             [sauceTab]: getDistance(`.${sauceTab}`),
             [mainTab]: getDistance(`.${mainTab}`),

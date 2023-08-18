@@ -3,15 +3,16 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import styles from './ingredient.module.css';
 import { ingredientPropType } from '../../utils/prop-types';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 import { getConstructorState } from '../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
+import { TIngedient } from '../../types/ingredient';
+import { useAppSelector } from '../../hooks/hooks';
 
-export const Ingredient = ({ ingredient }) => {
+export const Ingredient = ( { ingredient } : {ingredient: TIngedient}): JSX.Element => {
 
     const location = useLocation();
 
-    const { ingredients, bun } = useSelector(getConstructorState);
+    const { ingredients, bun } = useAppSelector(getConstructorState);
 
     const [, dragRef] = useDrag({
         type: 'ingredient',
@@ -22,7 +23,7 @@ export const Ingredient = ({ ingredient }) => {
         })
     });
 
-    const [count, setCount] = React.useState(0);
+    const [count, setCount] = React.useState<number>(0);
 
     React.useEffect(() => {
         let ingredientCount = 0;
@@ -52,14 +53,10 @@ export const Ingredient = ({ ingredient }) => {
                 <img className="mr-4 ml-4" src={ingredient.image} alt={ingredient.name}/>
                 <div className={`mt-1 mb-1 ${styles.price}`}>
                     <p className="mr-2 text text_type_digits-default">{ingredient.price}</p>
-                    <CurrencyIcon />
+                    <CurrencyIcon type='primary'/>
                 </div>
                 <p className={`text text_type_main-default ${styles.center}`}>{ingredient.name}</p>
             </div>
         </Link>
     );
-};
-
-Ingredient.propTypes = {
-    ingredient: ingredientPropType.isRequired
 };
