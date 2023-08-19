@@ -1,12 +1,14 @@
 import { api } from '../../utils/api';
 import { createAction } from '@reduxjs/toolkit';
+import { AppDispatch } from '../store';
+import { TUser } from '../../types/user';
 
-export const setAuthChecked = createAction('user/setAuthChecked');
-export const setUser = createAction('user/setUser');
+export const setAuthChecked = createAction<boolean>('user/setAuthChecked');
+export const setUser = createAction<TUser | null>('user/setUser');
 
 
 export const getUser = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     return api.getUserData().then((res) => {
       dispatch(setUser(res.user));
     })
@@ -16,8 +18,8 @@ export const getUser = () => {
   };
 };
 
-export const login = (email, password) => {
-  return (dispatch) => {
+export const login = (email: string, password: string) => {
+  return (dispatch: AppDispatch) => {
     return api.signInUser(email, password).then((res) => {
       localStorage.setItem('accessToken', res.accessToken);
       localStorage.setItem('refreshToken', res.refreshToken);
@@ -27,8 +29,8 @@ export const login = (email, password) => {
   };
 };
 
-export const registerUser = (email, password, name) => {
-    return (dispatch) => {
+export const registerUser = (email: string, password: string, name: string) => {
+    return (dispatch: AppDispatch) => {
         return api.postRegistration(name, email, password).then((res) => {
             localStorage.setItem('accessToken', res.accessToken);
             localStorage.setItem('refreshToken', res.refreshToken);
@@ -42,7 +44,7 @@ export const registerUser = (email, password, name) => {
 };
 
 export const checkUserAuth = () => {
-    return (dispatch) => {
+    return (dispatch: AppDispatch) => {
         if (localStorage.getItem('accessToken')) {
             dispatch(getUser())
               .catch(() => {
@@ -59,7 +61,7 @@ export const checkUserAuth = () => {
 
 
 export const logout = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     return api.signOutUser().then(() => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
@@ -71,8 +73,8 @@ export const logout = () => {
   };
 };
 
-export const uptadeUserData = (password, name, email) => {
-  return (dispatch) => {
+export const uptadeUserData = (password: string, name: string, email: string) => {
+  return (dispatch: AppDispatch) => {
     return api.patchUserData(password, name, email).then((res) => {
       dispatch(setUser({
         email: res.user.email,

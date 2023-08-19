@@ -1,31 +1,5 @@
-import { TOrder } from '../types/order';
 import { apiUrl } from './constants';
-import { TIngedient } from '../types/ingredient';
-
-interface TResponse extends Response {
-    success: boolean;
-    refreshToken: string;
-    accessToken: string;
-}
-export interface IOrder extends TResponse {
-    order: TOrder
-}
-
-export interface IIngredient extends TResponse {
-    data: Array<TIngedient>
-}
-
-interface TError extends Error {
-    message: string;
-}
-
-export type TCustomHeaders = HeadersInit & {
-    authorization?: string | null;
-}
-
-export interface IOptions extends RequestInit {
-    headers: TCustomHeaders;
-}
+import { IResponse, ICustomHeaders, IError, IOptions, IUserResponse } from '../types/api';
 
 export const checkResponse = <T extends Response>(res: T): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -36,7 +10,7 @@ export const request = <T extends Response, U extends RequestInit>(url: string, 
 };
 
 export const refreshToken = async () => {
-    return request<TResponse, IOptions>(`${apiUrl}/auth/token`, {
+    return request<IResponse, IOptions>(`${apiUrl}/auth/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -47,11 +21,11 @@ export const refreshToken = async () => {
     });
 };
 
-export const fetchWithRefresh = async<T extends TResponse> (url: string, options: IOptions): Promise<T> => {
+export const fetchWithRefresh = async<T extends IResponse> (url: string, options: IOptions): Promise<T> => {
     try {
         return request<T, IOptions>(url, options);
     } catch (err) {
-        if ((err as TError).message === 'jwt expired') {
+        if ((err as IError).message === 'jwt expired') {
             const refreshData = await refreshToken();
             if (!refreshData.success) {
                 return Promise.reject(refreshData);
@@ -96,7 +70,7 @@ export const forgotPassword = (email: string) => {
 
 //Функции для userReducer
 const signInUser = (email: string, password: string) => {
-    return request(`${apiUrl}/auth/login`, {
+    return request<IUserResponse, IOptions>(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -133,28 +107,28 @@ const postRegistration = (name: string, email: string, password: string) => {
                 'email': email
             })
     };
-    return request(`${apiUrl}/auth/register`, settings);
+    return request<IUserResponse, IOptions>(`${apiUrl}/auth/register`, settings);
 };
 
 const getUserData = () => {
-    return fetchWithRefresh(`${apiUrl}/auth/user`, {
+    return fetchWithRefresh<IUserResponse>(`${apiUrl}/auth/user`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             authorization: localStorage.getItem('accessToken')
-        } as TCustomHeaders,
+        } as ICustomHeaders,
     });
 };
 
 const patchUserData = (password: string, name: string, email: string) => {
-    return fetchWithRefresh(`${apiUrl}/auth/user`, {
+    return fetchWithRefresh<IUserResponse>(`${apiUrl}/auth/user`, {
         method: 'PATCH',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             authorization: localStorage.getItem('accessToken')
-        } as TCustomHeaders,
+        } as ICustomHeaders,
         body: JSON.stringify({
             'password': password,
             'name': name,
