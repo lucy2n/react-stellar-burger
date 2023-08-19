@@ -2,13 +2,13 @@ import { useForm } from '../../hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { useDispatch } from 'react-redux';
 import { login } from '../../services/user/action';
 import { RoutePathname } from '../../utils/constants';
 import React from 'react';
+import { useAppDispatch } from '../../hooks/hooks';
 
 export const Login = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const { values, handleChange } = useForm({
@@ -16,7 +16,7 @@ export const Login = () => {
         password: '',
     });
 
-    const signIn = (e) => {
+    const signIn = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(values.email && values.password) {
             dispatch(
