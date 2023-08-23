@@ -10,7 +10,6 @@ import { Modal } from '../modal/modal';
 import { AppHeader } from '../app-header/app-header';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { checkUserAuth } from '../../services/user/action';
 import { ProfileOrders } from '../../pages/profile-orders/profile-orders';
 import { ProfileData } from '../../pages/profile-data/profile-data';
@@ -18,9 +17,10 @@ import { RoutePathname } from '../../utils/constants';
 import { FeedPage } from '../../pages/feed/feed';
 import { OrderInfo } from '../order-info/order-info';
 import { loadIngredients } from '../../services/ingredients/action';
+import { useAppDispatch } from '../../hooks/hooks';
 
 export const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -38,7 +38,7 @@ export const App = () => {
       <>
           <AppHeader />
           <Routes location={background || location}>
-              <Route exact path={RoutePathname.homePage} element={<Home />} />
+              <Route path={RoutePathname.homePage} element={<Home />} />
               <Route path={RoutePathname.ingredientDetailsPage} element={<IngredientDetails />} />
               <Route path={RoutePathname.feedOrderInfoPage} element={<OrderInfo />}/>
               <Route path={RoutePathname.profileOrdersInfoPage} element={<OnlyAuth component={<OrderInfo />} />}/>

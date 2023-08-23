@@ -5,11 +5,12 @@ import styles from './login.module.css';
 import { login } from '../../services/user/action';
 import { RoutePathname } from '../../utils/constants';
 import React from 'react';
-import { useAppDispatch } from '../../hooks/hooks';
+import { AppThunk, useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 export const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const user = useAppSelector((store) => store.user.user)
 
     const { values, handleChange } = useForm({
         email: '',
@@ -19,15 +20,16 @@ export const Login = () => {
     const signIn = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(values.email && values.password) {
-            dispatch(
+            dispatch<AppThunk>(
                 login(values.email, values.password)
-            )
-            .then(() => {
-                navigate(RoutePathname.homePage);
-            })
-            .catch(err => {
-                console.log(`Error: ${err}`);
-            });
+            );
+            
+            // .then(() => {
+            //     navigate(RoutePathname.homePage);
+            // })
+            // .catch(err => {
+            //     console.log(`Error: ${err}`);
+            // });
         }
     };
 

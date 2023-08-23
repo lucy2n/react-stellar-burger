@@ -7,6 +7,15 @@ import {
   wsError,
   wsMessage
 } from './action';
+import { TOrder } from '../../types/order';
+
+type TInitialState = {
+  status: string;
+  orders: Array<TOrder>
+  total: null | number;
+  totalToday: null | number;
+  connectingError: string;
+}
 
 const initialState = {
   status: WebsocketStatus.OFFLINE,
@@ -14,7 +23,7 @@ const initialState = {
   total: null,
   totalToday: null,
   connectingError: ''
-};
+} as TInitialState;
 
 export const historyReducer = createReducer(initialState, (builder) => {
   builder

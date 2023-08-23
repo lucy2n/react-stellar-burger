@@ -1,12 +1,12 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { logout } from '../../services/user/action';
 import styles from './profile.module.css';
-import { useDispatch } from 'react-redux';
 import { RoutePathname } from '../../utils/constants';
 import React from 'react';
+import { useAppDispatch} from '../../hooks/hooks';
 
-export const Profile = () => {
-    const dispatch = useDispatch();
+export const Profile = (): JSX.Element => {
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
     return (

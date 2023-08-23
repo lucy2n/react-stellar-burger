@@ -6,20 +6,20 @@ import { forgotPassword } from '../../utils/api';
 import { Link } from 'react-router-dom';
 import { RoutePathname } from '../../utils/constants';
 
-export const ForgotPassword = () => {
-    const [email, setEmail] = useState('');
+export const ForgotPassword = (): JSX.Element => {
+    const [email, setEmail] = useState<string>('');
     const navigate = useNavigate();
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
       };
 
-    const forgot = (e) => {
+    const forgot = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (email.length !== 0) {
             forgotPassword(email)
             .then(() => {
-                localStorage.setItem('forgot-password', true);
+                localStorage.setItem('forgot-password', 'true' ); /// 
                 navigate(RoutePathname.resetPassPage);
             })
             .catch(err => {

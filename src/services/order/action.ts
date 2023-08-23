@@ -3,9 +3,9 @@ import { ORDER_MODAL, openModal } from '../modal/action';
 import { fetchWithRefresh } from '../../utils/api';
 import { createAction } from '@reduxjs/toolkit';
 import { clearIngredients } from '../constructor/action';
-import { AppDispatch } from '../store';
 import { TOrder } from '../../types/order';
 import { IOptions, ICustomHeaders, IOrderResponse } from '../../types/api';
+import { AppDispatch } from '../store';
 
 export const orderRequest = createAction('order/orderRequest');
 export const orderSuccess = createAction<TOrder>('order/orderSuccess');

@@ -1,19 +1,19 @@
 import { OrderCard } from '../../components/order-card/order-card';
 import styles from './profile-orders.module.css';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { connect, disconnect } from '../../services/history/action';
 import { wsApiUrl } from '../../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-export const ProfileOrders = () => {
+export const ProfileOrders = (): JSX.Element => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
-    const history = useSelector(store => store.history);
+    const history = useAppSelector(store => store.history);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken').split(' ').pop();
+        const accessToken = localStorage.getItem('accessToken')?.split(' ').pop();
         dispatch(connect(`${wsApiUrl}?token=${accessToken}`));
         return () => {
             dispatch(disconnect());
@@ -22,7 +22,7 @@ export const ProfileOrders = () => {
 
     return (
         <div className={`custom-scroll mt-15 ${styles.wrapper}`}>
-            {  history.orders.toReversed().map((order) => 
+            {  history.orders.reverse().map((order) => 
                 <Link 
                 className={styles.link} 
                 to={`/profile/orders/${order.number}`} 

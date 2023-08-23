@@ -11,6 +11,10 @@ export interface IOrderResponse extends IResponse {
     order: TOrder
 }
 
+export interface IOrdersResponse extends IResponse {
+    orders: Array<TOrder>
+}
+
 export interface IIngredientResponse extends IResponse {
     data: Array<TIngedient>
 }

@@ -2,14 +2,14 @@ import { OrderCard } from '../../components/order-card/order-card';
 import styles from './feed.module.css';
 import React, { useEffect } from 'react';
 import { connect, disconnect } from '../../services/feed/action';
-import { useDispatch, useSelector } from 'react-redux';
 import { wsApiUrl } from '../../utils/constants';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-export const FeedPage = () => {
-    const dispatch = useDispatch();
+export const FeedPage = (): JSX.Element => {
+    const dispatch = useAppDispatch();
     const location = useLocation();
-    const feed = useSelector(store => store.feed);
+    const feed = useAppSelector(store => store.feed);
 
     useEffect(() => {
         dispatch(connect(`${wsApiUrl}/all`));

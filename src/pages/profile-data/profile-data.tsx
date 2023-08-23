@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { PasswordInput, Input, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUser, uptadeUserData } from '../../services/user/action';
-import { useDispatch, useSelector } from 'react-redux';
 import styles from './profile-data.module.css';
 import { getUserState } from '../../services/user/reducer';
 import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-export const ProfileData = () => {
-    const dispatch = useDispatch();
+export const ProfileData = (): JSX.Element => {
+    const dispatch = useAppDispatch();
 
-    const { user } = useSelector(getUserState);
+    const { user } = useAppSelector(getUserState);
 
     const { values, handleChange, setValues } = useForm({
         name: '',
@@ -18,14 +18,16 @@ export const ProfileData = () => {
     });
 
     const setDefault = () => {
-        setValues({
-            name: user.name,
-            email: user.email,
-            password: '',
-        });
+        if(user !== null) {
+            setValues({
+                name: user.name,
+                email: user.email,
+                password: '',
+            });
+        }
     };
 
-    const submitData = (e) => {
+    const submitData = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(uptadeUserData(values.password, values.name, values.email));
     };
@@ -52,7 +54,7 @@ export const ProfileData = () => {
             value={values.email}
             extraClass='mt-6 mb-6' 
             onChange={handleChange}
-            icon={'EditIcon'}
+            isIcon={true}
             />
             <PasswordInput 
             name='password'
@@ -63,7 +65,7 @@ export const ProfileData = () => {
             />
             <div 
             className={values.password.length !== 0 || 
-                        user.name !== values.name || 
+                        user?.name !== values.name || 
                         user.email !== values.email ? styles.buttons_active: styles.buttons }>
                 <Button onClick={setDefault} htmlType='button' type='secondary' size='medium'>Отмена</Button>
                 <Button htmlType='submit' type='primary' size='medium'>Сохранить</Button>

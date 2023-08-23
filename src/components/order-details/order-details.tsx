@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 import doneImage from '../../images/graphics.svg';
 import { getOrderState } from '../../services/order/reducer';
 import React from 'react';
+import { useAppSelector } from '../../hooks/hooks';
 
-export const OrderDetails = () => {
-    const { order } = useSelector(getOrderState);
+export const OrderDetails = (): JSX.Element => {
+    const { order } = useAppSelector(getOrderState);
 
     return (
         <div className={`mt-30 mb-30 ${styles.main}`}>

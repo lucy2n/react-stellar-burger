@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { RoutePathname } from '../../utils/constants';
 import { useForm } from '../../hooks/useForm';
 
-export const ResettPassword = () => {
+export const ResettPassword = (): JSX.Element => {
     const { values, handleChange } = useForm({
         token: '',
         password: '',
@@ -15,7 +15,7 @@ export const ResettPassword = () => {
 
     const navigate = useNavigate();
 
-    const reset = (e) => {
+    const reset = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         resetPassword(values.password, values.token)
         .then(() => {

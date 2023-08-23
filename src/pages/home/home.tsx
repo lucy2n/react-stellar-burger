@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import React from 'react';
 
-export const Home = () => {
+export const Home = (): JSX.Element => {
     return (
         <div className={styles.home}>
             <main className={styles.main}>

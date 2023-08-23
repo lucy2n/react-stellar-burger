@@ -1,14 +1,14 @@
 import { Button, EmailInput, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './registration.module.css';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { registerUser } from '../../services/user/action';
 import { RoutePathname } from '../../utils/constants';
 import { useForm } from '../../hooks/useForm';
 import React from 'react';
+import { useAppDispatch } from '../../hooks/hooks';
 
-export const Registration = () => {
-    const dispatch = useDispatch();
+export const Registration = (): JSX.Element => {
+    const dispatch = useAppDispatch();
     const { values, handleChange } = useForm({
         email: '',
         name: '',
@@ -16,7 +16,7 @@ export const Registration = () => {
     });
 
 
-    const register = (e) => {
+    const register = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (values.email && values.name && values.password) {
             dispatch(registerUser(values.email, values.password, values.name));
