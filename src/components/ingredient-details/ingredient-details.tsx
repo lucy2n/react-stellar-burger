@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router';
 import styles from './ingredient-details.module.css';
 import React, { useEffect, useState } from 'react';
-import { getIngredientsState } from '../../services/ingredients/reducer';
+import { getIngredientsState } from '../../services/ingredients/slice';
 import { useAppSelector } from '../../hooks/hooks';
 import { TIngedient } from '../../types/ingredient';
 

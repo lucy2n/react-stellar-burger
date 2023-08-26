@@ -1,6 +1,6 @@
 import styles from './order-details.module.css';
 import doneImage from '../../images/graphics.svg';
-import { getOrderState } from '../../services/order/reducer';
+import { getOrderState } from '../../services/order/slice';
 import React from 'react';
 import { useAppSelector } from '../../hooks/hooks';
 

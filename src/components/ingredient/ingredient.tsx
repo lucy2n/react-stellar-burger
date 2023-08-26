@@ -2,7 +2,7 @@ import React from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredient.module.css';
 import { useDrag } from 'react-dnd';
-import { getConstructorState } from '../../services/constructor/reducer';
+import { getConstructorState } from '../../services/constructor/slice';
 import { Link, useLocation } from 'react-router-dom';
 import { TIngedient } from '../../types/ingredient';
 import { useAppSelector } from '../../hooks/hooks';

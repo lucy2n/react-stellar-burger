@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import styles from './constructor-ingredient.module.css';
-import { deleteIngredient } from '../../services/constructor/action';
+import { deleteIngredient } from '../../services/constructor/slice';
 import { TIngedient } from '../../types/ingredient';
 
 type TConstructorIngredient = {

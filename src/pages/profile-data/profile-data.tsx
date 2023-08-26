@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { PasswordInput, Input, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUser, uptadeUserData } from '../../services/user/action';
 import styles from './profile-data.module.css';
-import { getUserState } from '../../services/user/reducer';
+import { getUserState } from '../../services/user/slice';
 import { useForm } from '../../hooks/useForm';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
@@ -29,7 +29,7 @@ export const ProfileData = (): JSX.Element => {
 
     const submitData = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(uptadeUserData(values.password, values.name, values.email));
+        dispatch(uptadeUserData({email: values.email, name: values.name, password: values.password}));
     };
 
     useEffect(() => {

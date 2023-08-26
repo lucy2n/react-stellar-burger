@@ -31,8 +31,6 @@ export interface IOptions extends RequestInit {
     headers: ICustomHeaders;
 }
 
-export interface IUserResponse extends IResponse{
+export interface IUserResponse extends IResponse {
     user: TUser;
-    accessToken: string;
-    refreshToken: string;
 }

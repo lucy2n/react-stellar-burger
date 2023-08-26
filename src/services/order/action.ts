@@ -1,15 +1,10 @@
 import { apiUrl } from '../../utils/constants';
-import { ORDER_MODAL, openModal } from '../modal/action';
 import { fetchWithRefresh } from '../../utils/api';
-import { createAction } from '@reduxjs/toolkit';
-import { clearIngredients } from '../constructor/action';
-import { TOrder } from '../../types/order';
+import { clearIngredients } from '../constructor/slice';
 import { IOptions, ICustomHeaders, IOrderResponse } from '../../types/api';
 import { AppDispatch } from '../store';
-
-export const orderRequest = createAction('order/orderRequest');
-export const orderSuccess = createAction<TOrder>('order/orderSuccess');
-export const orderFailed = createAction('order/orderFailed');
+import { orderFailed, orderRequest, orderSuccess } from './slice';
+import { openModal, ORDER_MODAL } from '../modal/slice';
 
 export function getOrder(ingredientsId: Array<string>) {
     return function(dispatch: AppDispatch) {
@@ -34,6 +29,6 @@ export function getOrder(ingredientsId: Array<string>) {
                 dispatch(orderFailed());
             }
         })
-        .catch (err => dispatch(orderFailed()));
+        .catch (() => dispatch(orderFailed()));
     };
 }

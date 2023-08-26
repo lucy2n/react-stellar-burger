@@ -2,9 +2,9 @@ import { CurrencyIcon,  FormattedDate } from '@ya.praktikum/react-developer-burg
 import React, {useState, useEffect} from 'react';
 import styles from './order-info.module.css';
 import { getStatus } from '../../utils/utils';
-import { To, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { api } from '../../utils/api';
-import { getIngredientsState } from '../../services/ingredients/reducer';
+import { getIngredientsState } from '../../services/ingredients/slice';
 import { useAppSelector } from '../../hooks/hooks';
 import { TOrder } from '../../types/order';
 import { TIngedient } from '../../types/ingredient';

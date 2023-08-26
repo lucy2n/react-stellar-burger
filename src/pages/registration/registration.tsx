@@ -19,7 +19,7 @@ export const Registration = (): JSX.Element => {
     const register = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (values.email && values.name && values.password) {
-            dispatch(registerUser(values.email, values.password, values.name));
+            dispatch(registerUser({email: values.email, password: values.password, name: values.name}));
         }
     };
 

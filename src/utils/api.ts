@@ -1,16 +1,17 @@
 import { apiUrl } from './constants';
 import { IResponse, ICustomHeaders, IError, IOptions, IUserResponse, IOrdersResponse } from '../types/api';
 
-export const checkResponse = <T extends Response>(res: T): Promise<T> => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+export const checkResponse = async <T extends Response>(res: T): Promise<T> => {
+    return res.ok ? res.json() : Promise.reject(res.status);
 };
 
-export const request = <T extends Response, U extends RequestInit>(url: string, options: U | object = {}): Promise<T> => {
-    return (fetch(url, options).then(checkResponse) as Promise<T>);
+export const request = async <T extends Response, U extends RequestInit>(url: string, options: U | object = {}): Promise<T> => {
+    const res = (await fetch(url, options) as T);
+    return await checkResponse<T>(res);
 };
 
 export const refreshToken = async () => {
-    return request<IResponse, IOptions>(`${apiUrl}/auth/token`, {
+    return await request<IResponse, IOptions>(`${apiUrl}/auth/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -21,9 +22,9 @@ export const refreshToken = async () => {
     });
 };
 
-export const fetchWithRefresh = async<T extends IResponse> (url: string, options: IOptions): Promise<T> => {
+export const fetchWithRefresh = async <T extends IResponse> (url: string, options: IOptions): Promise<T> => {
     try {
-        return request<T, IOptions>(url, options);
+        return await request<T, IOptions>(url, options);
     } catch (err) {
         if ((err as IError).message === 'jwt expired') {
             const refreshData = await refreshToken();
@@ -40,7 +41,7 @@ export const fetchWithRefresh = async<T extends IResponse> (url: string, options
     }
 };
 
-export const resetPassword = (password: string, token: string) => {
+export const resetPassword = async (password: string, token: string) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -52,11 +53,10 @@ export const resetPassword = (password: string, token: string) => {
             'token': token
         })
     };
-    return request(`${apiUrl}/password-reset/reset`, settings);
-    
+    return await request(`${apiUrl}/password-reset/reset`, settings);
 };
 
-export const forgotPassword = (email: string) => {
+export const forgotPassword = async (email: string) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -65,12 +65,12 @@ export const forgotPassword = (email: string) => {
         },
         body: JSON.stringify({ 'email': email })
     };
-    return request(`${apiUrl}/password-reset`, settings);
+    return await request(`${apiUrl}/password-reset`, settings);
 };
 
 //Функции для userReducer
-const signInUser = (email: string, password: string) => {
-    return request<IUserResponse, IOptions>(`${apiUrl}/auth/login`, {
+const signInUser = async (email: string, password: string) => {
+    return await request<IUserResponse, IOptions>(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -83,8 +83,8 @@ const signInUser = (email: string, password: string) => {
     });
 };
 
-const signOutUser = () => {
-    return request(`${apiUrl}/auth/logout`, {
+const signOutUser = async () => {
+    return await request(`${apiUrl}/auth/logout`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -94,7 +94,7 @@ const signOutUser = () => {
     });
 };
 
-const postRegistration = (name: string, email: string, password: string) => {
+const postRegistration = async (name: string, email: string, password: string) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -107,11 +107,11 @@ const postRegistration = (name: string, email: string, password: string) => {
                 'email': email
             })
     };
-    return request<IUserResponse, IOptions>(`${apiUrl}/auth/register`, settings);
+    return await request<IUserResponse, IOptions>(`${apiUrl}/auth/register`, settings);
 };
 
-const getUserData = () => {
-    return fetchWithRefresh<IUserResponse>(`${apiUrl}/auth/user`, {
+const getUserData = async () => {
+    return await fetchWithRefresh<IUserResponse>(`${apiUrl}/auth/user`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -121,8 +121,8 @@ const getUserData = () => {
     });
 };
 
-const patchUserData = (password: string, name: string, email: string) => {
-    return fetchWithRefresh<IUserResponse>(`${apiUrl}/auth/user`, {
+const patchUserData = async (password: string, name: string, email: string) => {
+    return await fetchWithRefresh<IUserResponse>(`${apiUrl}/auth/user`, {
         method: 'PATCH',
         headers: {
             'Accept': 'application/json',
@@ -137,8 +137,8 @@ const patchUserData = (password: string, name: string, email: string) => {
     });
 };
 
-const getOrder = (orderNumber: string) => {
-    return request<IOrdersResponse, IOptions>(`${apiUrl}/orders/${orderNumber}`);
+const getOrder = async (orderNumber: string) => {
+    return await request<IOrdersResponse, IOptions>(`${apiUrl}/orders/${orderNumber}`);
 };
 
 export const api = {

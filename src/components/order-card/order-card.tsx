@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { RoutePathname } from '../../utils/constants';
 import { getStatus } from '../../utils/utils';
-import { getIngredientsState } from '../../services/ingredients/reducer';
+import { getIngredientsState } from '../../services/ingredients/slice';
 import { TIngedient } from '../../types/ingredient';
 import { useAppSelector } from '../../hooks/hooks';
 import { TOrder } from '../../types/order';

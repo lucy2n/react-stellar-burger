@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { Ingredient } from '../ingredient/ingredient';
-import { getIngredientsState } from '../../services/ingredients/reducer';
+import { getIngredientsState } from '../../services/ingredients/slice';
 import { useAppSelector } from '../../hooks/hooks';
 
 export const BurgerIngredients = () => {
