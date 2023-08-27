@@ -19,7 +19,7 @@ import { OrderInfo } from '../order-info/order-info';
 import { loadIngredients } from '../../services/ingredients/action';
 import { useAppDispatch } from '../../hooks/hooks';
 
-export const App = () => {
+export const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();

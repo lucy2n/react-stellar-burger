@@ -2,12 +2,13 @@ import { apiUrl } from '../../utils/constants';
 import { fetchWithRefresh } from '../../utils/api';
 import { clearIngredients } from '../constructor/slice';
 import { IOptions, ICustomHeaders, IOrderResponse } from '../../types/api';
-import { AppDispatch } from '../store';
 import { orderFailed, orderRequest, orderSuccess } from './slice';
 import { openModal, ORDER_MODAL } from '../modal/slice';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export function getOrder(ingredientsId: Array<string>) {
-    return function(dispatch: AppDispatch) {
+export const getOrder = createAsyncThunk(
+    'order',
+    async (ingredientsId: Array<string>, {dispatch}) => {
         dispatch(orderRequest());
         const settings: IOptions = {
             method: 'POST',
@@ -30,5 +31,5 @@ export function getOrder(ingredientsId: Array<string>) {
             }
         })
         .catch (() => dispatch(orderFailed()));
-    };
-}
+    }
+);

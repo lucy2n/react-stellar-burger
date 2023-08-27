@@ -9,6 +9,7 @@ const Protected = ({ onlyUnAuth = false, component }: { onlyUnAuth?: boolean, co
   const location = useLocation();
 
   if (!isAuthChecked) {
+    console.log('Auth is not checked');
     return null;
   }
 

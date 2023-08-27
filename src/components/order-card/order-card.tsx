@@ -10,7 +10,6 @@ import { useAppSelector } from '../../hooks/hooks';
 import { TOrder } from '../../types/order';
 
 export const OrderCard = ({ order }: {order: TOrder}) => {
-    console.log(order);
     const [price, setPrice] = useState(0);
     const location = useLocation();
 

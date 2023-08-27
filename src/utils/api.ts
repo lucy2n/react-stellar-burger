@@ -2,7 +2,7 @@ import { apiUrl } from './constants';
 import { IResponse, ICustomHeaders, IError, IOptions, IUserResponse, IOrdersResponse } from '../types/api';
 
 export const checkResponse = async <T extends Response>(res: T): Promise<T> => {
-    return res.ok ? res.json() : Promise.reject(res.status);
+    return res.ok ? await res.json() : Promise.reject(res.status);
 };
 
 export const request = async <T extends Response, U extends RequestInit>(url: string, options: U | object = {}): Promise<T> => {

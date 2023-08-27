@@ -18,13 +18,16 @@ export const constructorSlice = createSlice({
     name: 'constructor',
     initialState,
     reducers: {
-        addIngredient(state, action: PayloadAction<TIngedient>) {
-            const ingredient = action.payload;
-            ingredient.uniqueId = nanoid(); // проверить не ломается ли dnd
-            if (action.payload.type === 'bun') {
-                state.bun = ingredient;
-            } else {
-                state.ingredients = [...state.ingredients, ingredient];
+        addIngredient: {
+            reducer: (state, action: PayloadAction<TIngedient>) => {
+                if (action.payload.type === 'bun') {
+                    state.bun = action.payload;
+                } else {
+                    state.ingredients = [...state.ingredients, action.payload];
+                }
+            },
+            prepare: (ingredient: TIngedient) => {
+                return { payload: { ...ingredient, uniqueId: nanoid() } };
             }
         },
         deleteIngredient(state, action: PayloadAction<TIngedient>) {
