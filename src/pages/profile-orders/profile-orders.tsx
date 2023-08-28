@@ -11,6 +11,7 @@ export const ProfileOrders = (): JSX.Element => {
     const dispatch = useAppDispatch();
     const location = useLocation();
     const history = useAppSelector(store => store.history);
+    const orders = [...history.orders];
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken')?.split(' ').pop();
@@ -22,7 +23,7 @@ export const ProfileOrders = (): JSX.Element => {
 
     return (
         <div className={`custom-scroll mt-15 ${styles.wrapper}`}>
-            {  history.orders.reverse().map((order) => 
+            {  orders.reverse().map((order) => 
                 <Link 
                 className={styles.link} 
                 to={`/profile/orders/${order.number}`} 

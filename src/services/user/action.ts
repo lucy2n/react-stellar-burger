@@ -5,15 +5,9 @@ import { setUser, setAuthChecked } from './slice';
 export const getUser = createAsyncThunk(
   'user/getUser',
   async (_, { dispatch }) => {
-    try {
-      const res = await api.getUserData();
-      dispatch(setUser(res.user));
-      console.log('Res -> ', res);
-      return res;
-    } catch (err) {
-      console.log('Err -> ', err);
-      throw err;
-    }
+    const res = await api.getUserData();
+    dispatch(setUser(res.user));
+    return res;
   }
 );
 
@@ -47,19 +41,14 @@ export const registerUser = createAsyncThunk(
 export const checkUserAuth = createAsyncThunk(
   'user/checkAuth',
   async (_, {dispatch}) => {
-    console.log('я здесь ', localStorage.getItem('accessToken'));
     if (localStorage.getItem('accessToken')) {
-      console.log('теперь я здесь');
       try {
-        const res = await dispatch(getUser());
-        console.log('RES -> ', res);
+        await dispatch(getUser());
       } catch (err) {
-        console.log('checkUserAuth catch');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         dispatch(setUser(null));
       } 
-      console.log('Auth will be checked');
       dispatch(setAuthChecked(true));
     } else {
       dispatch(setAuthChecked(true));
