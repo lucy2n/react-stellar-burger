@@ -1,11 +1,11 @@
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import React, { useRef } from 'react';
 import { ItemTypes } from '../../utils/ItemTypes';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import styles from './constructor-ingredient.module.css';
 import { deleteIngredient } from '../../services/constructor/slice';
 import { TIngedient } from '../../types/ingredient';
+import { useAppDispatch } from '../../hooks/hooks';
 
 type TConstructorIngredient = {
   ingredient: TIngedient
@@ -21,7 +21,7 @@ interface DragItem {
 
 export const ConstructorIngredient = ({ ingredient, index, moveCard }: TConstructorIngredient): JSX.Element => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const ref = useRef<HTMLDivElement>(null);
     const [{ handlerId }, drop] = useDrop({
