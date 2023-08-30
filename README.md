@@ -12,6 +12,7 @@
    * React
    * Redux
    * JS
+   * TS
    * Webpack
    * Взаимодействие с сервером через API-запросы
    * Роутинг через React-router
